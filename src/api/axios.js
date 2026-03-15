@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/api';
+const API_URL = 'https://hack-event-backend-ruby.vercel.app';
 
 const api = axios.create({
   baseURL: API_URL,
