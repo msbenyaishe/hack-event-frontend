@@ -16,10 +16,12 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await loginAdmin({ email, password });
+      // Sending both email and login ensures compatibility with any backend version
+      await loginAdmin({ email, login: email, password });
       navigate('/admin');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      console.error("Login Error:", err.response?.data);
+      setError(err.response?.data?.error || err.response?.data?.message || 'Login failed');
     }
   };
 
