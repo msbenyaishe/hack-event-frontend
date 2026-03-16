@@ -1,6 +1,9 @@
+import React, { useState, useEffect } from 'react';
 import { Trash2, Plus, MonitorPlay } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import WorkshopCard from '../../components/WorkshopCard';
+import { workshopsApi } from '../../api/workshopsApi';
+import { eventsApi } from '../../api/eventsApi';
 
 const AdminWorkshops = () => {
   const { t } = useTranslation();
@@ -13,7 +16,7 @@ const AdminWorkshops = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
   
-  const initialFormState = { title: '', description: '', event: '', startTime: '', location: '', technology: '', duration: '' };
+  const initialFormState = { title: '', description: '', eventId: '', startTime: '', location: '', technology: '', duration: '' };
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
@@ -27,9 +30,10 @@ const AdminWorkshops = () => {
       setEvents(eventsRes.data);
       
       if (eventsRes.data.length > 0) {
-        const wsRes = await workshopsApi.getByEvent(eventsRes.data[0]._id);
+        const firstEventId = eventsRes.data[0].id;
+        const wsRes = await workshopsApi.getByEvent(firstEventId);
         setWorkshops(wsRes.data);
-        setFormData(prev => ({ ...prev, event: eventsRes.data[0]._id }));
+        setFormData(prev => ({ ...prev, eventId: firstEventId }));
       }
     } catch (err) {
       console.error(err);
@@ -43,7 +47,7 @@ const AdminWorkshops = () => {
       setLoading(true);
       const wsRes = await workshopsApi.getByEvent(eventId);
       setWorkshops(wsRes.data);
-      setFormData(prev => ({ ...prev, event: eventId }));
+      setFormData(prev => ({ ...prev, eventId: eventId }));
     } catch (err) {
       console.error(err);
     } finally {
@@ -55,7 +59,7 @@ const AdminWorkshops = () => {
     if (window.confirm('Delete this workshop?')) {
       try {
         await workshopsApi.delete(id);
-        handleEventChange(formData.event);
+        handleEventChange(formData.eventId);
       } catch (err) {
         console.error(err);
       }
@@ -73,8 +77,8 @@ const AdminWorkshops = () => {
       setShowForm(false);
       setIsEditing(false);
       setEditingId(null);
-      setFormData({ ...initialFormState, event: formData.event });
-      handleEventChange(formData.event);
+      setFormData({ ...initialFormState, eventId: formData.eventId });
+      handleEventChange(formData.eventId);
     } catch (err) {
       console.error(err);
     }
@@ -83,13 +87,13 @@ const AdminWorkshops = () => {
   const openCreateForm = () => {
     setIsEditing(false);
     setEditingId(null);
-    setFormData({ ...initialFormState, event: formData.event || (events[0]?._id || '') });
+    setFormData({ ...initialFormState, eventId: formData.eventId || (events[0]?.id || '') });
     setShowForm(true);
   };
 
   const openEditForm = (workshop) => {
     setIsEditing(true);
-    setEditingId(workshop._id);
+    setEditingId(workshop.id);
     setFormData({
       title: workshop.title,
       description: workshop.description || '',
@@ -97,7 +101,7 @@ const AdminWorkshops = () => {
       location: workshop.location || '',
       technology: workshop.technology || '',
       duration: workshop.duration || '',
-      event: workshop.event?._id || workshop.event || formData.event
+      eventId: workshop.eventId || workshop.event?.id || formData.eventId
     });
     setShowForm(true);
   };
@@ -170,10 +174,10 @@ const AdminWorkshops = () => {
           <span className="filter-label">{t('filter_event')}</span>
           <select 
             className="filter-select"
-            value={formData.event}
+            value={formData.eventId}
             onChange={(e) => handleEventChange(e.target.value)}
           >
-            {events.map(ev => <option key={ev._id} value={ev._id}>{ev.name}</option>)}
+            {events.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}
           </select>
         </div>
       </div>
@@ -193,7 +197,7 @@ const AdminWorkshops = () => {
         <div className="grid-cards">
           {workshops.map(workshop => (
             <WorkshopCard 
-              key={workshop._id} 
+              key={workshop.id} 
               workshop={workshop} 
               isAdmin={true} 
               onEdit={openEditForm} 

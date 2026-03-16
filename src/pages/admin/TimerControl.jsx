@@ -19,65 +19,89 @@ const TimerControl = () => {
   }, []);
 
   return (
-    <div className="container-inner" style={{maxWidth: '56rem'}}>
-      <div className="page-header">
+    <div className="container-inner" style={{maxWidth: '64rem'}}>
+      <div className="page-header" style={{marginBottom: '3rem'}}>
         <div>
           <h1 className="page-title">Timer Control</h1>
-          <p className="page-subtitle">Manage the global hackathon countdown</p>
+          <p className="page-subtitle">Manage the global hackathon countdown and status</p>
+        </div>
+        <div className={`status-indicator-pill ${timerStatus?.status === 'running' ? 'active' : ''}`}>
+           <div className="pulse-dot" />
+           <span>{timerStatus ? timerStatus.status.toUpperCase() : 'LOADING...'}</span>
         </div>
       </div>
 
-      <div className="timer-container animate-in">
-        <div className="status-card">
-          <div>
-            <span className="filter-label" style={{display: 'block', marginBottom: '0.5rem'}}>System Status</span>
-            <div className="status-indicator">
-              <div className={`status-dot ${
-                timerStatus?.status === 'running' ? 'status-running' : 
-                timerStatus?.status === 'paused' ? 'status-paused' : 
-                'status-idle'
-              }`} />
-              <span className="status-text">
-                {timerStatus ? timerStatus.status : 'Connecting...'}
-              </span>
+      <div className="timer-control-grid">
+        <div className="main-timer-card animate-in">
+          <div className="timer-glass-hero">
+            <span className="hero-label">TIME REMAINING</span>
+            <div className="hero-timer-display">
+              {timerStatus?.remainingTime ? (
+                <>
+                  <div className="time-unit">
+                    <span className="unit-val">{Math.floor(timerStatus.remainingTime / 3600)}</span>
+                    <span className="unit-label">HOURS</span>
+                  </div>
+                  <div className="time-sep">:</div>
+                  <div className="time-unit">
+                    <span className="unit-val">{Math.floor((timerStatus.remainingTime % 3600) / 60)}</span>
+                    <span className="unit-label">MINUTES</span>
+                  </div>
+                </>
+              ) : <span className="unit-val">-- : --</span>}
             </div>
           </div>
-          
-          <div className="timer-display">
-            <span className="filter-label" style={{display: 'block', marginBottom: '0.25rem'}}>Time Remaining</span>
-            <div className="timer-digits">
-              {timerStatus?.remainingTime ? (
-                <span>{Math.floor(timerStatus.remainingTime / 3600)}h {Math.floor((timerStatus.remainingTime % 3600) / 60)}m</span>
-              ) : '--h --m'}
-            </div>
+
+          <div className="timer-actions-premium">
+            <button 
+              className={`btn-timer-action btn-start ${timerStatus?.status === 'running' ? 'disabled' : ''}`}
+              onClick={() => timersApi.start().then(fetchStatus)}
+              disabled={timerStatus?.status === 'running'}
+            >
+              Start 
+            </button>
+            <button 
+              className="btn-timer-action btn-pause"
+              onClick={() => timersApi.pause().then(fetchStatus)}
+            >
+              Pause
+            </button>
+            <button 
+              className="btn-timer-action btn-resume"
+              onClick={() => timersApi.resume().then(fetchStatus)}
+            >
+              Resume
+            </button>
+            <button 
+              className="btn-timer-action btn-finish"
+              onClick={() => {
+                if(window.confirm("Are you sure you want to finish the hackathon? This cannot be undone.")) {
+                  timersApi.finish().then(fetchStatus);
+                }
+              }}
+            >
+              Finish
+            </button>
           </div>
         </div>
 
-        <div className="timer-actions-grid">
-          <button 
-            className="btn-timer btn-start"
-            onClick={() => timersApi.start().then(fetchStatus)}
-          >
-            Start Timer
-          </button>
-          <button 
-            className="btn-timer btn-pause"
-            onClick={() => timersApi.pause().then(fetchStatus)}
-          >
-            Pause Timer
-          </button>
-          <button 
-            className="btn-timer btn-resume"
-            onClick={() => timersApi.resume().then(fetchStatus)}
-          >
-            Resume Timer
-          </button>
-          <button 
-            className="btn-timer btn-finish"
-            onClick={() => timersApi.finish().then(fetchStatus)}
-          >
-            Finish Hackathon
-          </button>
+        <div className="timer-info-sidebar animate-in" style={{animationDelay: '0.1s'}}>
+          <div className="info-card-premium">
+             <h4>System Info</h4>
+             <div className="info-row">
+                <span>Last Updated</span>
+                <span>{new Date().toLocaleTimeString()}</span>
+             </div>
+             <div className="info-row">
+                <span>Server Status</span>
+                <span className="text-success">Online</span>
+             </div>
+          </div>
+          
+          <div className="info-card-premium warning">
+             <h4>Danger Zone</h4>
+             <p>Stopping or finishing the timer will affect all participants globally.</p>
+          </div>
         </div>
       </div>
     </div>

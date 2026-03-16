@@ -52,7 +52,7 @@ const WorkshopCard = ({ workshop, isAdmin = false, onEdit, onDelete }) => {
             <Edit size={14} />
           </button>
           <button 
-            onClick={() => onDelete(workshop._id)}
+            onClick={() => onDelete(workshop.id)}
             className="action-btn action-btn-danger"
             title={t('delete')}
           >
