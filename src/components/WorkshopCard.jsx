@@ -21,6 +21,11 @@ const WorkshopCard = ({ workshop, isAdmin = false, onEdit, onDelete }) => {
         <h3 className="workshop-title">
           {workshop.title}
         </h3>
+        {workshop.responsible_admin_name && (
+          <p className="workshop-admin" style={{fontSize: '0.8rem', color: 'var(--slate-500)', marginTop: '0.25rem'}}>
+            By: {workshop.responsible_admin_name}
+          </p>
+        )}
       </div>
 
       <p className="card-description">

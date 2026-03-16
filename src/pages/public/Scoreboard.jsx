@@ -30,9 +30,9 @@ const Scoreboard = () => {
           setCurrentEvent(eventData);
           const scoreRes = await teamsApi.getScoreboard(eventData._id);
           const rawData = scoreRes.data;
-          // Sort teams by score descending
+          // Sort teams by total_score descending
           const sorted = Array.isArray(rawData) 
-            ? [...rawData].sort((a, b) => (b.score || 0) - (a.score || 0))
+            ? [...rawData].sort((a, b) => (b.total_score || b.score || 0) - (a.total_score || a.score || 0))
             : [];
           setTeams(sorted);
         }

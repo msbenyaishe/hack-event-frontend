@@ -13,7 +13,7 @@ const Teams = () => {
   
   // Score Editing
   const [editingScore, setEditingScore] = useState(null);
-  const [newScore, setNewScore] = useState(0);
+  const [newScores, setNewScores] = useState({ practical: 0, theoretical: 0 });
 
   // Details Editing
   const [editingTeam, setEditingTeam] = useState(null);
@@ -41,7 +41,8 @@ const Teams = () => {
     try {
       setLoading(true);
       const res = await teamsApi.getScoreboard(eventId);
-      setTeams(res.data.sort((a,b) => (b.score || 0) - (a.score || 0)));
+      // Use total_score field from backend
+      setTeams(res.data.sort((a,b) => (b.total_score || 0) - (a.total_score || 0)));
     } catch (err) {
       console.error(err);
     } finally {
@@ -60,10 +61,13 @@ const Teams = () => {
     }
   };
 
-  const handleUpdateScore = async (id, currentScore) => {
+  const handleUpdateScore = async (id, team) => {
     if (editingScore === id) {
       try {
-        await teamsApi.updateScores(id, { score: newScore });
+        await teamsApi.updateScores(id, { 
+          practical_score: newScores.practical,
+          theoretical_score: newScores.theoretical 
+        });
         setEditingScore(null);
         fetchTeams(selectedEventId);
       } catch (err) {
@@ -71,7 +75,10 @@ const Teams = () => {
       }
     } else {
       setEditingScore(id);
-      setNewScore(currentScore || 0);
+      setNewScores({ 
+        practical: team.practical_score || 0, 
+        theoretical: team.theoretical_score || 0 
+      });
     }
   };
 
@@ -125,7 +132,9 @@ const Teams = () => {
                 <tr>
                   <th>{t('team_info')}</th>
                   <th style={{textAlign: 'center'}}>{t('members')}</th>
-                  <th style={{textAlign: 'right'}}>{t('score')}</th>
+                  <th style={{textAlign: 'center'}}>{t('practical')}</th>
+                  <th style={{textAlign: 'center'}}>{t('theory')}</th>
+                  <th style={{textAlign: 'right'}}>{t('total_score')}</th>
                   <th style={{textAlign: 'right'}}>{t('actions')}</th>
                 </tr>
               </thead>
@@ -151,32 +160,45 @@ const Teams = () => {
                         </div>
                       </div>
                     </td>
-                    <td style={{textAlign: 'right'}}>
+                    <td style={{textAlign: 'center'}}>
                       {editingScore === team.id ? (
                         <input 
                           type="number" 
-                          value={newScore}
-                          onChange={(e) => setNewScore(Number(e.target.value))}
+                          max="20" min="0"
+                          value={newScores.practical}
+                          onChange={(e) => setNewScores(prev => ({ ...prev, practical: Number(e.target.value) }))}
                           className="score-input"
-                          autoFocus
-                          onBlur={() => handleUpdateScore(team.id, team.score)}
-                          onKeyDown={(e) => e.key === 'Enter' && handleUpdateScore(team.id, team.score)}
+                          style={{width: '60px'}}
                         />
                       ) : (
-                        <button 
-                          onClick={() => handleUpdateScore(team.id, team.score)}
-                          className="score-display"
-                        >
-                          {team.score || 0}
-                        </button>
+                        <span>{team.practical_score || 0}</span>
                       )}
+                    </td>
+                    <td style={{textAlign: 'center'}}>
+                      {editingScore === team.id ? (
+                        <input 
+                          type="number" 
+                          max="20" min="0"
+                          value={newScores.theoretical}
+                          onChange={(e) => setNewScores(prev => ({ ...prev, theoretical: Number(e.target.value) }))}
+                          className="score-input"
+                          style={{width: '60px'}}
+                        />
+                      ) : (
+                        <span>{team.theoretical_score || 0}</span>
+                      )}
+                    </td>
+                    <td style={{textAlign: 'right'}}>
+                        <div className="score-total" style={{fontWeight: 'bold', color: 'var(--primary-600)'}}>
+                          {editingScore === team.id ? (newScores.practical + newScores.theoretical) : (team.total_score || team.score || 0)}
+                        </div>
                     </td>
                     <td style={{textAlign: 'right'}}>
                       <div style={{display: 'flex', justifyContent: 'flex-end', gap: '0.5rem'}}>
                         <button 
-                          onClick={() => handleUpdateScore(team.id, team.score)}
-                          className="action-btn"
-                          title="Edit Score"
+                          onClick={() => handleUpdateScore(team.id, team)}
+                          className={`action-btn ${editingScore === team.id ? 'btn-indigo-soft' : ''}`}
+                          title={editingScore === team.id ? "Save" : "Edit Scores"}
                         >
                           <Edit2 size={16} />
                         </button>

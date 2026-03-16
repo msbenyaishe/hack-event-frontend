@@ -18,7 +18,7 @@ const TeamCard = ({ team, rank }) => {
 
       <div className="team-score-wrapper">
         <div className="team-score">
-          {team.score || 0}
+          {team.total_score || team.score || 0}
         </div>
         <p className="team-score-label">
           Points
