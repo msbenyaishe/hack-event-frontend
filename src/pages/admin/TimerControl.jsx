@@ -68,7 +68,7 @@ const TimerControl = () => {
           <div className="timer-glass-hero">
             <span className="hero-label">TIME REMAINING</span>
             <div className="hero-timer-display">
-              <span className="unit-val">{formatTime(Math.floor(timeRemaining / 1000))}</span>
+              <span className="unit-val">{formatTime(Math.round(timeRemaining / 1000))}</span>
             </div>
           </div>
 

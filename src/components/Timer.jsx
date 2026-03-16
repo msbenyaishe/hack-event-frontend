@@ -54,7 +54,7 @@ const Timer = () => {
 
   const formatTime = (ms) => {
     if (!ms || ms <= 0) return '00:00:00';
-    const totalSeconds = Math.floor(ms / 1000);
+    const totalSeconds = Math.round(ms / 1000);
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
     const s = totalSeconds % 60;
