@@ -26,6 +26,20 @@ import TimerControl from './pages/admin/TimerControl';
 import MyTeam from './pages/leader/MyTeam';
 import InviteMembers from './pages/leader/InviteMembers';
 
+// Components
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
+const RootLayout = ({ children }) => (
+  <div className="app-wrapper" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <Navbar />
+    <main style={{ flex: '1' }}>
+      {children}
+    </main>
+    <Footer />
+  </div>
+);
+
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useAuth();
   
@@ -51,46 +65,48 @@ const HomeRedirect = () => {
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Auth Routes */}
-        <Route path="/login" element={<MemberLogin />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
+      <RootLayout>
+        <Routes>
+          {/* Auth Routes */}
+          <Route path="/login" element={<MemberLogin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
 
-        {/* Public Routes */}
-        <Route path="/" element={
-          <HomeRedirect />
-        } />
-        <Route path="/workshops" element={<PublicWorkshops />} />
+          {/* Public Routes */}
+          <Route path="/" element={<HomeRedirect />} />
+          <Route path="/scoreboard" element={<Scoreboard />} />
+          <Route path="/workshops" element={<PublicWorkshops />} />
 
-        {/* Admin Routes */}
-        <Route path="/admin" element={
-          <ProtectedRoute allowedRoles={['admin']}>
-            <AdminLayout />
-          </ProtectedRoute>
-        }>
-          <Route index element={<Events />} />
-          <Route path="events/create" element={<CreateEvent />} />
-          <Route path="teams" element={<Teams />} />
-          <Route path="members" element={<Members />} />
-          <Route path="workshops" element={<AdminWorkshops />} />
-          <Route path="timer" element={<TimerControl />} />
-        </Route>
+          {/* Admin Routes */}
+          <Route path="/admin" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }>
+            <Route index element={<Events />} />
+            <Route path="events/create" element={<CreateEvent />} />
+            <Route path="teams" element={<Teams />} />
+            <Route path="members" element={<Members />} />
+            <Route path="workshops" element={<AdminWorkshops />} />
+            <Route path="timer" element={<TimerControl />} />
+          </Route>
 
-        {/* Leader Routes */}
-        <Route path="/leader" element={
-          <ProtectedRoute allowedRoles={['leader']}>
-            <LeaderLayout />
-          </ProtectedRoute>
-        }>
-          <Route path="team" element={<MyTeam />} />
-          <Route path="invite" element={<InviteMembers />} />
-        </Route>
+          {/* Leader Routes */}
+          <Route path="/leader" element={
+            <ProtectedRoute allowedRoles={['leader']}>
+              <LeaderLayout />
+            </ProtectedRoute>
+          }>
+            <Route path="team" element={<MyTeam />} />
+            <Route path="invite" element={<InviteMembers />} />
+          </Route>
 
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </RootLayout>
     </BrowserRouter>
   );
 }
+
 
 export default App;

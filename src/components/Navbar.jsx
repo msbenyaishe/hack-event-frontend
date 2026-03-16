@@ -39,7 +39,7 @@ const Navbar = () => {
           </div>
 
           <div className="navbar-actions-desktop">
-            <Link to="/" className="nav-link-desktop">Home</Link>
+            <Link to="/scoreboard" className="nav-link-desktop">Home</Link>
             {user && (user.role === 'admin' || user.role === 'leader') && (
               <Link to={user.role === 'admin' ? "/admin" : "/leader/team"} className="nav-link-desktop">
                 Dashboard
@@ -96,7 +96,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}>
         <div className="mobile-menu-content">
-          <Link to="/" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
+          <Link to="/scoreboard" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
             <Home size={20} />
             <span>Home</span>
           </Link>

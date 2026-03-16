@@ -27,7 +27,6 @@ const AdminLogin = () => {
 
   return (
     <div className="layout-member">
-      <Navbar />
       <div className="auth-page">
         <div className="auth-card animate-in">
           <div className="auth-header">
@@ -74,9 +73,6 @@ const AdminLogin = () => {
           </form>
         </div>
       </div>
-      <footer className="footer">
-        <p className="footer-text">Built for Innovation • HackEvent 2024</p>
-      </footer>
     </div>
   );
 };

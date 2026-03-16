@@ -99,35 +99,39 @@ const Teams = () => {
   };
 
   return (
-    <div className="container-inner">
-      <div className="page-header">
+    <div className="admin-page-container">
+      <div className="admin-toolbar">
         <div>
           <h1 className="page-title">{t('teams_management')}</h1>
           <p className="page-subtitle">{t('monitor_teams')}</p>
         </div>
-        <div className="filter-bar">
-          <span className="filter-label">{t('event')}</span>
-          <select 
-            className="filter-select"
-            value={selectedEventId}
-            onChange={(e) => setSelectedEventId(e.target.value)}
-          >
-            {events.map(event => (
-              <option key={event.id} value={event.id}>{event.name}</option>
-            ))}
-          </select>
+        
+        <div className="flex gap-4 items-center">
+          <div className="search-input-wrapper">
+             <div className="search-icon-pos"><Users size={18} /></div>
+             <select 
+               className="search-input"
+               style={{ paddingLeft: '3rem', width: '250px' }}
+               value={selectedEventId}
+               onChange={(e) => setSelectedEventId(e.target.value)}
+             >
+               {events.map(event => (
+                 <option key={event.id} value={event.id}>{event.name}</option>
+               ))}
+             </select>
+          </div>
         </div>
       </div>
 
-      <div className="data-table-container animate-in">
+      <div className="admin-card animate-in">
         {loading ? (
-          <div className="empty-state">
-            <div className="w-12 h-12 border-4 border-indigo-100 border-t-primary-600 rounded-full animate-spin mb-4" />
-            <p className="empty-text">{t('fetching_teams')}</p>
+          <div className="p-12 text-center">
+            <div className="w-12 h-12 border-4 border-indigo-100 border-t-primary-600 rounded-full animate-spin mb-4 mx-auto" />
+            <p className="text-slate-400 font-medium">{t('fetching_teams')}</p>
           </div>
         ) : (
-          <div className="table-responsive">
-            <table className="data-table">
+          <div className="premium-table-wrapper">
+            <table className="premium-table">
               <thead>
                 <tr>
                   <th>{t('team_info')}</th>
@@ -142,19 +146,23 @@ const Teams = () => {
                 {teams.map(team => (
                   <tr key={team.id}>
                     <td>
-                      <div className="team-name-cell">
-                        <div className="team-main-name">
-                          {team.name}
-                          <button onClick={() => handleEditTeamDetails(team)} className="action-btn" style={{width: '1.25rem', height: '1.25rem', border: 'none'}}>
-                            <Edit size={12} />
-                          </button>
-                        </div>
-                        <div className="team-sub-id">ID: {team.id?.toString().slice(-8)}</div>
+                      <div className="flex items-center gap-3">
+                        <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{team.name}</div>
+                        <button 
+                          onClick={() => handleEditTeamDetails(team)} 
+                          className="btn-action-premium" 
+                          style={{width: '1.5rem', height: '1.5rem'}}
+                        >
+                          <Edit size={12} />
+                        </button>
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--slate-400)', marginTop: '2px' }}>
+                        ID: {team.id?.toString().slice(-8)}
                       </div>
                     </td>
                     <td>
                       <div style={{display: 'flex', justifyContent: 'center'}}>
-                        <div className="members-badge">
+                        <div className="badge-premium badge-info">
                           <Users size={14} />
                           {team.membersCount || team.members?.length || 0}
                         </div>
@@ -167,11 +175,13 @@ const Teams = () => {
                           max="20" min="0"
                           value={newScores.practical}
                           onChange={(e) => setNewScores(prev => ({ ...prev, practical: Number(e.target.value) }))}
-                          className="score-input"
-                          style={{width: '60px'}}
+                          className="input-premium"
+                          style={{ width: '70px', padding: '0.5rem', textAlign: 'center' }}
                         />
                       ) : (
-                        <span>{team.practical_score || 0}</span>
+                        <div className="badge-premium" style={{ background: 'var(--slate-50)', color: 'var(--slate-600)' }}>
+                          {team.practical_score || 0}
+                        </div>
                       )}
                     </td>
                     <td style={{textAlign: 'center'}}>
@@ -181,30 +191,33 @@ const Teams = () => {
                           max="20" min="0"
                           value={newScores.theoretical}
                           onChange={(e) => setNewScores(prev => ({ ...prev, theoretical: Number(e.target.value) }))}
-                          className="score-input"
-                          style={{width: '60px'}}
+                          className="input-premium"
+                          style={{ width: '70px', padding: '0.5rem', textAlign: 'center' }}
                         />
                       ) : (
-                        <span>{team.theoretical_score || 0}</span>
+                        <div className="badge-premium" style={{ background: 'var(--slate-50)', color: 'var(--slate-600)' }}>
+                          {team.theoretical_score || 0}
+                        </div>
                       )}
                     </td>
                     <td style={{textAlign: 'right'}}>
-                        <div className="score-total" style={{fontWeight: 'bold', color: 'var(--primary-600)'}}>
+                        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
                           {editingScore === team.id ? (newScores.practical + newScores.theoretical) : (team.total_score || team.score || 0)}
                         </div>
                     </td>
-                    <td style={{textAlign: 'right'}}>
-                      <div style={{display: 'flex', justifyContent: 'flex-end', gap: '0.5rem'}}>
+                    <td>
+                      <div className="action-group" style={{ justifyContent: 'flex-end' }}>
                         <button 
                           onClick={() => handleUpdateScore(team.id, team)}
-                          className={`action-btn ${editingScore === team.id ? 'btn-indigo-soft' : ''}`}
+                          className={`btn-action-premium ${editingScore === team.id ? 'active' : ''}`}
+                          style={editingScore === team.id ? { background: 'var(--primary)', color: 'white' } : {}}
                           title={editingScore === team.id ? "Save" : "Edit Scores"}
                         >
                           <Edit2 size={16} />
                         </button>
                         <button 
                           onClick={() => handleDelete(team.id)}
-                          className="action-btn action-btn-danger"
+                          className="btn-action-premium danger"
                           title="Delete Team"
                         >
                           <Trash2 size={16} />
@@ -215,8 +228,8 @@ const Teams = () => {
                 ))}
                 {teams.length === 0 && (
                   <tr>
-                    <td colSpan="4">
-                      <div className="empty-state" style={{boxShadow: 'none', border: 'none'}}>
+                    <td colSpan="6">
+                      <div className="empty-state" style={{boxShadow: 'none', border: 'none', padding: '4rem'}}>
                         <div className="empty-icon">
                           <Users size={32} />
                         </div>
@@ -232,24 +245,29 @@ const Teams = () => {
       </div>
 
       {editingTeam && (
-        <div className="modal-overlay">
-          <div className="modal-content animate-in">
+        <div className="modal-overlay modal-overlay-premium">
+          <div className="modal-content modal-content-premium animate-in" style={{maxWidth: '450px'}}>
             <div className="modal-header">
               <div className="modal-header-info">
                 <h3>Edit Team</h3>
                 <p>Update team identifiers</p>
               </div>
-              <button onClick={() => setEditingTeam(null)} className="modal-close">&times;</button>
+              <button 
+                onClick={() => setEditingTeam(null)} 
+                className="modal-close"
+              >
+                &times;
+              </button>
             </div>
-            <form onSubmit={submitEditTeam} className="modal-body">
-              <div className="form-group">
-                <label className="form-label">Team Name</label>
-                <input required type="text" className="form-input"
+            <form onSubmit={submitEditTeam} className="modal-body p-8">
+              <div className="form-group mb-8">
+                <label className="label-premium">Team Name</label>
+                <input required type="text" className="input-premium"
                   value={editFormData.name} onChange={e => setEditFormData({ name: e.target.value })} />
               </div>
-              <div className="modal-footer">
+              <div className="modal-footer pt-4" style={{borderTop: '1px solid var(--slate-100)'}}>
                 <button type="button" onClick={() => setEditingTeam(null)} className="btn-ghost">{t('cancel')}</button>
-                <button type="submit" className="btn-indigo">
+                <button type="submit" className="btn-admin">
                   {t('save_changes')}
                 </button>
               </div>
@@ -260,5 +278,6 @@ const Teams = () => {
     </div>
   );
 };
+
 
 export default Teams;

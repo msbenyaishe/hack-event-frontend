@@ -70,45 +70,46 @@ const Members = () => {
   };
 
   return (
-    <div className="container-inner">
-      <div className="page-header">
+    <div className="admin-page-container">
+      <div className="admin-toolbar">
         <div>
           <h1 className="page-title">{t('platform_members')}</h1>
           <p className="page-subtitle">{t('manage_users')}</p>
         </div>
       </div>
 
-      <div className="invite-form-container animate-in">
-        <div className="invite-form-header">
-          <div className="invite-icon">
-            <Shield size={20} />
+      <div className="form-card-premium animate-in mb-12" style={{ maxWidth: '800px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+          <div className="btn-action-premium active" style={{ width: '3rem', height: '3rem', borderRadius: '16px' }}>
+            <Shield size={24} />
           </div>
-          <h3 className="card-title">Invite Platform Leader</h3>
+          <div>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--slate-900)' }}>Invite Platform Leader</h3>
+            <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>Grant administrative access to new organizers</p>
+          </div>
         </div>
         
         {inviteMessage && (
-          <div className="auth-error" style={{backgroundColor: '#ecfdf5', color: '#059669', borderColor: '#d1fae5'}}>
-            <div className="error-dot" style={{backgroundColor: '#059669'}} />
+          <div className="badge-premium badge-success mb-6" style={{ width: '100%', justifyContent: 'center', padding: '1rem' }}>
             {inviteMessage}
           </div>
         )}
         {inviteError && (
-          <div className="auth-error">
-            <div className="error-dot" />
+          <div className="badge-premium badge-error mb-6" style={{ width: '100%', justifyContent: 'center', padding: '1rem' }}>
             {inviteError}
           </div>
         )}
 
-        <form onSubmit={handleInviteLeader} className="invite-form">
-          <div className="input-with-icon">
-            <div className="input-icon">
+        <form onSubmit={handleInviteLeader} className="flex gap-4">
+          <div className="search-input-wrapper" style={{ flex: 1, maxWidth: 'none' }}>
+            <div className="search-icon-pos">
               <Mail size={18} />
             </div>
             <input 
               type="email" 
               required
               placeholder="leader@example.com"
-              className="input-field"
+              className="search-input"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
             />
@@ -116,24 +117,24 @@ const Members = () => {
           <button 
             type="submit" 
             disabled={inviteLoading}
-            className="btn-indigo btn-full sm:w-auto"
-            style={{marginTop: 0}}
+            className="btn-admin"
+            style={{ padding: '0 2rem' }}
           >
-            <Send size={16} />
+            <Send size={18} />
             {inviteLoading ? t('sending') : t('send_invite')}
           </button>
         </form>
       </div>
 
-      <div className="data-table-container animate-in">
+      <div className="admin-card animate-in">
         {loading ? (
-          <div className="empty-state">
-            <div className="w-12 h-12 border-4 border-indigo-100 border-t-primary-600 rounded-full animate-spin mb-4" />
-            <p className="empty-text">{t('fetching_members')}</p>
+          <div className="p-12 text-center">
+            <div className="w-12 h-12 border-4 border-indigo-100 border-t-primary-600 rounded-full animate-spin mb-4 mx-auto" />
+            <p className="text-slate-400 font-medium">{t('fetching_members')}</p>
           </div>
         ) : (
-          <div className="table-responsive">
-            <table className="data-table">
+          <div className="premium-table-wrapper">
+            <table className="premium-table">
               <thead>
                 <tr>
                   <th>{t('user')}</th>
@@ -145,19 +146,19 @@ const Members = () => {
                 {members.map(member => (
                   <tr key={member.id}>
                     <td>
-                      <div className="member-info-cell">
-                        <div className={`user-avatar-box ${
+                      <div className="flex items-center gap-4">
+                        <div className={`btn-action-premium ${
                           member.role === 'admin' 
-                            ? 'avatar-admin' 
+                            ? 'active' 
                             : member.role === 'leader'
-                            ? 'avatar-leader'
-                            : 'avatar-member'
-                        }`}>
+                            ? ''
+                            : ''
+                        }`} style={{ width: '3rem', height: '3rem', borderRadius: '12px', background: member.role === 'admin' ? 'var(--primary)' : 'var(--slate-50)', color: member.role === 'admin' ? 'white' : 'var(--slate-400)' }}>
                           {member.role === 'admin' ? <Shield size={20} /> : <User size={20} />}
                         </div>
-                        <div className="user-details">
-                          <div className="user-display-name">{member.name || 'Unnamed Participant'}</div>
-                          <div className="user-email">{member.email}</div>
+                        <div>
+                          <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{member.name || 'Unnamed Participant'}</div>
+                          <div style={{ fontSize: '0.8125rem', color: 'var(--slate-400)' }}>{member.email}</div>
                         </div>
                       </div>
                     </td>
@@ -165,13 +166,16 @@ const Members = () => {
                       <select 
                         value={member.role}
                         onChange={(e) => handleRoleChange(member.id, e.target.value)}
-                        className={`role-select ${
-                          member.role === 'admin' 
-                            ? 'role-admin' 
-                            : member.role === 'leader'
-                            ? 'role-leader'
-                            : 'role-member'
-                        }`}
+                        className="input-premium"
+                        style={{ 
+                          padding: '0.5rem 1rem', 
+                          fontSize: '0.8125rem', 
+                          fontWeight: 700,
+                          width: '140px',
+                          border: 'none',
+                          background: member.role === 'admin' ? '#FEF2F2' : member.role === 'leader' ? '#EFF6FF' : '#F8FAFC',
+                          color: member.role === 'admin' ? '#DC2626' : member.role === 'leader' ? '#2563EB' : '#64748B'
+                        }}
                       >
                         <option value="member">Member</option>
                         <option value="leader">Leader</option>
@@ -179,10 +183,10 @@ const Members = () => {
                       </select>
                     </td>
                     <td style={{textAlign: 'right'}}>
-                      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                      <div className="action-group" style={{ justifyContent: 'flex-end' }}>
                         <button 
                           onClick={() => handleDeleteUser(member.id)}
-                          className="action-btn action-btn-danger"
+                          className="btn-action-premium danger"
                           title="Delete Member"
                           style={member.role === 'admin' ? {opacity: 0.2, cursor: 'not-allowed'} : {}}
                           disabled={member.role === 'admin'} 
@@ -201,5 +205,6 @@ const Members = () => {
     </div>
   );
 };
+
 
 export default Members;

@@ -70,66 +70,86 @@ const Events = () => {
   };
 
   return (
-    <div className="container-inner">
-      <div className="page-header">
+    <div className="admin-page-container">
+      <div className="admin-toolbar">
         <div>
           <h1 className="page-title">{t('events_management')}</h1>
           <p className="page-subtitle">{t('manage_all_events')}</p>
         </div>
         <Link 
           to="/admin/events/create" 
-          className="btn-indigo"
+          className="btn-admin"
+          style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
         >
           <Plus size={20} />
           {t('create_new_event')}
         </Link>
       </div>
 
-      {loading ? (
-        <div className="grid-cards">
-          {[1,2,3].map(i => <div key={i} className="skeleton" />)}
-        </div>
-      ) : events.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-icon">
-            <Plus size={40} />
-          </div>
-          <p className="empty-text">{t('no_events')}</p>
-          <Link to="/admin/events/create" className="brand-link" style={{justifyContent: 'center'}}>
-            <span className="brand-name" style={{fontSize: '1rem'}}>{t('create_new_event')} →</span>
-          </Link>
-        </div>
-      ) : (
-        <div className="grid-cards">
-          {events.map(event => (
-            <div key={event.id} className="relative group">
-              <EventCard event={event} />
-              
-              <div className="workshop-actions">
-                <button 
-                  onClick={() => handleEditClick(event)}
-                  className="action-btn"
-                  title="Edit Event"
-                >
-                  <Edit size={16} />
-                </button>
-                <button 
-                  onClick={() => handleDelete(event.id)}
-                  className="action-btn action-btn-danger"
-                  title={t('delete_event')}
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
+      <div className="admin-card animate-in">
+        {loading ? (
+          <div className="p-8 text-center color-slate-400">Loading events...</div>
+        ) : events.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">
+              <Plus size={40} />
             </div>
-          ))}
-        </div>
-      )}
+            <p className="empty-text">{t('no_events')}</p>
+          </div>
+        ) : (
+          <div className="premium-table-wrapper">
+            <table className="premium-table">
+              <thead>
+                <tr>
+                  <th>Event Name</th>
+                  <th>Location</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th style={{ textAlign: 'right' }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {events.map(event => (
+                  <tr key={event.id}>
+                    <td>
+                      <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{event.name}</div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--slate-400)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {event.description}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="badge-premium badge-info">{event.location || 'Online'}</div>
+                    </td>
+                    <td>{new Date(event.start_date).toLocaleDateString()}</td>
+                    <td>{new Date(event.end_date).toLocaleDateString()}</td>
+                    <td>
+                      <div className="action-group" style={{ justifyContent: 'flex-end' }}>
+                        <button 
+                          onClick={() => handleEditClick(event)}
+                          className="btn-action-premium"
+                        >
+                          <Edit size={16} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(event.id)}
+                          className="btn-action-premium danger"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
-      {/* Edit Modal */}
+      {/* Edit Modal (Glass) */}
       {editingEvent && (
-        <div className="modal-overlay">
-          <div className="modal-content animate-in">
+        <div className="modal-overlay modal-overlay-premium">
+          <div className="modal-content-premium modal-content animate-in" style={{ maxWidth: '600px' }}>
             <div className="modal-header">
               <div className="modal-header-info">
                 <h3>Edit Event</h3>
@@ -142,38 +162,38 @@ const Events = () => {
                 &times;
               </button>
             </div>
-            <form onSubmit={submitEdit} className="modal-body">
-              <div className="form-group">
-                <label className="form-label">{t('event_name')}</label>
-                <input required type="text" className="form-input"
+            <form onSubmit={submitEdit} className="modal-body p-8">
+              <div className="form-group mb-6">
+                <label className="label-premium">{t('event_name')}</label>
+                <input required type="text" className="input-premium"
                   value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} />
               </div>
-              <div className="form-group">
-                <label className="form-label">{t('event_description')}</label>
-                <textarea rows="3" className="form-input"
+              <div className="form-group mb-6">
+                <label className="label-premium">{t('event_description')}</label>
+                <textarea rows="3" className="input-premium" style={{ resize: 'none' }}
                   value={editFormData.description} onChange={e => setEditFormData({...editFormData, description: e.target.value})} />
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4 mb-6">
                 <div className="form-group flex-1">
-                  <label className="form-label">{t('start_time')}</label>
-                  <input required type="datetime-local" className="form-input"
+                  <label className="label-premium">{t('start_time')}</label>
+                  <input required type="datetime-local" className="input-premium"
                     value={editFormData.start_date} onChange={e => setEditFormData({...editFormData, start_date: e.target.value})} />
                 </div>
                 <div className="form-group flex-1">
-                  <label className="form-label">{t('end_time')}</label>
-                  <input required type="datetime-local" className="form-input"
+                  <label className="label-premium">{t('end_time')}</label>
+                  <input required type="datetime-local" className="input-premium"
                     value={editFormData.end_date} onChange={e => setEditFormData({...editFormData, end_date: e.target.value})} />
                 </div>
               </div>
-              <div className="form-group">
-                <label className="form-label">{t('location')}</label>
-                <input type="text" className="form-input"
+              <div className="form-group mb-8">
+                <label className="label-premium">{t('location')}</label>
+                <input type="text" className="input-premium"
                   value={editFormData.location} onChange={e => setEditFormData({...editFormData, location: e.target.value})} />
               </div>
               
-              <div className="modal-footer">
+              <div className="modal-footer pt-4" style={{ borderTop: '1px solid var(--slate-100)' }}>
                 <button type="button" onClick={() => setEditingEvent(null)} className="btn-ghost">{t('cancel')}</button>
-                <button type="submit" className="btn-indigo">
+                <button type="submit" className="btn-admin">
                   {t('save_changes')}
                 </button>
               </div>
@@ -184,5 +204,6 @@ const Events = () => {
     </div>
   );
 };
+
 
 export default Events;

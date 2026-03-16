@@ -51,7 +51,6 @@ const Scoreboard = () => {
 
   return (
     <div className="layout-member">
-      <Navbar />
       <main className="container-inner" style={{paddingTop: '4rem', paddingBottom: '4rem'}}>
         <div className="scoreboard-hero animate-in">
           <div>
@@ -93,10 +92,6 @@ const Scoreboard = () => {
           </div>
         )}
       </main>
-      
-      <footer className="footer">
-        <p className="footer-text">Built for Innovation • HackEvent 2024</p>
-      </footer>
     </div>
   );
 };

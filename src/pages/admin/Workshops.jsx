@@ -97,7 +97,7 @@ const AdminWorkshops = () => {
     setFormData({
       title: workshop.title,
       description: workshop.description || '',
-      startTime: workshop.startTime ? new Date(workshop.startTime).toISOString().slice(0, 16) : '',
+      start_time: workshop.start_time ? new Date(workshop.start_time).toISOString().slice(0, 16) : '',
       location: workshop.location || '',
       technology: workshop.technology || '',
       duration: workshop.duration || '',
@@ -107,61 +107,78 @@ const AdminWorkshops = () => {
   };
 
   return (
-    <div className="container-inner">
-      <div className="page-header">
+    <div className="admin-page-container">
+      <div className="admin-toolbar">
         <div>
           <h1 className="page-title">{t('workshops_management')}</h1>
           <p className="page-subtitle">{t('plan_sessions')}</p>
         </div>
-        <button 
-          onClick={() => showForm ? setShowForm(false) : openCreateForm()}
-          className={`btn-indigo ${showForm ? 'btn-red' : ''}`}
-          style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}
-        >
-          {showForm ? <Plus size={20} style={{transform: 'rotate(45deg)'}} /> : <Plus size={20} />}
-          {showForm ? t('cancel') : t('add_workshop')}
-        </button>
+        
+        <div className="flex gap-4 items-center">
+          <div className="search-input-wrapper">
+             <div className="search-icon-pos"><MonitorPlay size={18} /></div>
+             <select 
+               className="search-input"
+               style={{ paddingLeft: '3rem', width: '250px' }}
+               value={formData.event_id}
+               onChange={(e) => handleEventChange(e.target.value)}
+             >
+               {events.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}
+             </select>
+          </div>
+          <button 
+            onClick={() => showForm ? setShowForm(false) : openCreateForm()}
+            className="btn-admin"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
+            {showForm ? <Plus size={20} style={{transform: 'rotate(45deg)'}} /> : <Plus size={20} />}
+            {showForm ? t('cancel') : t('add_workshop')}
+          </button>
+        </div>
       </div>
 
       {showForm && (
-        <div className="invite-form-container animate-in" style={{maxWidth: '100%'}}>
-          <h3 className="card-title" style={{marginBottom: '2rem'}}>{isEditing ? 'Edit Workshop' : t('add_workshop')}</h3>
+        <div className="form-card-premium animate-in mb-12" style={{maxWidth: '1000px', margin: '0 auto 3rem'}}>
+          <h3 style={{fontSize: '1.5rem', fontWeight: 800, marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem'}}>
+            <div className="btn-action-premium active" style={{width: '2.5rem', height: '2.5rem', borderRadius: '10px'}}><Plus size={18} /></div>
+            {isEditing ? 'Edit Workshop' : t('add_workshop')}
+          </h3>
           <form onSubmit={handleSubmit}>
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem'}}>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem'}}>
               <div style={{gridColumn: '1 / -1'}}>
-                <label className="form-label">{t('title')}</label>
-                <input type="text" required className="form-input"
+                <label className="label-premium">{t('title')}</label>
+                <input type="text" required className="input-premium"
                   value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} />
               </div>
               <div style={{gridColumn: '1 / -1'}}>
-                <label className="form-label">{t('description')}</label>
-                <textarea className="form-input" rows="3"
+                <label className="label-premium">{t('description')}</label>
+                <textarea className="input-premium" rows="3" style={{resize: 'none'}}
                   value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
               </div>
               <div>
-                <label className="form-label">{t('technology')}</label>
-                <input type="text" placeholder="e.g. React, Python" className="form-input"
+                <label className="label-premium">{t('technology')}</label>
+                <input type="text" placeholder="e.g. React, Python" className="input-premium"
                   value={formData.technology} onChange={e => setFormData({...formData, technology: e.target.value})} />
               </div>
               <div>
-                <label className="form-label">{t('duration')}</label>
-                <input type="text" placeholder="e.g. 45 min" className="form-input"
+                <label className="label-premium">{t('duration')}</label>
+                <input type="text" placeholder="e.g. 45 min" className="input-premium"
                   value={formData.duration} onChange={e => setFormData({...formData, duration: e.target.value})} />
               </div>
               <div>
-                <label className="form-label">{t('start_time')}</label>
-                <input type="datetime-local" required className="form-input"
+                <label className="label-premium">{t('start_time')}</label>
+                <input type="datetime-local" required className="input-premium"
                   value={formData.start_time} onChange={e => setFormData({...formData, start_time: e.target.value})} />
               </div>
               <div>
-                <label className="form-label">{t('location')}</label>
-                <input type="text" className="form-input"
+                <label className="label-premium">{t('location')}</label>
+                <input type="text" className="input-premium"
                   value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
               </div>
             </div>
-            <div className="modal-footer" style={{marginTop: '2rem'}}>
+            <div className="flex justify-end gap-4 mt-12 pt-8" style={{borderTop: '1px solid var(--slate-100)'}}>
               <button type="button" onClick={() => setShowForm(false)} className="btn-ghost">{t('cancel')}</button>
-              <button type="submit" className="btn-indigo">
+              <button type="submit" className="btn-admin" style={{minWidth: '150px'}}>
                 {isEditing ? t('save') : t('create')}
               </button>
             </div>
@@ -169,45 +186,72 @@ const AdminWorkshops = () => {
         </div>
       )}
 
-      <div className="page-header" style={{marginBottom: '2rem'}}>
-        <div className="filter-bar">
-          <span className="filter-label">{t('filter_event')}</span>
-          <select 
-            className="filter-select"
-            value={formData.event_id}
-            onChange={(e) => handleEventChange(e.target.value)}
-          >
-            {events.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}
-          </select>
-        </div>
-      </div>
-
-      {loading ? (
-        <div className="grid-cards">
-          {[1,2,3].map(i => <div key={i} className="skeleton" />)}
-        </div>
-      ) : workshops.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-icon">
-            <MonitorPlay size={40} />
+      <div className="admin-card animate-in">
+        {loading ? (
+          <div className="p-12 text-center">
+            <div className="w-12 h-12 border-4 border-indigo-100 border-t-primary-600 rounded-full animate-spin mb-4 mx-auto" />
+            <p className="text-slate-400 font-medium">{t('fetching_workshops') || 'Loading workshops...'}</p>
           </div>
-          <p className="empty-text">{t('no_workshops_found')}</p>
-        </div>
-      ) : (
-        <div className="grid-cards">
-          {workshops.map(workshop => (
-            <WorkshopCard 
-              key={workshop.id} 
-              workshop={workshop} 
-              isAdmin={true} 
-              onEdit={openEditForm} 
-              onDelete={handleDelete} 
-            />
-          ))}
-        </div>
-      )}
+        ) : workshops.length === 0 ? (
+          <div className="empty-state p-12">
+            <div className="empty-icon">
+              <MonitorPlay size={40} />
+            </div>
+            <p className="empty-text">{t('no_workshops_found')}</p>
+          </div>
+        ) : (
+          <div className="premium-table-wrapper">
+            <table className="premium-table">
+              <thead>
+                <tr>
+                  <th>Workshop Details</th>
+                  <th>Technology</th>
+                  <th>Schedule</th>
+                  <th style={{textAlign: 'right'}}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {workshops.map(workshop => (
+                  <tr key={workshop.id}>
+                    <td>
+                      <div style={{fontWeight: 700, color: 'var(--slate-900)'}}>{workshop.title}</div>
+                      <div style={{fontSize: '0.8rem', color: 'var(--slate-400)', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
+                        {workshop.description}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="badge-premium badge-info">{workshop.technology || 'General'}</div>
+                    </td>
+                    <td>
+                      <div style={{fontWeight: 600}}>{new Date(workshop.start_time || workshop.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                      <div style={{fontSize: '0.75rem', color: 'var(--slate-400)'}}>{workshop.location || 'Meeting Room'}</div>
+                    </td>
+                    <td>
+                      <div className="action-group" style={{justifyContent: 'flex-end'}}>
+                        <button 
+                          onClick={() => openEditForm(workshop)}
+                          className="btn-action-premium"
+                        >
+                          <Edit size={16} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(workshop.id)}
+                          className="btn-action-premium danger"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
+
 
 export default AdminWorkshops;

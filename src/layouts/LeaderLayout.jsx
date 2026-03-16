@@ -6,7 +6,6 @@ import Sidebar from '../components/Sidebar';
 const LeaderLayout = () => {
   return (
     <div className="layout-leader">
-      <Navbar />
       <div className="main-content">
         <Sidebar role="leader" />
         <main className="page-wrapper">
