@@ -9,10 +9,10 @@ const CreateEvent = () => {
   const [formData, setFormData] = useState({ 
     name: '', 
     description: '', 
-    startDate: '', 
-    endDate: '',
+    start_date: '', 
+    end_date: '',
     location: '',
-    maxTeams: 0,
+    max_teams: 0,
     status: 'upcoming'
   });
   const [loading, setLoading] = useState(false);
@@ -85,8 +85,8 @@ const CreateEvent = () => {
                 <input 
                   type="datetime-local" required
                   className="form-input"
-                  value={formData.startDate}
-                  onChange={e => setFormData({...formData, startDate: e.target.value})} 
+                  value={formData.start_date}
+                  onChange={e => setFormData({...formData, start_date: e.target.value})} 
                 />
               </div>
               <div className="form-group">
@@ -94,8 +94,8 @@ const CreateEvent = () => {
                 <input 
                   type="datetime-local" required
                   className="form-input"
-                  value={formData.endDate}
-                  onChange={e => setFormData({...formData, endDate: e.target.value})} 
+                  value={formData.end_date}
+                  onChange={e => setFormData({...formData, end_date: e.target.value})} 
                 />
               </div>
               <div className="form-group">
@@ -123,8 +123,8 @@ const CreateEvent = () => {
                     type="number" 
                     min="0"
                     className="input-field"
-                    value={formData.maxTeams}
-                    onChange={e => setFormData({...formData, maxTeams: Number(e.target.value)})} 
+                    value={formData.max_teams}
+                    onChange={e => setFormData({...formData, max_teams: Number(e.target.value)})} 
                   />
                 </div>
               </div>

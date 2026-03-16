@@ -143,7 +143,7 @@ const Members = () => {
               </thead>
               <tbody>
                 {members.map(member => (
-                  <tr key={member._id}>
+                  <tr key={member.id}>
                     <td>
                       <div className="member-info-cell">
                         <div className={`user-avatar-box ${
@@ -164,7 +164,7 @@ const Members = () => {
                     <td>
                       <select 
                         value={member.role}
-                        onChange={(e) => handleRoleChange(member._id, e.target.value)}
+                        onChange={(e) => handleRoleChange(member.id, e.target.value)}
                         className={`role-select ${
                           member.role === 'admin' 
                             ? 'role-admin' 
@@ -181,7 +181,7 @@ const Members = () => {
                     <td style={{textAlign: 'right'}}>
                       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                         <button 
-                          onClick={() => handleDeleteUser(member._id)}
+                          onClick={() => handleDeleteUser(member.id)}
                           className="action-btn action-btn-danger"
                           title="Delete Member"
                           style={member.role === 'admin' ? {opacity: 0.2, cursor: 'not-allowed'} : {}}

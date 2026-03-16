@@ -25,7 +25,7 @@ const Teams = () => {
       if(!active) return;
       setEvents(res.data);
       if (res.data.length > 0) {
-        setSelectedEventId(res.data[0]._id);
+        setSelectedEventId(res.data[0].id);
       }
     });
     return () => { active = false; };
@@ -76,7 +76,7 @@ const Teams = () => {
   };
 
   const handleEditTeamDetails = (team) => {
-    setEditingTeam(team._id);
+    setEditingTeam(team.id);
     setEditFormData({ name: team.name });
   };
 
@@ -106,7 +106,7 @@ const Teams = () => {
             onChange={(e) => setSelectedEventId(e.target.value)}
           >
             {events.map(event => (
-              <option key={event._id} value={event._id}>{event.name}</option>
+              <option key={event.id} value={event.id}>{event.name}</option>
             ))}
           </select>
         </div>
@@ -131,7 +131,7 @@ const Teams = () => {
               </thead>
               <tbody>
                 {teams.map(team => (
-                  <tr key={team._id}>
+                  <tr key={team.id}>
                     <td>
                       <div className="team-name-cell">
                         <div className="team-main-name">
@@ -140,7 +140,7 @@ const Teams = () => {
                             <Edit size={12} />
                           </button>
                         </div>
-                        <div className="team-sub-id">ID: {team._id?.slice(-8)}</div>
+                        <div className="team-sub-id">ID: {team.id?.toString().slice(-8)}</div>
                       </div>
                     </td>
                     <td>
@@ -152,19 +152,19 @@ const Teams = () => {
                       </div>
                     </td>
                     <td style={{textAlign: 'right'}}>
-                      {editingScore === team._id ? (
+                      {editingScore === team.id ? (
                         <input 
                           type="number" 
                           value={newScore}
                           onChange={(e) => setNewScore(Number(e.target.value))}
                           className="score-input"
                           autoFocus
-                          onBlur={() => handleUpdateScore(team._id, team.score)}
-                          onKeyDown={(e) => e.key === 'Enter' && handleUpdateScore(team._id, team.score)}
+                          onBlur={() => handleUpdateScore(team.id, team.score)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleUpdateScore(team.id, team.score)}
                         />
                       ) : (
                         <button 
-                          onClick={() => handleUpdateScore(team._id, team.score)}
+                          onClick={() => handleUpdateScore(team.id, team.score)}
                           className="score-display"
                         >
                           {team.score || 0}
@@ -174,14 +174,14 @@ const Teams = () => {
                     <td style={{textAlign: 'right'}}>
                       <div style={{display: 'flex', justifyContent: 'flex-end', gap: '0.5rem'}}>
                         <button 
-                          onClick={() => handleUpdateScore(team._id, team.score)}
+                          onClick={() => handleUpdateScore(team.id, team.score)}
                           className="action-btn"
                           title="Edit Score"
                         >
                           <Edit2 size={16} />
                         </button>
                         <button 
-                          onClick={() => handleDelete(team._id)}
+                          onClick={() => handleDelete(team.id)}
                           className="action-btn action-btn-danger"
                           title="Delete Team"
                         >
