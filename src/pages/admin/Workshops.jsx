@@ -16,7 +16,7 @@ const AdminWorkshops = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
   
-  const initialFormState = { title: '', description: '', eventId: '', startTime: '', location: '', technology: '', duration: '' };
+  const initialFormState = { title: '', description: '', event_id: '', start_time: '', location: '', technology: '', duration: '' };
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const AdminWorkshops = () => {
         const firstEventId = eventsRes.data[0].id;
         const wsRes = await workshopsApi.getByEvent(firstEventId);
         setWorkshops(wsRes.data);
-        setFormData(prev => ({ ...prev, eventId: firstEventId }));
+        setFormData(prev => ({ ...prev, event_id: firstEventId }));
       }
     } catch (err) {
       console.error(err);
@@ -47,7 +47,7 @@ const AdminWorkshops = () => {
       setLoading(true);
       const wsRes = await workshopsApi.getByEvent(eventId);
       setWorkshops(wsRes.data);
-      setFormData(prev => ({ ...prev, eventId: eventId }));
+      setFormData(prev => ({ ...prev, event_id: eventId }));
     } catch (err) {
       console.error(err);
     } finally {
@@ -59,7 +59,7 @@ const AdminWorkshops = () => {
     if (window.confirm('Delete this workshop?')) {
       try {
         await workshopsApi.delete(id);
-        handleEventChange(formData.eventId);
+        handleEventChange(formData.event_id);
       } catch (err) {
         console.error(err);
       }
@@ -77,8 +77,8 @@ const AdminWorkshops = () => {
       setShowForm(false);
       setIsEditing(false);
       setEditingId(null);
-      setFormData({ ...initialFormState, eventId: formData.eventId });
-      handleEventChange(formData.eventId);
+      setFormData({ ...initialFormState, event_id: formData.event_id });
+      handleEventChange(formData.event_id);
     } catch (err) {
       console.error(err);
     }
@@ -87,7 +87,7 @@ const AdminWorkshops = () => {
   const openCreateForm = () => {
     setIsEditing(false);
     setEditingId(null);
-    setFormData({ ...initialFormState, eventId: formData.eventId || (events[0]?.id || '') });
+    setFormData({ ...initialFormState, event_id: formData.event_id || (events[0]?.id || '') });
     setShowForm(true);
   };
 
@@ -101,7 +101,7 @@ const AdminWorkshops = () => {
       location: workshop.location || '',
       technology: workshop.technology || '',
       duration: workshop.duration || '',
-      eventId: workshop.eventId || workshop.event?.id || formData.eventId
+      event_id: workshop.event_id || workshop.eventId || workshop.event?.id || formData.event_id
     });
     setShowForm(true);
   };
@@ -151,7 +151,7 @@ const AdminWorkshops = () => {
               <div>
                 <label className="form-label">{t('start_time')}</label>
                 <input type="datetime-local" required className="form-input"
-                  value={formData.startTime} onChange={e => setFormData({...formData, startTime: e.target.value})} />
+                  value={formData.start_time} onChange={e => setFormData({...formData, start_time: e.target.value})} />
               </div>
               <div>
                 <label className="form-label">{t('location')}</label>
@@ -174,7 +174,7 @@ const AdminWorkshops = () => {
           <span className="filter-label">{t('filter_event')}</span>
           <select 
             className="filter-select"
-            value={formData.eventId}
+            value={formData.event_id}
             onChange={(e) => handleEventChange(e.target.value)}
           >
             {events.map(ev => <option key={ev.id} value={ev.id}>{ev.name}</option>)}

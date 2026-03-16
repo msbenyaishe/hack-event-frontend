@@ -37,6 +37,17 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   return children;
 };
 
+const HomeRedirect = () => {
+  const { user, loading } = useAuth();
+  
+  if (loading) return <div className="flex h-screen items-center justify-center">Loading...</div>;
+  
+  if (user?.role === 'admin') return <Navigate to="/admin" />;
+  if (user?.role === 'leader') return <Navigate to="/leader/team" />;
+  
+  return <Scoreboard />;
+};
+
 function App() {
   return (
     <BrowserRouter>
@@ -46,7 +57,9 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
 
         {/* Public Routes */}
-        <Route path="/" element={<Scoreboard />} />
+        <Route path="/" element={
+          <HomeRedirect />
+        } />
         <Route path="/workshops" element={<PublicWorkshops />} />
 
         {/* Admin Routes */}

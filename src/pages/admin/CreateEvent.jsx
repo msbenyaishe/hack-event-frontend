@@ -12,7 +12,8 @@ const CreateEvent = () => {
     start_date: '', 
     end_date: '',
     location: '',
-    max_teams: 0,
+    max_leaders: 20,
+    max_team_members: 5,
     status: 'upcoming'
   });
   const [loading, setLoading] = useState(false);
@@ -114,17 +115,32 @@ const CreateEvent = () => {
                 </div>
               </div>
               <div className="form-group">
-                <label className="form-label">{t('max_teams')}</label>
+                <label className="form-label">{t('max_leaders') || 'Max Teams (Leaders)'}</label>
                 <div className="input-with-icon">
                   <div className="input-icon">
                     <Users size={18} />
                   </div>
                   <input 
                     type="number" 
-                    min="0"
+                    min="1"
                     className="input-field"
-                    value={formData.max_teams}
-                    onChange={e => setFormData({...formData, max_teams: Number(e.target.value)})} 
+                    value={formData.max_leaders}
+                    onChange={e => setFormData({...formData, max_leaders: Number(e.target.value)})} 
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="form-label">{t('max_team_members') || 'Members per Team'}</label>
+                <div className="input-with-icon">
+                  <div className="input-icon">
+                    <Users size={18} />
+                  </div>
+                  <input 
+                    type="number" 
+                    min="1"
+                    className="input-field"
+                    value={formData.max_team_members}
+                    onChange={e => setFormData({...formData, max_team_members: Number(e.target.value)})} 
                   />
                 </div>
               </div>
