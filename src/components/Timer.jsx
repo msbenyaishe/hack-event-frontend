@@ -4,43 +4,53 @@ import { timersApi } from '../api/timersApi';
 const Timer = () => {
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [status, setStatus] = useState('waiting');
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    // Basic polling mechanism for timer sync
     const fetchTimer = async () => {
       try {
         const res = await timersApi.getGlobalTimer();
         if (res.data) {
-          setStatus(res.data.status);
-          const endTime = new Date(res.data.endTime).getTime();
-          const now = Date.now();
-          const rem = Math.max(0, endTime - now);
-          if (res.data.status === 'running') {
-             setTimeRemaining(rem);
-          } else if (res.data.status === 'paused') {
-             setTimeRemaining(res.data.remainingTime || 0);
+          const { status: newStatus, endTime, remainingSeconds, serverTime } = res.data;
+          
+          // Calculate offset: how much faster/slower client is vs server
+          if (serverTime) {
+            const serverMs = new Date(serverTime).getTime();
+            const clientMs = Date.now();
+            setOffset(serverMs - clientMs);
+          }
+
+          setStatus(newStatus);
+
+          if (newStatus === 'running' && endTime) {
+            const endMs = new Date(endTime).getTime();
+            const nowAdjusted = Date.now() + (serverTime ? (new Date(serverTime).getTime() - Date.now()) : offset);
+            setTimeRemaining(Math.max(0, endMs - nowAdjusted));
+          } else {
+            setTimeRemaining((remainingSeconds || 0) * 1000);
           }
         }
       } catch (err) {
-        // error handling
+        console.error("Timer Sync Error:", err);
       }
     };
     
     fetchTimer();
-    const interval = setInterval(() => {
-      if (status === 'running') {
-        setTimeRemaining(prev => Math.max(0, prev - 1000));
-      }
-    }, 1000);
-    
-    // Poll server every 30s to sync
-    const syncInterval = setInterval(fetchTimer, 30000);
+    const syncInterval = setInterval(fetchTimer, 15000);
 
-    return () => {
-      clearInterval(interval);
-      clearInterval(syncInterval);
-    };
+    return () => clearInterval(syncInterval);
+  }, []);
+
+  useEffect(() => {
+    let interval;
+    if (status === 'running') {
+      interval = setInterval(() => {
+        setTimeRemaining(prev => Math.max(0, prev - 1000));
+      }, 1000);
+    }
+    return () => clearInterval(interval);
   }, [status]);
+
 
   const formatTime = (ms) => {
     if (!ms || ms <= 0) return '00:00:00';
