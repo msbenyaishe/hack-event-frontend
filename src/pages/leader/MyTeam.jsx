@@ -15,11 +15,15 @@ const MyTeam = () => {
   const [editData, setEditData] = useState({ name: '', color: '' });
   const [refresh, setRefresh] = useState(0);
 
+  const [successMessage, setSuccessMessage] = useState('');
+
   const handleUpdateTeam = async (e) => {
     e.preventDefault();
     try {
       await teamsApi.update(team.id, editData);
       setIsEditModalOpen(false);
+      setSuccessMessage('Team updated successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
       setRefresh(prev => prev + 1);
     } catch (err) {
       console.error(err);
@@ -32,15 +36,18 @@ const MyTeam = () => {
       try {
         setLoading(true);
         // Find the team where this user is the leader or a member.
-        const authRes = await api.get('/auth/me'); // Safe endpoint for all logged-in members
+        const authRes = await api.get('/auth/me'); 
+        const freshUser = authRes.data.user;
         
-        const myTeamId = authRes.data.user?.team_id || authRes.data.team_id;
+        const myTeamId = freshUser?.team_id;
         
         if (myTeamId) {
            const teamRes = await teamsApi.getById(myTeamId);
            const membersRes = await teamsApi.getTeamMembers(myTeamId);
            setTeam({ ...teamRes.data, members: membersRes.data });
            setEditData({ name: teamRes.data.name, color: teamRes.data.color || '#4f46e5' });
+        } else {
+           setTeam(null);
         }
       } catch (err) {
         console.error(err);
@@ -58,6 +65,8 @@ const MyTeam = () => {
     if (window.confirm(t('remove_member') + '?')) {
       try {
         await teamsApi.removeMember(team.id, memberId);
+        setSuccessMessage('Member removed successfully');
+        setTimeout(() => setSuccessMessage(''), 3000);
         const membersRes = await teamsApi.getTeamMembers(team.id);
         setTeam(prev => ({ ...prev, members: membersRes.data }));
       } catch (err) {
@@ -91,6 +100,8 @@ const MyTeam = () => {
               try {
                 setLoading(true);
                 await teamsApi.create(formData);
+                setSuccessMessage('Team successfully created! Welcome leader.');
+                setTimeout(() => setSuccessMessage(''), 5000);
                 setRefresh(prev => prev + 1);
               } catch (err) {
                 console.error(err);
@@ -133,11 +144,30 @@ const MyTeam = () => {
 
   return (
     <div className="container-inner">
+      {successMessage && (
+        <div className="mb-8 animate-in slide-in-from-top duration-500">
+          <div className="bg-emerald-50 border border-emerald-100 text-emerald-600 px-6 py-4 rounded-2xl font-bold flex items-center gap-3">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            {successMessage}
+          </div>
+        </div>
+      )}
+
       <div className="page-header animate-in">
         <div style={{flex: 1}}>
           <h1 className="page-title">{t('my_team')}</h1>
-          <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem', marginTop: '1.5rem'}}>
-            <span className="card-title" style={{fontSize: '2rem', color: 'var(--primary-600)', backgroundColor: 'var(--primary-50)', padding: '0.5rem 1.25rem', borderRadius: '1rem', border: '1px solid var(--primary-100)'}}>
+          <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1.5rem', marginTop: '1.5rem'}}>
+            <div 
+              className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-premium border-4 border-white"
+              style={{ backgroundColor: team.color || 'var(--primary-600)' }}
+            >
+              {team.logo ? (
+                <img src={team.logo} alt={team.name} className="w-full h-full object-cover rounded-xl" />
+              ) : (
+                team.name?.charAt(0)
+              )}
+            </div>
+            <span className="card-title" style={{fontSize: '2rem', color: 'var(--slate-900)', fontWeight: 900}}>
               {team.name}
             </span>
             <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--slate-900)', color: 'white', padding: '0.75rem 1.25rem', borderRadius: '1rem'}}>

@@ -146,26 +146,40 @@ const Teams = () => {
                 {teams.map(team => (
                   <tr key={team.id}>
                     <td>
-                      <div className="flex items-center gap-3">
-                        <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{team.name}</div>
-                        <button 
-                          onClick={() => handleEditTeamDetails(team)} 
-                          className="btn-action-premium" 
-                          style={{width: '1.5rem', height: '1.5rem'}}
-                          title={t('edit_team')}
+                      <div className="flex items-center gap-4">
+                        <div 
+                          className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shadow-sm"
+                          style={{ backgroundColor: team.color || 'var(--slate-200)' }}
                         >
-                          <Edit size={12} />
-                        </button>
-                      </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--slate-400)', marginTop: '2px' }}>
-                        ID: {team.id?.toString().slice(-8)}
+                          {team.logo ? (
+                            <img src={team.logo} alt={team.name} className="w-full h-full object-cover rounded-xl" />
+                          ) : (
+                            team.name?.charAt(0)
+                          )}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{team.name}</div>
+                            <button 
+                              onClick={() => handleEditTeamDetails(team)} 
+                              className="btn-action-premium" 
+                              style={{width: '1.5rem', height: '1.5rem'}}
+                              title={t('edit_team')}
+                            >
+                              <Edit size={12} />
+                            </button>
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: 'var(--slate-400)', marginTop: '2px' }}>
+                            ID: {team.id?.toString().slice(-8)}
+                          </div>
+                        </div>
                       </div>
                     </td>
                     <td>
                       <div style={{display: 'flex', justifyContent: 'center'}}>
                         <div className="badge-premium badge-info">
                           <Users size={14} />
-                          {team.membersCount || team.members?.length || 0}
+                          {team.membersCount || 0}
                         </div>
                       </div>
                     </td>
