@@ -39,7 +39,7 @@ const Navbar = () => {
           </div>
 
           <div className="navbar-actions-desktop">
-            <Link to="/scoreboard" className="nav-link-desktop">{t('home')}</Link>
+            <Link to="/scoreboard" className="nav-link-desktop">{t('Home')}</Link>
             {user && (user.role === 'admin' || user.role === 'leader') && (
               <Link to={user.role === 'admin' ? "/admin" : "/leader/team"} className="nav-link-desktop">
                 {t('dashboard')}
