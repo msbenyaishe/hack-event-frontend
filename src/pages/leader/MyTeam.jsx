@@ -79,11 +79,54 @@ const MyTeam = () => {
         <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-8 border border-slate-100">
           <UserPlus size={40} className="text-slate-200" />
         </div>
-        <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">{t('you_dont_have_team')}</h2>
-        <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('create_one_hint')}</p>
-        <Link to="/workshops" className="btn-indigo px-8 inline-block">
-          {t('explore_events')}
-        </Link>
+        
+        {user?.role === 'leader' ? (
+          <>
+            <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">{t('create_your_team')}</h2>
+            <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('leader_create_hint') || 'As a leader, you can create your team now.'}</p>
+            
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              try {
+                setLoading(true);
+                await teamsApi.create(formData);
+                setRefresh(prev => prev + 1);
+              } catch (err) {
+                console.error(err);
+                alert(err.response?.data?.error || 'Failed to create team');
+              } finally {
+                setLoading(false);
+              }
+            }} className="max-w-md mx-auto space-y-4 text-left p-6">
+              <div>
+                <label className="form-label">{t('team_name')}</label>
+                <input name="name" type="text" className="form-input" required placeholder={t('enter_team_name')} />
+              </div>
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <label className="form-label">{t('color')}</label>
+                  <input name="color" type="color" className="w-full h-12 rounded-xl cursor-pointer" defaultValue="#4f46e5" />
+                </div>
+                <div className="flex-1">
+                  <label className="form-label">{t('logo')}</label>
+                  <input name="logo" type="file" className="form-input text-xs" accept="image/*" />
+                </div>
+              </div>
+              <button type="submit" className="btn-indigo w-full py-4 mt-4">
+                {t('create_team')}
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">{t('you_dont_have_team')}</h2>
+            <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('create_one_hint')}</p>
+            <Link to="/workshops" className="btn-indigo px-8 inline-block">
+              {t('explore_events')}
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
