@@ -147,16 +147,19 @@ const Teams = () => {
                   <tr key={team.id}>
                     <td>
                       <div className="flex items-center gap-4">
-                        <div 
-                          className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold shadow-sm"
-                          style={{ backgroundColor: team.color || 'var(--slate-200)' }}
-                        >
-                          {team.logo ? (
-                            <img src={team.logo} alt={team.name} className="w-full h-full object-cover rounded-xl" />
-                          ) : (
-                            team.name?.charAt(0)
-                          )}
-                        </div>
+                      <div className="logo-frame-container mini">
+                        {team.logo ? (
+                          <img 
+                            src={team.logo.startsWith('http') || team.logo.startsWith('/') ? team.logo : `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/uploads/events/${team.logo}`} 
+                            alt={team.name} 
+                            className="w-full h-full object-cover" 
+                          />
+                        ) : (
+                          <div className="logo-frame-dashed">
+                            <span className="font-black">{team.name?.charAt(0)}</span>
+                          </div>
+                        )}
+                      </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{team.name}</div>

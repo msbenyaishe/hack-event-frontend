@@ -3,7 +3,6 @@ import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Lock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import Navbar from '../../components/Navbar';
 
 const AdminLogin = () => {
   const { t } = useTranslation();

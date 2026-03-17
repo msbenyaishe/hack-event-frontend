@@ -41,7 +41,13 @@
   /* Transitions */
   --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --radius: 16px;
+  --radius: 20px;
+  --radius-lg: 32px;
+  
+  /* Premium Glass */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 }
 
 /* Reset & Base */
@@ -128,6 +134,18 @@ h3 { font-size: 1.5rem; }
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.team-ranking-badge {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.875rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .brand-logo {
@@ -313,9 +331,32 @@ h3 { font-size: 1.5rem; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4rem;
-  gap: 2rem;
-  flex-wrap: wrap;
+  margin-bottom: 5rem;
+  gap: 3rem;
+  padding: 4rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--slate-100);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.scoreboard-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--primary-50) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.scoreboard-hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-title {
@@ -346,18 +387,41 @@ h3 { font-size: 1.5rem; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-.hero-subtitle {
-  font-size: 1.25rem;
-  color: var(--slate-500);
-  font-weight: 500;
+.logo-frame-container {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 16px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid var(--slate-100);
+  background: var(--slate-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo-frame-container.mini .logo-frame-dashed span {
+  font-size: 0.75rem;
+}
+
+.logo-frame-dashed {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed var(--slate-200);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  color: var(--slate-400);
 }
 
 .timer-container {
-  background: white;
-  padding: 2rem 3rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
-  border: 1px solid var(--slate-100);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* Empty State */
@@ -418,9 +482,9 @@ h3 { font-size: 1.5rem; }
 .team-card {
   display: flex;
   align-items: center;
-  gap: 2rem;
-  padding: 1.5rem 2.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .team-rank {
@@ -436,10 +500,10 @@ h3 { font-size: 1.5rem; }
 }
 
 .team-name {
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   font-weight: 800;
   color: var(--slate-900);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.125rem;
 }
 
 .team-stats {
@@ -512,6 +576,165 @@ a {
   text-decoration: none;
   color: inherit;
   transition: var(--transition-fast);
+}
+
+/* Countdown Premium Styles */
+.countdown-premium {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 32px;
+  border: 1px solid var(--slate-100);
+  box-shadow: var(--shadow-premium);
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.countdown-premium.started {
+  border-color: var(--success);
+  background: #f0fdf4;
+}
+
+.countdown-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.countdown-timer-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.countdown-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.countdown-block .val {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  line-height: 1;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.countdown-block .lab {
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--slate-400);
+  letter-spacing: 0.1em;
+  margin-top: 0.5rem;
+}
+
+.countdown-premium .sep {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--slate-200);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+}
+
+/* Premium Enhancements */
+.card-premium {
+  background: white;
+  border-radius: var(--radius);
+  border: 1px solid var(--slate-100);
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.card-premium:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-premium);
+  border-color: var(--primary-200);
+}
+
+.public-workshop-card {
+  padding: 1.75rem;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--slate-100);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.public-workshop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+  border-color: var(--warning);
+}
+
+.workshop-tag {
+  display: inline-flex;
+  padding: 0.25rem 0.75rem;
+  background: var(--warning);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 800;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
+  margin-bottom: 1.25rem;
+}
+
+.workshop-duration-badge {
+  position: absolute;
+  top: 1.75rem;
+  right: 1.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--slate-400);
+}
+
+.public-workshop-card h3 {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.public-workshop-card p {
+  font-size: 0.875rem;
+  color: var(--slate-500);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .scoreboard-hero {
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+  }
+  
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .timer-box {
+    padding: 1rem 1.5rem;
+    gap: 1.5rem;
+  }
+  
+  .timer-value {
+    font-size: 2rem;
+  }
 }
 
 button {

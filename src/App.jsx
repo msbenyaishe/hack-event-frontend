@@ -54,6 +54,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
 const HomeRedirect = () => {
   const { user, loading } = useAuth();
+  console.log('HomeRedirect: loading=', loading, 'user=', user?.role || 'none');
   
   if (loading) return <div className="flex h-screen items-center justify-center">Loading...</div>;
   

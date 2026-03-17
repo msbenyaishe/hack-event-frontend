@@ -8,20 +8,39 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchMe = async () => {
+    console.log('AuthContext: fetchMe starting...');
+    const token = localStorage.getItem('token');
+    
+    if (!token || token === 'null' || token === 'undefined') {
+      console.log('AuthContext: No valid token');
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
+    // Safety timeout to prevent infinite loading (increased for slow DBs)
+    const timeoutId = setTimeout(() => {
+      console.warn('AuthContext: fetchMe timed out after 30s');
+      setLoading(false);
+    }, 30000);
+
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setUser(null);
-        return;
-      }
+      console.log('AuthContext: Fetching from API...');
       const response = await authApi.getMe();
+      clearTimeout(timeoutId);
+      console.log('AuthContext: Success!', response.data.user?.role);
       setUser(response.data.user || response.data);
     } catch (error) {
-      console.error('Session verification failed', error);
+      clearTimeout(timeoutId);
+      console.error('AuthContext: API error', error.message);
       setUser(null);
-      localStorage.removeItem('token');
+      // Only remove token if it's definitely invalid (e.g. 401)
+      if (error.response?.status === 401) {
+        localStorage.removeItem('token');
+      }
     } finally {
+      console.log('AuthContext: fetchMe finished');
       setLoading(false);
     }
   };

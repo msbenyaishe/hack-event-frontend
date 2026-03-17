@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar';
 import { eventsApi } from '../../api/eventsApi';
 import { workshopsApi } from '../../api/workshopsApi';
 import { Clock, MapPin } from 'lucide-react';
@@ -24,7 +23,7 @@ const Workshops = () => {
         }
 
         if (eventData) {
-          const res = await workshopsApi.getByEvent(eventData._id);
+          const res = await workshopsApi.getByEvent(eventData.id);
           setWorkshops(res.data);
         }
       } catch (err) {
@@ -59,7 +58,7 @@ const Workshops = () => {
         ) : (
           <div className="grid-cards">
             {workshops.map(workshop => (
-              <div key={workshop._id} className="public-workshop-card animate-in">
+              <div key={workshop.id} className="public-workshop-card animate-in">
                 <h3 className="card-title" style={{marginBottom: '1rem'}}>{workshop.title}</h3>
                 <p className="card-description" style={{marginBottom: '0'}}>{workshop.description}</p>
                 <div className="workshop-meta">

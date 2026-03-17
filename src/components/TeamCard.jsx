@@ -5,45 +5,50 @@ const TeamCard = ({ team, rank }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="card-premium team-card animate-in">
-      <div 
-        className="team-rank" 
-        style={{ 
-          backgroundColor: team.color || 'var(--primary-600)',
-          color: 'white',
-          boxShadow: `0 8px 16px -4px ${team.color}40`
-        }}
-      >
-        #{rank.toString().padStart(2, '0')}
-      </div>
-      
-      <div className="flex items-center gap-4 flex-1">
+    <div className="card-premium team-card animate-in flex items-center p-6 mb-4">
+      {/* Left Metric Group: Rank + Points */}
+      <div className="flex flex-col items-center gap-3 mr-8 min-w-[70px] shrink-0">
         <div 
-          className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-premium border-4 border-white shrink-0"
-          style={{ backgroundColor: team.color || 'var(--primary-600)' }}
+          className="team-ranking-badge" 
+          style={{ 
+            background: rank <= 3 ? (rank === 1 ? '#FFD700' : rank === 2 ? '#C0C0C0' : '#CD7F32') : 'var(--slate-100)',
+            color: rank <= 3 ? 'white' : 'var(--slate-400)'
+          }}
         >
-          {team.logo ? (
-            <img src={team.logo} alt={team.name} className="w-full h-full object-cover rounded-xl" />
-          ) : (
-            team.name?.charAt(0)
-          )}
+          {rank}
         </div>
-        <div className="team-info">
-          <h3 className="team-name" style={{ fontSize: '1.25rem', fontWeight: 900, color: 'var(--slate-900)' }}>{team.name}</h3>
-          <div className="team-stats">
-            <Users size={16} />
-            <span>{team.membersCount || 0} {t('members_label')}</span>
+        <div className="text-center">
+          <div className="text-2xl font-black text-primary leading-none">
+            {team.total_score || team.score || 0}
+          </div>
+          <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mt-1">
+            {t('points')}
           </div>
         </div>
       </div>
+      
+      {/* Logo Section */}
+      <div className="logo-frame-container mr-6">
+        {team.logo ? (
+          <img 
+            src={team.logo.startsWith('http') || team.logo.startsWith('/') ? team.logo : `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/uploads/events/${team.logo}`} 
+            alt={team.name} 
+            className="w-full h-full object-cover" 
+          />
+        ) : (
+          <div className="logo-frame-dashed">
+            <span className="font-black text-lg">{team.name?.charAt(0)}</span>
+          </div>
+        )}
+      </div>
 
-      <div className="team-score-wrapper">
-        <div className="team-score">
-          {team.total_score || team.score || 0}
-        </div>
-        <p className="team-score-label">
-          {t('points')}
-        </p>
+      {/* Team Info Section */}
+      <div className="flex-1">
+         <h3 className="text-xl font-black text-slate-900 leading-tight mb-1">{team.name}</h3>
+         <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
+            <Users size={14} />
+            <span>{team.membersCount || 0} {t('members_label')}</span>
+         </div>
       </div>
     </div>
   );
