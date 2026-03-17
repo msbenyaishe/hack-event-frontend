@@ -49,11 +49,21 @@
     font-size: 2.5rem;
   }
   
-  .scoreboard-hero {
+  /* Scoreboard hero section */
+  .scoreboard-section {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
     margin-bottom: 2rem;
+  }
+
+  .unified-timer-container {
+    width: 100%;
+  }
+
+  /* Horizontal sidebar: avoid "slide" transforms */
+  .nav-item:hover {
+    transform: none;
   }
 
   .container-inner {
@@ -126,8 +136,8 @@
     border-right: none;
   }
   
-  table, .table {
-    min-width: 800px; /* Force minimum width to enable scrolling */
+  table, .table, .premium-table {
+    min-width: 720px; /* Enable horizontal scroll without breaking layout */
   }
   
   /* Timer Component Adjustments */

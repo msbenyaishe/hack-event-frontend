@@ -72,7 +72,7 @@ const Scoreboard = () => {
 
   return (
     <div className="layout-member">
-      <main className="container-inner" style={{paddingTop: '6rem', paddingBottom: '6rem'}}>
+      <main className="container-inner">
         <div className="scoreboard-section animate-in mb-16">
           {/* Left Column: Header Content */}
           <div className="scoreboard-hero-content">

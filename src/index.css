@@ -73,9 +73,10 @@ h1, h2, h3, h4, h5 {
   line-height: 1.2;
 }
 
-h1 { font-size: 3rem; }
-h2 { font-size: 2.25rem; }
-h3 { font-size: 1.5rem; }
+/* Fluid typography for better responsiveness */
+h1 { font-size: clamp(2rem, 3.2vw, 3rem); }
+h2 { font-size: clamp(1.5rem, 2.4vw, 2.25rem); }
+h3 { font-size: clamp(1.125rem, 1.6vw, 1.5rem); }
 
 /* Layout Containers */
 .layout-admin, .layout-leader, .layout-member {
@@ -92,13 +93,13 @@ h3 { font-size: 1.5rem; }
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 clamp(1rem, 2.5vw, 2rem);
 }
 
 .container-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 2rem;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 2.5vw, 2rem);
   width: 100%;
 }
 
@@ -364,7 +365,7 @@ h3 { font-size: 1.5rem; }
 }
 
 .hero-title {
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 4.2vw, 3.5rem);
   font-weight: 800;
   letter-spacing: -0.05em;
   margin-bottom: 0.5rem;
@@ -730,22 +731,73 @@ a {
 }
 
 @media (max-width: 768px) {
-  .scoreboard-hero {
-    padding: 2.5rem;
-    margin-bottom: 3rem;
+  .scoreboard-section { 
+    flex-direction: column;
+    text-align: center;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+  
+  .scoreboard-hero-content {
+    align-items: center;
+    text-align: center;
   }
   
   .hero-title {
     font-size: 2.5rem;
   }
+
+  .unified-timer-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    gap: 1.25rem;
+    align-items: center;
+  }
   
   .timer-box {
-    padding: 1rem 1.5rem;
-    gap: 1.5rem;
+    padding: 0;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
   }
   
   .timer-value {
     font-size: 2rem;
+  }
+
+  .countdown-timer-row {
+    gap: 1rem;
+  }
+
+  .countdown-block .val {
+    font-size: 1.75rem;
+  }
+
+  .countdown-premium {
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .timer-box {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .timer-divider {
+    width: 100%;
+    height: 1px;
+    margin: 0.5rem 0;
+  }
+
+  .countdown-timer-row {
+    gap: 0.75rem;
+  }
+
+  .countdown-block .val {
+    font-size: 1.5rem;
   }
 }
 
@@ -1175,7 +1227,8 @@ button {
   .hamburger { display: block; }
   .navbar-container { padding: 0 1rem; }
   .user-info { display: none; }
-  .scoreboard-hero { margin-bottom: 3rem; text-align: center; justify-content: center; }
+  .scoreboard-section { margin-bottom: 3rem; }
+  .scoreboard-hero-content { align-items: center; text-align: center; }
   .hero-title { font-size: 2.25rem; }
   .timer-container { width: 100%; padding: 1.5rem; }
   .auth-card { padding: 2rem; border-radius: 24px; }
@@ -1240,7 +1293,7 @@ button {
 
 /* Page Headers - Refined with compatibility fix */
 .page-title {
-  font-size: 2.5rem;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
   background: linear-gradient(90deg, var(--slate-900) 0%, var(--slate-600) 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -2956,4 +3009,281 @@ button {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
+}
+
+/* =========================================================================
+   MEMBER / LEADER PAGES + SIDEBAR POLISH
+   ========================================================================= */
+
+/* Missing utility classes used in member/leader JSX */
+.justify-end { justify-content: flex-end; }
+.p-8 { padding: 2rem; }
+.px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.w-14 { width: 3.5rem; }
+.h-14 { height: 3.5rem; }
+.opacity-50 { opacity: 0.5; }
+.cursor-wait { cursor: wait; }
+.font-semibold { font-weight: 600; }
+.hover\:underline:hover { text-decoration: underline; }
+.text-primary-600 { color: var(--primary-600); }
+
+/* Page header rhythm */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.page-title {
+  letter-spacing: -0.03em;
+}
+
+.page-subtitle {
+  margin-top: 0.5rem;
+  line-height: 1.7;
+}
+
+/* Card typography helpers used in public/leader pages */
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 900;
+  color: var(--slate-900);
+  letter-spacing: -0.02em;
+}
+
+.card-description {
+  font-size: 0.9375rem;
+  color: var(--slate-500);
+  line-height: 1.7;
+}
+
+/* Public workshops meta block */
+.workshop-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--slate-100);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--slate-600);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.meta-icon {
+  color: var(--slate-400);
+}
+
+/* Member list styling (leader pages) */
+.user-display-name {
+  font-weight: 900;
+  color: var(--slate-900);
+  letter-spacing: -0.015em;
+}
+
+.user-email {
+  color: var(--slate-500);
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Invite page */
+.invite-icon {
+  background: var(--primary-50);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--primary-100);
+  box-shadow: var(--shadow-soft);
+}
+
+.invite-form-container {
+  background: white;
+  border-radius: 28px;
+  border: 1px solid var(--slate-100);
+  box-shadow: var(--shadow-soft);
+  padding: 2.5rem;
+}
+
+/* Sidebar redesign (used by both admin + leader) */
+.sidebar {
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%) !important;
+  border-right: 1px solid var(--slate-100);
+  box-shadow: 8px 0 30px rgba(15, 23, 42, 0.04);
+  padding: 2rem 1.25rem;
+}
+
+.sidebar-header {
+  padding: 0 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.sidebar-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  color: var(--slate-400);
+}
+
+.sidebar-nav {
+  gap: 0.5rem;
+}
+
+.nav-item {
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.10), transparent 60%);
+  opacity: 0;
+  transition: var(--transition-fast);
+}
+
+.nav-item > * { position: relative; z-index: 1; }
+
+.nav-item-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 14px;
+  background: var(--slate-50);
+  border: 1px solid var(--slate-100);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--slate-500);
+  transition: var(--transition-fast);
+}
+
+.nav-item:hover {
+  background: var(--slate-50);
+  border-color: var(--slate-100);
+  transform: translateX(3px);
+}
+
+.nav-item:hover::before { opacity: 1; }
+
+.nav-item:hover .nav-item-icon {
+  color: var(--primary);
+  border-color: var(--primary-100);
+  background: var(--primary-50);
+}
+
+.nav-item-active {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.10) 0%, rgba(139, 92, 246, 0.02) 70%, transparent 100%) !important;
+  color: var(--primary-800) !important;
+  border-color: rgba(139, 92, 246, 0.18) !important;
+}
+
+.nav-item-active .nav-item-icon {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 10px 22px rgba(99, 102, 241, 0.22);
+}
+
+/* Make member pages feel less "floating" and more structured */
+.layout-member .container-inner {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+@media (max-width: 768px) {
+  .page-header { align-items: flex-start; }
+  .invite-form-container { padding: 1.75rem; }
+}
+
+/* =========================================================================
+   "CREATE YOUR TEAM" (Leader empty state) polish
+   ========================================================================= */
+
+/* Form sits directly on the empty-state card (no nested container) */
+.create-team-form {
+  margin-top: 1.25rem;
+}
+
+.create-team-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  padding: 0;
+}
+
+.create-team-field .form-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--slate-500);
+}
+
+.create-team-form .form-input {
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+}
+
+.create-team-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: end;
+}
+
+.create-team-file {
+  padding: 0.9rem 1rem;
+  background: white;
+}
+
+.create-team-file {
+  border-style: dashed;
+  border-color: var(--slate-200);
+  background: var(--slate-50);
+}
+
+.create-team-file:hover {
+  border-color: var(--primary-200);
+  background: white;
+}
+
+.create-team-file::file-selector-button {
+  margin-right: 0.75rem;
+  border: 1px solid var(--slate-200);
+  background: var(--slate-50);
+  color: var(--slate-700);
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.create-team-file::file-selector-button:hover {
+  border-color: var(--primary-200);
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+
+.create-team-submit {
+  border-radius: 16px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .create-team-row { grid-template-columns: 1fr; }
 }

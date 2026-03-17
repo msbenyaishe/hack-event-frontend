@@ -38,7 +38,7 @@ const Workshops = () => {
 
   return (
     <div className="layout-member">
-      <main className="container-inner" style={{paddingTop: '4rem', paddingBottom: '4rem'}}>
+      <main className="container-inner">
         <div className="page-header" style={{textAlign: 'center', alignItems: 'center'}}>
           <h1 className="page-title">{t('event_workshops')}</h1>
           <p className="page-subtitle" style={{maxWidth: '40rem'}}>

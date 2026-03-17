@@ -78,7 +78,7 @@ const MyTeam = () => {
   if (loading) return (
     <div className="max-w-4xl mx-auto px-4 py-20 flex flex-col items-center justify-center">
       <div className="w-12 h-12 border-4 border-indigo-100 border-t-primary-600 rounded-full animate-spin mb-4" />
-      <p className="text-slate-400 font-bold tracking-tight">{t('loading_team')}</p>
+      <p className="text-slate-400 font-bold tracking-tight">{t('loading_team') || 'Loading team details…'}</p>
     </div>
   );
 
@@ -91,8 +91,8 @@ const MyTeam = () => {
         
         {user?.role === 'leader' ? (
           <>
-            <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">{t('create_your_team')}</h2>
-            <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('leader_create_hint') || 'As a leader, you can create your team now.'}</p>
+            <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">{t('Create your team') || 'Create your team'}</h2>
+            <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('Leader create hint') || 'As a leader, you can create your team now.'}</p>
             
             <form onSubmit={async (e) => {
               e.preventDefault();
@@ -109,32 +109,41 @@ const MyTeam = () => {
               } finally {
                 setLoading(false);
               }
-            }} className="max-w-md mx-auto space-y-4 text-left p-6">
-              <div>
-                <label className="form-label">{t('team_name')}</label>
-                <input name="name" type="text" className="form-input" required placeholder={t('enter_team_name')} />
+            }} className="create-team-form max-w-lg mx-auto text-left">
+              <div className="create-team-grid">
+              <div className="create-team-field">
+                <label className="form-label">{t('team_name') || 'Team name'}</label>
+                <input
+                  name="name"
+                  type="text"
+                  className="form-input"
+                  required
+                  placeholder={t('enter_team_name') || 'Enter a team name'}
+                />
               </div>
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <label className="form-label">{t('color')}</label>
+              <div className="create-team-row">
+                <div className="create-team-field">
+                  <label className="form-label">{t('color') || 'Brand color'}</label>
                   <input name="color" type="color" className="w-full h-12 rounded-xl cursor-pointer" defaultValue="#4f46e5" />
                 </div>
-                <div className="flex-1">
-                  <label className="form-label">{t('logo')}</label>
-                  <input name="logo" type="file" className="form-input text-xs" accept="image/*" />
+                <div className="create-team-field">
+                  <label className="form-label">{t('logo') || 'Logo'}</label>
+                  <input name="logo" type="file" className="form-input text-xs create-team-file" accept="image/*" />
                 </div>
               </div>
-              <button type="submit" className="btn-indigo w-full py-4 mt-4">
-                {t('create_team')}
+              </div>
+
+              <button type="submit" className="btn-indigo w-full py-4 mt-4 create-team-submit">
+                {t('create_team') || 'Create team'}
               </button>
             </form>
           </>
         ) : (
           <>
-            <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">{t('you_dont_have_team')}</h2>
-            <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('create_one_hint')}</p>
+            <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">{t('you_dont_have_team') || "You don't have a team yet."}</h2>
+            <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('create_one_hint') || 'Join an event first to form your team.'}</p>
             <Link to="/workshops" className="btn-indigo px-8 inline-block">
-              {t('explore_events')}
+              {t('explore_events') || 'Explore events'}
             </Link>
           </>
         )}
@@ -155,7 +164,7 @@ const MyTeam = () => {
 
       <div className="page-header animate-in">
         <div style={{flex: 1}}>
-          <h1 className="page-title">{t('my_team')}</h1>
+          <h1 className="page-title">{t('my_team') || 'My team'}</h1>
           <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1.5rem', marginTop: '1.5rem'}}>
             <div 
               className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-black text-2xl shadow-premium border-4 border-white"
@@ -172,7 +181,7 @@ const MyTeam = () => {
             </span>
             <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'var(--slate-900)', color: 'white', padding: '0.75rem 1.25rem', borderRadius: '1rem'}}>
               <span style={{fontSize: '1.25rem', fontWeight: '900', fontFamily: 'monospace'}}>{team.score || 0}</span>
-              <span className="filter-label" style={{color: 'rgba(255,255,255,0.6)', marginBottom: 0}}>{t('points')}</span>
+              <span className="filter-label" style={{color: 'rgba(255,255,255,0.6)', marginBottom: 0}}>{t('points') || 'Points'}</span>
             </div>
           </div>
         </div>
@@ -184,7 +193,7 @@ const MyTeam = () => {
               style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', flex: '1 1 auto'}}
             >
               <Edit size={18} />
-              {t('edit_team')}
+              {t('edit_team') || 'Edit team'}
             </button>
           )}
           <Link 
@@ -193,7 +202,7 @@ const MyTeam = () => {
             style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', flex: '1 1 auto'}}
           >
             <Search size={18} />
-            {t('find_members')}
+            {t('find_members') || 'Find teammates'}
           </Link>
         </div>
       </div>
@@ -202,14 +211,14 @@ const MyTeam = () => {
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-[2rem] shadow-premium w-full max-w-lg overflow-hidden animate-in zoom-in duration-300">
             <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-              <h2 className="text-2xl font-black text-slate-900">{t('edit_team')}</h2>
+              <h2 className="text-2xl font-black text-slate-900">{t('edit_team') || 'Edit team'}</h2>
               <button onClick={() => setIsEditModalOpen(false)} className="text-slate-400 hover:text-slate-600">
                 ×
               </button>
             </div>
             <form onSubmit={handleUpdateTeam} className="p-8 space-y-6">
               <div className="form-group">
-                <label className="form-label">{t('team_name')}</label>
+                <label className="form-label">{t('team_name') || 'Team name'}</label>
                 <input 
                   type="text" 
                   className="form-input" 
@@ -219,7 +228,7 @@ const MyTeam = () => {
                 />
               </div>
               <div className="form-group">
-                <label className="form-label">{t('color')}</label>
+                <label className="form-label">{t('color') || 'Brand color'}</label>
                 <input 
                   type="color" 
                   className="w-full h-12 rounded-xl cursor-pointer" 
@@ -229,10 +238,10 @@ const MyTeam = () => {
               </div>
               <div className="pt-4 flex gap-4">
                 <button type="button" onClick={() => setIsEditModalOpen(false)} className="btn-secondary flex-1">
-                  {t('cancel')}
+                  {t('cancel') || 'Cancel'}
                 </button>
                 <button type="submit" className="btn-indigo flex-1">
-                  {t('save_changes')}
+                  {t('save_changes') || 'Save changes'}
                 </button>
               </div>
             </form>
@@ -243,8 +252,8 @@ const MyTeam = () => {
       <div className="data-table-container animate-in">
         <div className="modal-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '2rem', backgroundColor: 'var(--slate-50)'}}>
           <div>
-            <h2 className="card-title" style={{marginBottom: '0.25rem'}}>{t('team_members')}</h2>
-            <p className="filter-label" style={{marginBottom: 0}}>{t('core_contributors')} {team.name}</p>
+            <h2 className="card-title" style={{marginBottom: '0.25rem'}}>{t('team_members') || 'Team members'}</h2>
+            <p className="filter-label" style={{marginBottom: 0}}>{t('core_contributors') || 'Core contributors of'} {team.name}</p>
           </div>
           <div className="badge badge-indigo" style={{fontSize: '0.875rem', padding: '0.5rem 1rem'}}>
             {team.members?.length || 0} / 5
@@ -256,8 +265,8 @@ const MyTeam = () => {
             <div className="empty-icon">
               <UserPlus size={32} />
             </div>
-            <p className="empty-text">{t('no_members_added')}</p>
-            <p className="page-subtitle">{t('invite_colleagues')}</p>
+            <p className="empty-text">{t('no_members_added') || 'No members added yet.'}</p>
+            <p className="page-subtitle">{t('invite_colleagues') || 'Invite teammates to start building.'}</p>
           </div>
         ) : (
           <div className="divide-y">
@@ -275,7 +284,7 @@ const MyTeam = () => {
                     <div>
                       <h4 className="user-display-name" style={{fontSize: '1.25rem'}}>
                         {name}
-                        {isLeader && <span className="badge badge-indigo" style={{marginLeft: '0.75rem', fontSize: '0.625rem'}}>{t('leader')}</span>}
+                        {isLeader && <span className="badge badge-indigo" style={{marginLeft: '0.75rem', fontSize: '0.625rem'}}>{t('leader') || 'Leader'}</span>}
                       </h4>
                       <p className="user-email">{member.email}</p>
                     </div>
@@ -285,7 +294,7 @@ const MyTeam = () => {
                     <button 
                       onClick={() => handleRemoveMember(member.id)}
                       className="action-btn action-btn-danger"
-                      title={t('remove_member')}
+                      title={t('remove_member') || 'Remove member'}
                     >
                       <Trash2 size={20} />
                     </button>
