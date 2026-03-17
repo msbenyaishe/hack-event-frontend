@@ -6,7 +6,6 @@ import { eventsApi } from '../../api/eventsApi';
 import { teamsApi } from '../../api/teamsApi';
 import { workshopsApi } from '../../api/workshopsApi';
 import { useTranslation } from 'react-i18next';
-import { Users, BookOpen, Trophy } from 'lucide-react';
 import Countdown from '../../components/Countdown';
 
 const Scoreboard = () => {
@@ -74,29 +73,29 @@ const Scoreboard = () => {
   return (
     <div className="layout-member">
       <main className="container-inner" style={{paddingTop: '6rem', paddingBottom: '6rem'}}>
-        <div className="scoreboard-hero animate-in mb-12 flex flex-col items-center text-center">
-          <div className="max-w-3xl flex flex-col items-center">
+        <div className="scoreboard-section animate-in mb-16">
+          {/* Left Column: Header Content */}
+          <div className="scoreboard-hero-content">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-full text-xs font-black uppercase tracking-widest mb-6 border border-indigo-100 shadow-sm">
-               <Trophy size={14} />
                {t('live_event_hub') || 'Live Event Hub'}
             </div>
             <h1 className="hero-title mb-4 leading-tight">
-              {currentEvent ? currentEvent.name : t('live_scoreboard')}
+              {currentEvent ? currentEvent.name : t('live_scoreboard') || 'Live Scoreboard'}
             </h1>
-            <p className="text-slate-500 text-lg font-medium mb-12 max-w-xl">
+            <p className="text-slate-500 text-lg font-medium max-w-xl">
                {currentEvent?.description || 'Track real-time rankings, upcoming workshops, and event progress right here.'}
             </p>
-            
+          </div>
+
+          {/* Right Column: Unified Timers Stack */}
+          <div className="unified-timer-container">
+            <Timer />
             {currentEvent?.start_date && (
-              <div className="w-full transition-all hover:scale-[1.01] duration-300">
+              <div className="transition-all hover:scale-[1.01] duration-300">
                 <Countdown startDate={currentEvent.start_date} />
               </div>
             )}
           </div>
-        </div>
-
-        <div className="animate-in mb-24 flex justify-center" style={{animationDelay: '0.1s'}}>
-           <Timer />
         </div>
 
         {loading ? (
@@ -106,9 +105,6 @@ const Scoreboard = () => {
           </div>
         ) : teams.length === 0 ? (
           <div className="empty-state animate-in">
-            <div className="empty-icon">
-               <Users size={64} />
-            </div>
             <h3 className="mb-2">{t('no_teams_found')}</h3>
             <p className="text-slate-400 font-bold uppercase tracking-widest">{t('check_back_later')}</p>
           </div>
@@ -118,19 +114,12 @@ const Scoreboard = () => {
               
               {/* Left Column: Rankings */}
               <div className="lg:col-span-8">
-                <div className="section-header flex items-center justify-between mb-10">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-sm border border-indigo-100">
-                      <Trophy size={28} />
-                    </div>
-                    <div>
-                      <h2 className="text-3xl font-black text-slate-900 leading-none">{t('teams_ranking')}</h2>
-                      <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mt-2">{teams.length} {t('teams_registered') || 'Teams Ranked'}</p>
-                    </div>
-                  </div>
+                <div className="section-header mb-12">
+                   <h2 className="text-4xl font-black text-slate-900 tracking-tight">{t('teams_ranking') || 'Teams Ranking'}</h2>
+                   <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mt-3">{teams.length} {t('teams_registered') || 'Teams Registered'}</p>
                 </div>
                 
-                <div className="space-y-4">
+                <div className="divide-y divide-slate-100">
                   {teams.map((team, index) => (
                     <TeamCard key={team.id || index} team={team} rank={index + 1} />
                   ))}
@@ -139,14 +128,9 @@ const Scoreboard = () => {
 
               {/* Right Column: Workshops Side Widget */}
               <div className="lg:col-span-4">
-                <div className="section-header flex items-center gap-4 mb-10">
-                  <div className="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 shadow-sm border border-amber-100">
-                    <BookOpen size={28} />
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-black text-slate-900 leading-none">{t('event_workshops')}</h2>
-                    <p className="text-slate-400 text-sm font-bold uppercase tracking-widest mt-2">{t('upcoming_sessions') || 'Upcoming Sessions'}</p>
-                  </div>
+                <div className="section-header mb-12">
+                  <h2 className="text-4xl font-black text-slate-900 tracking-tight">{t('event_workshops') || 'Event Workshops'}</h2>
+                  <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mt-3">{t('upcoming_sessions') || 'Upcoming Sessions'}</p>
                 </div>
 
                 <div className="flex flex-col gap-8">

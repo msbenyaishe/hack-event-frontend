@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Calendar } from 'lucide-react';
 
 const Countdown = ({ startDate }) => {
   const { t } = useTranslation();
@@ -43,7 +42,6 @@ const Countdown = ({ startDate }) => {
     <div className={`countdown-premium ${isStarted ? 'started' : ''} animate-in`}>
       <div className="countdown-header-icon flex justify-between items-center w-full">
         <div className="flex items-center gap-2">
-          <Calendar size={18} className={isStarted ? 'text-success' : 'text-primary'} />
           <span className="font-black tracking-widest text-slate-400 uppercase text-[10px]">
             {isStarted ? t('event_in_progress') || 'Event in Progress' : t('time_until_start') || 'Time Until Start'}
           </span>
