@@ -25,7 +25,7 @@ const Sidebar = ({ role }) => {
 
   const leaderLinks = [
     { to: '/leader/team', icon: <Users size={20} />, label: t('my_team') },
-    { to: '/leader/invite', icon: <UserPlus size={20} />, label: t('invite_members') },
+    { to: '/leader/select-members', icon: <UserPlus size={20} />, label: t('find_members') || 'Find Members' },
   ];
 
   const links = role === 'admin' ? adminLinks : leaderLinks;

@@ -53,11 +53,11 @@ const Workshops = () => {
           </div>
         ) : workshops.length === 0 ? (
           <div className="empty-state">
-            <h3 className="card-title">No Workshops Scheduled</h3>
-            <p className="page-subtitle">There are no upcoming workshops for the current event.</p>
+            <h3 className="card-title">{t('no_workshops_scheduled')}</h3>
+            <p className="page-subtitle">{t('no_workshops_subtitle')}</p>
           </div>
         ) : (
-          <div className="workshops-public-grid">
+          <div className="grid-cards">
             {workshops.map(workshop => (
               <div key={workshop._id} className="public-workshop-card animate-in">
                 <h3 className="card-title" style={{marginBottom: '1rem'}}>{workshop.title}</h3>

@@ -42,7 +42,7 @@ const Members = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    if (window.confirm("Delete this user?")) {
+    if (userId && window.confirm(t('confirm_delete') || "Delete this user?")) {
       try {
         await adminApi.deleteMember(userId);
         fetchMembers();
@@ -59,11 +59,11 @@ const Members = () => {
       setInviteError(null);
       setInviteMessage(null);
       await invitesApi.createLeaderInvite({ email: inviteEmail });
-      setInviteMessage(`Leader invitation sent to ${inviteEmail}`);
+      setInviteMessage(`${t('invitation_sent_to') || 'Leader invitation sent to'} ${inviteEmail}`);
       setInviteEmail('');
     } catch (err) {
       console.error(err);
-      setInviteError(err.response?.data?.message || 'Failed to send invite');
+      setInviteError(err.response?.data?.message || t('failed_to_send_invite') || 'Failed to send invite');
     } finally {
       setInviteLoading(false);
     }
@@ -84,8 +84,8 @@ const Members = () => {
             <Shield size={24} />
           </div>
           <div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--slate-900)' }}>Invite Platform Leader</h3>
-            <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>Grant administrative access to new organizers</p>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--slate-900)' }}>{t('invite_platform_leader')}</h3>
+            <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>{t('grant_admin_access')}</p>
           </div>
         </div>
         
@@ -100,8 +100,8 @@ const Members = () => {
           </div>
         )}
 
-        <form onSubmit={handleInviteLeader} className="flex gap-4">
-          <div className="search-input-wrapper" style={{ flex: 1, maxWidth: 'none' }}>
+        <form onSubmit={handleInviteLeader} style={{display: 'flex', flexWrap: 'wrap', gap: '1rem'}}>
+          <div className="search-input-wrapper" style={{ flex: '1 1 300px', maxWidth: 'none' }}>
             <div className="search-icon-pos">
               <Mail size={18} />
             </div>
@@ -118,7 +118,7 @@ const Members = () => {
             type="submit" 
             disabled={inviteLoading}
             className="btn-admin"
-            style={{ padding: '0 2rem' }}
+            style={{ padding: '0 2rem', flex: '1 1 auto', minWidth: '150px' }}
           >
             <Send size={18} />
             {inviteLoading ? t('sending') : t('send_invite')}
@@ -131,6 +131,13 @@ const Members = () => {
           <div className="p-12 text-center">
             <div className="w-12 h-12 border-4 border-indigo-100 border-t-primary-600 rounded-full animate-spin mb-4 mx-auto" />
             <p className="text-slate-400 font-medium">{t('fetching_members')}</p>
+          </div>
+        ) : members.length === 0 ? (
+          <div className="empty-state p-12">
+            <div className="empty-icon">
+              <User size={40} />
+            </div>
+            <p className="empty-text">{t('no_members_found') || 'No members found'}</p>
           </div>
         ) : (
           <div className="premium-table-wrapper">
@@ -157,8 +164,20 @@ const Members = () => {
                           {member.role === 'admin' ? <Shield size={20} /> : <User size={20} />}
                         </div>
                         <div>
-                          <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{member.name || 'Unnamed Participant'}</div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{member.name || t('unnamed_participant')}</div>
+                            {member.role === 'leader' && (
+                              <div className="badge-premium badge-success" style={{ fontSize: '0.625rem', padding: '0.25rem 0.5rem' }}>
+                                {t('leader').toUpperCase()}
+                              </div>
+                            )}
+                          </div>
                           <div style={{ fontSize: '0.8125rem', color: 'var(--slate-400)' }}>{member.email}</div>
+                          {member.team_id && (
+                             <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600, marginTop: '2px' }}>
+                               {t('team_id_label')}: {member.team_id}
+                             </div>
+                          )}
                         </div>
                       </div>
                     </td>
@@ -177,9 +196,9 @@ const Members = () => {
                           color: member.role === 'admin' ? '#DC2626' : member.role === 'leader' ? '#2563EB' : '#64748B'
                         }}
                       >
-                        <option value="member">Member</option>
-                        <option value="leader">Leader</option>
-                        <option value="admin">Admin</option>
+                        <option value="member">{t('member')}</option>
+                        <option value="leader">{t('leader')}</option>
+                        {member.role === 'admin' && <option value="admin">{t('admin')}</option>}
                       </select>
                     </td>
                     <td style={{textAlign: 'right'}}>
@@ -187,7 +206,7 @@ const Members = () => {
                         <button 
                           onClick={() => handleDeleteUser(member.id)}
                           className="btn-action-premium danger"
-                          title="Delete Member"
+                          title={t('delete_member')}
                           style={member.role === 'admin' ? {opacity: 0.2, cursor: 'not-allowed'} : {}}
                           disabled={member.role === 'admin'} 
                         >
@@ -205,6 +224,5 @@ const Members = () => {
     </div>
   );
 };
-
 
 export default Members;

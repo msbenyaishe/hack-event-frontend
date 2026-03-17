@@ -72,7 +72,7 @@ const Scoreboard = () => {
         {loading ? (
           <div className="empty-state">
              <div className="skeleton" style={{width: '60px', height: '60px', borderRadius: '50%', margin: '0 auto 2rem'}} />
-             <p className="empty-text">{t('syncing_scores') || 'Syncing Live Scores'}</p>
+             <p className="empty-text">{t('syncing_scores')}</p>
           </div>
         ) : teams.length === 0 ? (
           <div className="empty-state animate-in">

@@ -13,6 +13,7 @@ import PublicWorkshops from './pages/public/Workshops';
 // Auth Pages
 import AdminLogin from './pages/auth/AdminLogin';
 import MemberLogin from './pages/auth/MemberLogin';
+import MemberRegister from './pages/auth/MemberRegister';
 
 // Admin Pages
 import Events from './pages/admin/Events';
@@ -24,7 +25,7 @@ import TimerControl from './pages/admin/TimerControl';
 
 // Leader Pages
 import MyTeam from './pages/leader/MyTeam';
-import InviteMembers from './pages/leader/InviteMembers';
+import SelectMembers from './pages/leader/SelectMembers';
 
 // Components
 import Navbar from './components/Navbar';
@@ -69,6 +70,7 @@ function App() {
         <Routes>
           {/* Auth Routes */}
           <Route path="/login" element={<MemberLogin />} />
+          <Route path="/register" element={<MemberRegister />} />
           <Route path="/admin/login" element={<AdminLogin />} />
 
           {/* Public Routes */}
@@ -97,7 +99,7 @@ function App() {
             </ProtectedRoute>
           }>
             <Route path="team" element={<MyTeam />} />
-            <Route path="invite" element={<InviteMembers />} />
+            <Route path="select-members" element={<SelectMembers />} />
           </Route>
 
           {/* Fallback */}

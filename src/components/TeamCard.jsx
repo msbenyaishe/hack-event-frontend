@@ -1,7 +1,9 @@
-import React from 'react';
 import { Trophy, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const TeamCard = ({ team, rank }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="card-premium team-card animate-in">
       <div className="team-rank">
@@ -12,7 +14,7 @@ const TeamCard = ({ team, rank }) => {
         <h3 className="team-name">{team.name}</h3>
         <div className="team-stats">
           <Users size={16} />
-          <span>{team.membersCount || 0} Members</span>
+          <span>{team.membersCount || 0} {t('members_label')}</span>
         </div>
       </div>
 
@@ -21,7 +23,7 @@ const TeamCard = ({ team, rank }) => {
           {team.total_score || team.score || 0}
         </div>
         <p className="team-score-label">
-          Points
+          {t('points')}
         </p>
       </div>
     </div>

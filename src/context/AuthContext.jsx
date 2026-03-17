@@ -48,6 +48,11 @@ export const AuthProvider = ({ children }) => {
     return res.data;
   };
 
+  const registerMember = async (data) => {
+    const res = await authApi.memberRegister(data);
+    return res.data;
+  };
+
   const logout = async () => {
     try {
       if (user?.role === 'admin') {
@@ -64,7 +69,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, loginAdmin, loginMember, logout, fetchMe }}>
+    <AuthContext.Provider value={{ user, loading, loginAdmin, loginMember, registerMember, logout, fetchMe }}>
       {children}
     </AuthContext.Provider>
   );

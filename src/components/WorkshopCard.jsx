@@ -10,7 +10,7 @@ const WorkshopCard = ({ workshop, isAdmin = false, onEdit, onDelete }) => {
       <div className="workshop-content">
         <div className="workshop-tags">
           <span className="tag tag-indigo">
-            {workshop.technology || 'General'}
+            {workshop.technology || t('general_tech')}
           </span>
           {workshop.duration && (
             <span className="tag tag-slate">
@@ -23,13 +23,13 @@ const WorkshopCard = ({ workshop, isAdmin = false, onEdit, onDelete }) => {
         </h3>
         {workshop.responsible_admin_name && (
           <p className="workshop-admin" style={{fontSize: '0.8rem', color: 'var(--slate-500)', marginTop: '0.25rem'}}>
-            By: {workshop.responsible_admin_name}
+            {t('by_label')}: {workshop.responsible_admin_name}
           </p>
         )}
       </div>
 
       <p className="card-description">
-        {workshop.description || 'Join this session to learn and grow with other participants.'}
+        {workshop.description || t('join_to_learn')}
       </p>
 
       <div className="card-meta">
@@ -43,7 +43,7 @@ const WorkshopCard = ({ workshop, isAdmin = false, onEdit, onDelete }) => {
           <div className="icon-wrapper bg-slate-soft">
             <MapPin size={14} />
           </div>
-          <span>{workshop.location || 'Main Stage / Online'}</span>
+          <span>{workshop.location || t('location')}</span>
         </div>
       </div>
 

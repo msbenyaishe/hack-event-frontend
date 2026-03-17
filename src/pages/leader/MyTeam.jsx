@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { teamsApi } from '../../api/teamsApi';
+import api from '../../api/axios';
 import { useAuth } from '../../hooks/useAuth';
-import { Trash2, UserPlus } from 'lucide-react';
+import { Trash2, Edit, Search, UserPlus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -10,18 +11,36 @@ const MyTeam = () => {
   const { user } = useAuth();
   const [team, setTeam] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editData, setEditData] = useState({ name: '', color: '' });
+  const [refresh, setRefresh] = useState(0);
+
+  const handleUpdateTeam = async (e) => {
+    e.preventDefault();
+    try {
+      await teamsApi.update(team.id, editData);
+      setIsEditModalOpen(false);
+      setRefresh(prev => prev + 1);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to update team');
+    }
+  };
 
   useEffect(() => {
     const fetchMyTeam = async () => {
       try {
-        const res = await teamsApi.getAll();
-        const myTeam = res.data.find(t => 
-          t.leader === user.id || t.members.some(m => m.user?._id === user.id || m.user === user.id)
-        );
+        setLoading(true);
+        // Find the team where this user is the leader or a member.
+        const authRes = await api.get('/auth/me'); // Safe endpoint for all logged-in members
         
-        if (myTeam) {
-           const teamRes = await teamsApi.getById(myTeam._id);
-           setTeam(teamRes.data);
+        const myTeamId = authRes.data.user?.team_id || authRes.data.team_id;
+        
+        if (myTeamId) {
+           const teamRes = await teamsApi.getById(myTeamId);
+           const membersRes = await teamsApi.getTeamMembers(myTeamId);
+           setTeam({ ...teamRes.data, members: membersRes.data });
+           setEditData({ name: teamRes.data.name, color: teamRes.data.color || '#4f46e5' });
         }
       } catch (err) {
         console.error(err);
@@ -33,14 +52,14 @@ const MyTeam = () => {
     if (user) {
       fetchMyTeam();
     }
-  }, [user]);
+  }, [user, refresh]);
 
   const handleRemoveMember = async (memberId) => {
     if (window.confirm(t('remove_member') + '?')) {
       try {
-        await teamsApi.removeMember(team._id, memberId);
-        const res = await teamsApi.getById(team._id);
-        setTeam(res.data);
+        await teamsApi.removeMember(team.id, memberId);
+        const membersRes = await teamsApi.getTeamMembers(team.id);
+        setTeam(prev => ({ ...prev, members: membersRes.data }));
       } catch (err) {
         console.error(err);
       }
@@ -61,9 +80,9 @@ const MyTeam = () => {
           <UserPlus size={40} className="text-slate-200" />
         </div>
         <h2 className="text-4xl font-black text-slate-900 tracking-tight mb-3">{t('you_dont_have_team')}</h2>
-        <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('create_one_hint') || 'Join a hackathon event first to form your dream team'}</p>
-        <Link to="/public/workshops" className="btn-indigo px-8 inline-block">
-          {t('explore_events') || 'Explore Events'}
+        <p className="text-slate-400 font-medium mb-8 max-w-sm mx-auto">{t('create_one_hint')}</p>
+        <Link to="/workshops" className="btn-indigo px-8 inline-block">
+          {t('explore_events')}
         </Link>
       </div>
     </div>
@@ -84,21 +103,75 @@ const MyTeam = () => {
             </div>
           </div>
         </div>
-        <Link 
-          to="/leader/invite"
-          className="btn-indigo"
-          style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}
-        >
-          <UserPlus size={18} />
-          {t('invite_members')}
-        </Link>
+        <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '1rem'}}>
+          {user?.role === 'leader' && (
+            <button 
+              onClick={() => setIsEditModalOpen(true)}
+              className="btn btn-secondary"
+              style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', flex: '1 1 auto'}}
+            >
+              <Edit size={18} />
+              {t('edit_team')}
+            </button>
+          )}
+          <Link 
+            to="/leader/select-members"
+            className="btn-indigo"
+            style={{display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', flex: '1 1 auto'}}
+          >
+            <Search size={18} />
+            {t('find_members')}
+          </Link>
+        </div>
       </div>
+
+      {isEditModalOpen && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-[2rem] shadow-premium w-full max-w-lg overflow-hidden animate-in zoom-in duration-300">
+            <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <h2 className="text-2xl font-black text-slate-900">{t('edit_team')}</h2>
+              <button onClick={() => setIsEditModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                ×
+              </button>
+            </div>
+            <form onSubmit={handleUpdateTeam} className="p-8 space-y-6">
+              <div className="form-group">
+                <label className="form-label">{t('team_name')}</label>
+                <input 
+                  type="text" 
+                  className="form-input" 
+                  value={editData.name}
+                  onChange={(e) => setEditData({...editData, name: e.target.value})}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">{t('color')}</label>
+                <input 
+                  type="color" 
+                  className="w-full h-12 rounded-xl cursor-pointer" 
+                  value={editData.color}
+                  onChange={(e) => setEditData({...editData, color: e.target.value})}
+                />
+              </div>
+              <div className="pt-4 flex gap-4">
+                <button type="button" onClick={() => setIsEditModalOpen(false)} className="btn-secondary flex-1">
+                  {t('cancel')}
+                </button>
+                <button type="submit" className="btn-indigo flex-1">
+                  {t('save_changes')}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <div className="data-table-container animate-in">
         <div className="modal-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '2rem', backgroundColor: 'var(--slate-50)'}}>
           <div>
             <h2 className="card-title" style={{marginBottom: '0.25rem'}}>{t('team_members')}</h2>
-            <p className="filter-label" style={{marginBottom: 0}}>Core contributors of {team.name}</p>
+            <p className="filter-label" style={{marginBottom: 0}}>{t('core_contributors')} {team.name}</p>
           </div>
           <div className="badge badge-indigo" style={{fontSize: '0.875rem', padding: '0.5rem 1rem'}}>
             {team.members?.length || 0} / 5
@@ -110,19 +183,18 @@ const MyTeam = () => {
             <div className="empty-icon">
               <UserPlus size={32} />
             </div>
-            <p className="empty-text">No members added yet.</p>
-            <p className="page-subtitle">Invite some colleagues to start building!</p>
+            <p className="empty-text">{t('no_members_added')}</p>
+            <p className="page-subtitle">{t('invite_colleagues')}</p>
           </div>
         ) : (
           <div className="divide-y">
             {team.members?.map(member => {
-              const userInfo = member.user || {};
-              const name = userInfo.name || userInfo.email || 'Unknown User';
+              const name = member.name || `${member.first_name} ${member.last_name}` || member.email || t('unnamed_participant');
               const role = member.role || 'member';
               const isLeader = role === 'leader';
               
               return (
-                <div key={member._id} className="member-item hover-bg" style={{padding: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <div key={member.id} className="member-item hover-bg" style={{padding: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                   <div style={{display: 'flex', alignItems: 'center', gap: '1.5rem'}}>
                     <div className={`user-avatar-box ${isLeader ? 'avatar-leader' : 'avatar-member'}`} style={{width: '3.5rem', height: '3.5rem', fontSize: '1.25rem', fontWeight: '900'}}>
                       {name.charAt(0)}
@@ -130,15 +202,15 @@ const MyTeam = () => {
                     <div>
                       <h4 className="user-display-name" style={{fontSize: '1.25rem'}}>
                         {name}
-                        {isLeader && <span className="badge badge-indigo" style={{marginLeft: '0.75rem', fontSize: '0.625rem'}}>Leader</span>}
+                        {isLeader && <span className="badge badge-indigo" style={{marginLeft: '0.75rem', fontSize: '0.625rem'}}>{t('leader')}</span>}
                       </h4>
-                      <p className="user-email">{userInfo.email}</p>
+                      <p className="user-email">{member.email}</p>
                     </div>
                   </div>
                   
                   {!isLeader && (
                     <button 
-                      onClick={() => handleRemoveMember(userInfo._id || userInfo)}
+                      onClick={() => handleRemoveMember(member.id)}
                       className="action-btn action-btn-danger"
                       title={t('remove_member')}
                     >

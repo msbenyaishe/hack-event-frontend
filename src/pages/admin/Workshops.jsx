@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Trash2, Plus, MonitorPlay } from 'lucide-react';
+import { Trash2, Plus, MonitorPlay, Edit } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import WorkshopCard from '../../components/WorkshopCard';
 import { workshopsApi } from '../../api/workshopsApi';
@@ -56,7 +56,7 @@ const AdminWorkshops = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this workshop?')) {
+    if (window.confirm(t('confirm_delete_workshop') || 'Delete this workshop?')) {
       try {
         await workshopsApi.delete(id);
         handleEventChange(formData.event_id);
@@ -108,18 +108,18 @@ const AdminWorkshops = () => {
 
   return (
     <div className="admin-page-container">
-      <div className="admin-toolbar">
-        <div>
+      <div className="admin-toolbar" style={{ flexWrap: 'wrap', gap: '1.5rem' }}>
+        <div style={{ minWidth: '200px' }}>
           <h1 className="page-title">{t('workshops_management')}</h1>
           <p className="page-subtitle">{t('plan_sessions')}</p>
         </div>
         
-        <div className="flex gap-4 items-center">
-          <div className="search-input-wrapper">
+        <div className="admin-toolbar-actions" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', flex: '1', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <div className="search-input-wrapper" style={{ flex: '1', minWidth: '200px', maxWidth: '300px' }}>
              <div className="search-icon-pos"><MonitorPlay size={18} /></div>
              <select 
                className="search-input"
-               style={{ paddingLeft: '3rem', width: '250px' }}
+               style={{ paddingLeft: '3rem', width: '100%' }}
                value={formData.event_id}
                onChange={(e) => handleEventChange(e.target.value)}
              >
@@ -129,7 +129,7 @@ const AdminWorkshops = () => {
           <button 
             onClick={() => showForm ? setShowForm(false) : openCreateForm()}
             className="btn-admin"
-            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: '160px', justifyContent: 'center' }}
           >
             {showForm ? <Plus size={20} style={{transform: 'rotate(45deg)'}} /> : <Plus size={20} />}
             {showForm ? t('cancel') : t('add_workshop')}
@@ -141,7 +141,7 @@ const AdminWorkshops = () => {
         <div className="form-card-premium animate-in mb-12" style={{maxWidth: '1000px', margin: '0 auto 3rem'}}>
           <h3 style={{fontSize: '1.5rem', fontWeight: 800, marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem'}}>
             <div className="btn-action-premium active" style={{width: '2.5rem', height: '2.5rem', borderRadius: '10px'}}><Plus size={18} /></div>
-            {isEditing ? 'Edit Workshop' : t('add_workshop')}
+            {isEditing ? t('edit_workshop') || 'Edit Workshop' : t('add_workshop')}
           </h3>
           <form onSubmit={handleSubmit}>
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem'}}>
@@ -204,10 +204,10 @@ const AdminWorkshops = () => {
             <table className="premium-table">
               <thead>
                 <tr>
-                  <th>Workshop Details</th>
-                  <th>Technology</th>
-                  <th>Schedule</th>
-                  <th style={{textAlign: 'right'}}>Actions</th>
+                  <th>{t('workshop_details') || 'Workshop Details'}</th>
+                  <th>{t('technology')}</th>
+                  <th>{t('schedule') || 'Schedule'}</th>
+                  <th style={{textAlign: 'right'}}>{t('actions') || 'Actions'}</th>
                 </tr>
               </thead>
               <tbody>
@@ -231,12 +231,14 @@ const AdminWorkshops = () => {
                         <button 
                           onClick={() => openEditForm(workshop)}
                           className="btn-action-premium"
+                          title={t('edit_workshop')}
                         >
                           <Edit size={16} />
                         </button>
                         <button 
                           onClick={() => handleDelete(workshop.id)}
                           className="btn-action-premium danger"
+                          title={t('delete_workshop') || 'Delete'}
                         >
                           <Trash2 size={16} />
                         </button>
@@ -252,6 +254,5 @@ const AdminWorkshops = () => {
     </div>
   );
 };
-
 
 export default AdminWorkshops;

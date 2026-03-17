@@ -39,10 +39,10 @@ const Navbar = () => {
           </div>
 
           <div className="navbar-actions-desktop">
-            <Link to="/scoreboard" className="nav-link-desktop">Home</Link>
+            <Link to="/scoreboard" className="nav-link-desktop">{t('home')}</Link>
             {user && (user.role === 'admin' || user.role === 'leader') && (
               <Link to={user.role === 'admin' ? "/admin" : "/leader/team"} className="nav-link-desktop">
-                Dashboard
+                {t('dashboard')}
               </Link>
             )}
 
@@ -50,7 +50,7 @@ const Navbar = () => {
               <div className="user-profile">
                 <div className="user-info">
                   <div className="user-name">{user.email?.split('@')[0] || 'User'}</div>
-                  <div className="user-role">{user.role}</div>
+                  <div className="user-role">{t(user.role) || user.role}</div>
                 </div>
                 <button 
                   onClick={handleLogout}
@@ -63,6 +63,7 @@ const Navbar = () => {
             ) : (
               <div className="auth-actions">
                 <Link to="/login" className="login-link">{t('member_login')}</Link>
+                <Link to="/register" className="login-link">{t('register') || 'Register'}</Link>
                 <Link to="/admin/login" className="btn-admin">{t('admin_access')}</Link>
               </div>
             )}
@@ -98,7 +99,7 @@ const Navbar = () => {
         <div className="mobile-menu-content">
           <Link to="/scoreboard" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
             <Home size={20} />
-            <span>Home</span>
+            <span>{t('home')}</span>
           </Link>
 
           {user && (user.role === 'admin' || user.role === 'leader') && (
@@ -108,7 +109,7 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               <LayoutDashboard size={20} />
-              <span>Dashboard</span>
+              <span>{t('dashboard')}</span>
             </Link>
           )}
           
@@ -117,15 +118,18 @@ const Navbar = () => {
               <Link to="/login" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
                 <span>{t('member_login')}</span>
               </Link>
+              <Link to="/register" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
+                <span>{t('register') || 'Register'}</span>
+              </Link>
               <Link to="/admin/login" className="mobile-btn-admin" onClick={() => setIsMenuOpen(false)}>
                 <span>{t('admin_access')}</span>
               </Link>
             </>
           ) : (
             <>
-              <div className="mobile-user-info">
+               <div className="mobile-user-info">
                 <span className="user-name">{user.email}</span>
-                <span className="user-role">{user.role}</span>
+                <span className="user-role">{t(user.role) || user.role}</span>
               </div>
               <button onClick={handleLogout} className="mobile-nav-item logout">
                 <LogOut size={20} />

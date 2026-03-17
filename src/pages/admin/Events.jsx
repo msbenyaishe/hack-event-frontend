@@ -101,11 +101,11 @@ const Events = () => {
             <table className="premium-table">
               <thead>
                 <tr>
-                  <th>Event Name</th>
-                  <th>Location</th>
-                  <th>Start Date</th>
-                  <th>End Date</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
+                  <th>{t('event_name')}</th>
+                  <th>{t('location')}</th>
+                  <th>{t('start_date')}</th>
+                  <th>{t('end_date')}</th>
+                  <th style={{ textAlign: 'right' }}>{t('actions')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -152,8 +152,8 @@ const Events = () => {
           <div className="modal-content-premium modal-content animate-in" style={{ maxWidth: '600px' }}>
             <div className="modal-header">
               <div className="modal-header-info">
-                <h3>Edit Event</h3>
-                <p>Refine hackathon details</p>
+                <h3>{t('edit_event')}</h3>
+                <p>{t('refine_hackathon_details')}</p>
               </div>
               <button 
                 onClick={() => setEditingEvent(null)} 
@@ -173,13 +173,13 @@ const Events = () => {
                 <textarea rows="3" className="input-premium" style={{ resize: 'none' }}
                   value={editFormData.description} onChange={e => setEditFormData({...editFormData, description: e.target.value})} />
               </div>
-              <div className="flex gap-4 mb-6">
-                <div className="form-group flex-1">
+              <div style={{display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem'}}>
+                <div className="form-group flex-1" style={{minWidth: '200px'}}>
                   <label className="label-premium">{t('start_time')}</label>
                   <input required type="datetime-local" className="input-premium"
                     value={editFormData.start_date} onChange={e => setEditFormData({...editFormData, start_date: e.target.value})} />
                 </div>
-                <div className="form-group flex-1">
+                <div className="form-group flex-1" style={{minWidth: '200px'}}>
                   <label className="label-premium">{t('end_time')}</label>
                   <input required type="datetime-local" className="input-premium"
                     value={editFormData.end_date} onChange={e => setEditFormData({...editFormData, end_date: e.target.value})} />

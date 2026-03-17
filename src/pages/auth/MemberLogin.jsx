@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Navbar from '../../components/Navbar';
@@ -36,7 +36,7 @@ const MemberLogin = () => {
               <User size={32} />
             </div>
             <h2 className="auth-title">{t('member_login')}</h2>
-            <p className="auth-subtitle">Participant Access</p>
+            <p className="auth-subtitle">{t('participant_access')}</p>
           </div>
           
           {error && (
@@ -76,7 +76,10 @@ const MemberLogin = () => {
 
           <div className="auth-footer">
             <p className="auth-footer-text">
-              Problem accessing your account? Check with your team leader or the admin desk.
+              {t('dont_have_account')} <Link to="/register" className="text-indigo-600 font-bold">{t('register_here')}</Link>
+            </p>
+            <p className="auth-footer-text mt-2">
+              {t('access_problem')}
             </p>
           </div>
         </div>

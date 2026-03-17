@@ -34,7 +34,7 @@ const AdminLogin = () => {
               <Lock size={32} />
             </div>
             <h2 className="auth-title">{t('admin_access')}</h2>
-            <p className="auth-subtitle">Master Dashboard</p>
+            <p className="auth-subtitle">{t('master_dashboard')}</p>
           </div>
           
           {error && (

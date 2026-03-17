@@ -38,7 +38,7 @@ const CreateEvent = () => {
       <div className="admin-toolbar animate-in">
         <div>
           <h1 className="page-title">{t('create_new_event')}</h1>
-          <p className="page-subtitle">Set up a new hackathon, configure dates and capacity.</p>
+          <p className="page-subtitle">{t('create_event_subtitle')}</p>
         </div>
       </div>
 
@@ -115,7 +115,7 @@ const CreateEvent = () => {
               <Users size={24} className="text-primary" />
               {t('capacity_settings') || 'Team Capacity'}
             </h3>
-            <div className="grid grid-cols-2 gap-6">
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem'}}>
               <div className="form-group">
                 <label className="label-premium">{t('max_leaders') || 'Max Teams (Leaders)'}</label>
                 <input 
@@ -139,7 +139,7 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-4 mt-12 pt-8" style={{borderTop: '1px solid var(--slate-100)'}}>
+          <div style={{display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--slate-100)'}}>
             <button 
               type="button"
               onClick={() => navigate('/admin')}
@@ -154,7 +154,7 @@ const CreateEvent = () => {
               className="btn-admin"
               style={{minWidth: '200px'}}
             >
-              {loading ? '...' : t('create_event_btn') || 'Confirm & Launch'}
+              {loading ? '...' : t('confirm_launch')}
             </button>
           </div>
         </form>

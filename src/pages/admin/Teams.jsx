@@ -51,7 +51,7 @@ const Teams = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this team?')) {
+    if (window.confirm(t('confirm_delete') || 'Delete this team?')) {
       try {
         await teamsApi.delete(id);
         fetchTeams(selectedEventId);
@@ -100,18 +100,18 @@ const Teams = () => {
 
   return (
     <div className="admin-page-container">
-      <div className="admin-toolbar">
-        <div>
+      <div className="admin-toolbar" style={{display: 'flex', flexWrap: 'wrap', gap: '1rem'}}>
+        <div style={{ flex: '1 1 300px' }}>
           <h1 className="page-title">{t('teams_management')}</h1>
           <p className="page-subtitle">{t('monitor_teams')}</p>
         </div>
         
-        <div className="flex gap-4 items-center">
-          <div className="search-input-wrapper">
+        <div className="flex gap-4 items-center" style={{ flex: '1 1 auto' }}>
+          <div className="search-input-wrapper" style={{ width: '100%' }}>
              <div className="search-icon-pos"><Users size={18} /></div>
              <select 
                className="search-input"
-               style={{ paddingLeft: '3rem', width: '250px' }}
+               style={{ paddingLeft: '3rem', width: '100%' }}
                value={selectedEventId}
                onChange={(e) => setSelectedEventId(e.target.value)}
              >
@@ -152,6 +152,7 @@ const Teams = () => {
                           onClick={() => handleEditTeamDetails(team)} 
                           className="btn-action-premium" 
                           style={{width: '1.5rem', height: '1.5rem'}}
+                          title={t('edit_team')}
                         >
                           <Edit size={12} />
                         </button>
@@ -211,14 +212,14 @@ const Teams = () => {
                           onClick={() => handleUpdateScore(team.id, team)}
                           className={`btn-action-premium ${editingScore === team.id ? 'active' : ''}`}
                           style={editingScore === team.id ? { background: 'var(--primary)', color: 'white' } : {}}
-                          title={editingScore === team.id ? "Save" : "Edit Scores"}
+                          title={editingScore === team.id ? t('save') || "Save" : t('edit_scores') || "Edit Scores"}
                         >
                           <Edit2 size={16} />
                         </button>
                         <button 
                           onClick={() => handleDelete(team.id)}
                           className="btn-action-premium danger"
-                          title="Delete Team"
+                          title={t('delete_team') || "Delete Team"}
                         >
                           <Trash2 size={16} />
                         </button>
@@ -249,8 +250,8 @@ const Teams = () => {
           <div className="modal-content modal-content-premium animate-in" style={{maxWidth: '450px'}}>
             <div className="modal-header">
               <div className="modal-header-info">
-                <h3>Edit Team</h3>
-                <p>Update team identifiers</p>
+                <h3>{t('edit_team')}</h3>
+                <p>{t('update_team_identifiers') || 'Update team identifiers'}</p>
               </div>
               <button 
                 onClick={() => setEditingTeam(null)} 
@@ -261,7 +262,7 @@ const Teams = () => {
             </div>
             <form onSubmit={submitEditTeam} className="modal-body p-8">
               <div className="form-group mb-8">
-                <label className="label-premium">Team Name</label>
+                <label className="label-premium">{t('team_name')}</label>
                 <input required type="text" className="input-premium"
                   value={editFormData.name} onChange={e => setEditFormData({ name: e.target.value })} />
               </div>
