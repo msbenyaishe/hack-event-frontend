@@ -75,7 +75,7 @@ const Teams = () => {
       } catch (err) {
         const msg = err.response?.data?.error || err.message || "Failed";
         console.error("Failed to update score", err);
-        alert(t('error_update_score') || "Failed to update score: " + msg);
+        alert(`Failed to update score: ${msg}`);
       }
     } else {
       setEditingScore(id);
