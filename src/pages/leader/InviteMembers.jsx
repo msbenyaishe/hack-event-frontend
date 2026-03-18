@@ -29,43 +29,42 @@ const InviteMembers = () => {
   };
 
   return (
-    <div className="container-inner" style={{maxWidth: '40rem'}}>
-      <div className="page-header" style={{textAlign: 'center', flexDirection: 'column', alignItems: 'center'}}>
-        <div className="invite-icon" style={{width: '5rem', height: '5rem', borderRadius: '1.5rem', marginBottom: '2rem'}}>
-          <Send size={32} />
+    <div className="invite-page-wrapper animate-in">
+      <div className="invite-header">
+        <div className="invite-icon-container">
+          <Send />
         </div>
-        <h1 className="page-title">{t('invite_to_team')}</h1>
-        <p className="page-subtitle">{t('send_invitations')}</p>
+        <h1 className="leader-title" style={{ fontSize: '2rem' }}>{t('invite_to_team')}</h1>
+        <p className="leader-subtitle" style={{ marginBottom: 0 }}>{t('send_invitations')}</p>
       </div>
 
-      <div className="invite-form-container animate-in">
-        
+      <div className="invite-form-card">
         {message && (
-          <div className="auth-error" style={{backgroundColor: '#ecfdf5', color: '#059669', borderColor: '#d1fae5', marginBottom: '2rem'}}>
-            <div className="error-dot" style={{backgroundColor: '#059669'}} />
+          <div className="success-alert">
+            <div className="success-alert-dot" />
             {message}
           </div>
         )}
         
         {error && (
-          <div className="auth-error" style={{marginBottom: '2rem'}}>
-            <div className="error-dot" />
+          <div className="error-alert">
+            <div className="error-alert-dot" />
             {error}
           </div>
         )}
 
-        <form onSubmit={handleInvite} className="invite-form" style={{flexDirection: 'column', gap: '2rem'}}>
-          <div className="form-group">
-            <label className="form-label" style={{marginBottom: '0.75rem'}}>{t('email_address')}</label>
-            <div className="input-with-icon">
-              <div className="input-icon">
+        <form onSubmit={handleInvite}>
+          <div className="invite-input-group">
+            <label className="invite-input-label">{t('email_address')}</label>
+            <div className="invite-input-wrapper">
+              <div className="invite-input-icon">
                 <Mail size={20} />
               </div>
               <input 
                 type="email" 
                 required
                 placeholder="colleague@example.com"
-                className="input-field"
+                className="invite-input-field"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -75,15 +74,14 @@ const InviteMembers = () => {
           <button 
             type="submit" 
             disabled={loading}
-            className="btn-indigo btn-full"
-            style={{padding: '1.25rem'}}
+            className="invite-submit-btn"
           >
             {loading ? t('sending') : t('send_invitation')}
           </button>
         </form>
 
-        <div style={{marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--slate-50)', textAlign: 'center'}}>
-          <p className="filter-label" style={{fontSize: '0.75rem'}}>{t('invite_limit_hint')}</p>
+        <div className="invite-footer">
+          <p className="invite-footer-text">{t('invite_limit_hint')}</p>
         </div>
       </div>
     </div>

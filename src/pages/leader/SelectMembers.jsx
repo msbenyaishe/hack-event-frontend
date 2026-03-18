@@ -77,62 +77,60 @@ const SelectMembers = () => {
   );
 
   if (loading) return (
-    <div className="container-inner flex flex-col items-center justify-center py-20">
-      <div className="w-12 h-12 border-4 border-indigo-100 border-t-primary-600 rounded-full animate-spin mb-4" />
-      <p>{t('loading_members')}</p>
+    <div className="leader-page-wrapper">
+      <div className="premium-spinner" />
+      <p style={{ color: 'var(--slate-400)', fontWeight: 'bold' }}>{t('loading_members')}</p>
     </div>
   );
 
   return (
-    <div className="container-inner">
-      <div className="page-header animate-in">
-        <div className="flex items-center gap-4">
-          <Link to="/leader/team" className="btn-action-premium" style={{ width: '3rem', height: '3rem', borderRadius: '12px' }}>
-            <ArrowLeft size={20} />
-          </Link>
-          <div>
-            <h1 className="page-title">{t('find_members')}</h1>
-            <p className="page-subtitle">{t('available_participants')}</p>
-          </div>
+    <div className="leader-page-wrapper full-width">
+      <div className="select-members-header animate-in" style={{ marginBottom: '2rem' }}>
+        <Link to="/leader/team" className="select-members-back">
+          <ArrowLeft size={20} />
+        </Link>
+        <div>
+          <h1 className="select-members-title">{t('find_members')}</h1>
+          <p className="select-members-subtitle">{t('available_participants')}</p>
         </div>
       </div>
 
-      <div className="search-input-wrapper mb-8">
-        <div className="search-icon-pos">
+      <div className="select-members-search animate-in">
+        <div className="select-members-search-icon">
           <Search size={20} />
         </div>
         <input 
           type="text" 
           placeholder={t('search_members_placeholder')}
-          className="search-input"
+          className="select-members-search-input"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <div className="data-table-container animate-in">
+      <div className="card-premium animate-in">
         {filteredMembers.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">
-              <UserPlus size={32} />
+              <UserPlus size={48} />
             </div>
             <p className="empty-text">{t('no_members_found')}</p>
           </div>
         ) : (
-          <div className="divide-y">
+          <div>
             {filteredMembers.map(member => (
-              <div key={member.id} className="member-item hover-bg p-8 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="user-avatar-box avatar-member w-14 h-14 text-xl">
+              <div key={member.id} className="select-member-card">
+                <div className="select-member-info">
+                  <div className="select-member-avatar">
                     {member.first_name?.charAt(0)}
                   </div>
                   <div>
-                    <h4 className="user-display-name text-lg">
+                    <h4 className="select-member-name">
                       {member.first_name} {member.last_name}
                     </h4>
-                    <p className="user-email">{member.email}</p>
+                    <p className="select-member-email">{member.email}</p>
                     {member.portfolio && (
-                      <a href={member.portfolio} target="_blank" rel="noopener noreferrer" className="text-primary-600 text-xs font-semibold hover:underline">
+                      <a href={member.portfolio} target="_blank" rel="noopener noreferrer" className="select-member-portfolio">
                         {t('view_portfolio')}
                       </a>
                     )}
@@ -141,9 +139,8 @@ const SelectMembers = () => {
                 
                 <button 
                   onClick={() => handleAddMember(member.id)}
-                  className={`btn-indigo px-6 ${addingId === member.id ? 'opacity-50 cursor-wait' : ''}`}
+                  className="select-member-add-btn"
                   disabled={addingId === member.id}
-                  style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}
                 >
                   <UserPlus size={18} />
                   {addingId === member.id ? t('adding_member') : t('add_to_team')}

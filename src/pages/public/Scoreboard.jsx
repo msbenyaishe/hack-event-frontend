@@ -110,10 +110,10 @@ const Scoreboard = () => {
           </div>
         ) : (
           <div className="animate-in" style={{animationDelay: '0.2s'}}>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div className="member-grid-layout">
               
               {/* Left Column: Rankings */}
-              <div className="lg:col-span-8">
+              <div className="member-grid-main">
                 <div className="section-header mb-12">
                    <h2 className="text-4xl font-black text-slate-900 tracking-tight">{t('teams_ranking') || 'Teams Ranking'}</h2>
                    <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mt-3">{teams.length} {t('teams_registered') || 'Teams Registered'}</p>
@@ -127,7 +127,7 @@ const Scoreboard = () => {
               </div>
 
               {/* Right Column: Workshops Side Widget */}
-              <div className="lg:col-span-4">
+              <div className="member-grid-sidebar">
                 <div className="section-header mb-12">
                   <h2 className="text-4xl font-black text-slate-900 tracking-tight">{t('event_workshops') || 'Event Workshops'}</h2>
                   <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mt-3">{t('upcoming_sessions') || 'Upcoming Sessions'}</p>

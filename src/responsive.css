@@ -3,6 +3,21 @@
    Media queries for tablets, mobile screens, and layout adjustments.
    ========================================================================= */
 
+/* --- DESKTOP GRID LAYOUTS --- */
+.member-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 3rem;
+}
+
+.member-grid-main {
+  grid-column: span 8 / span 8;
+}
+
+.member-grid-sidebar {
+  grid-column: span 4 / span 4;
+}
+
 /* --- TABLETS & SMALL LAPTOPS (Max 1024px) --- */
 @media screen and (max-width: 1024px) {
   /* Convert Sidebar into a top horizontal navigation */
@@ -75,19 +90,86 @@
 @media screen and (max-width: 768px) {
   /* Navbar Header */
   .navbar-actions-desktop {
-    display: none !important; /* Hide desktop nav items */
+    display: none !important;
   }
   
   .hamburger {
-    display: flex !important; /* Show hamburger button */
+    display: flex !important;
     align-items: center;
     justify-content: center;
+  }
+
+  /* Fixed Bottom Sidebar Navigation */
+  .layout-admin .main-content, 
+  .layout-leader .main-content {
+    padding-bottom: 5.5rem; /* Ensure content isn't hidden behind fixed nav */
+  }
+  
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    width: 100%;
+    height: 5rem;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--slate-200);
+    border-bottom: none;
+    z-index: 1000;
+    gap: 0;
+  }
+
+  .sidebar-header {
+    display: none;
+  }
+
+  .sidebar-nav {
+    width: 100%;
+    justify-content: space-around;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .nav-item {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 0;
+    background: transparent !important;
+  }
+  
+  .nav-item.nav-item-active {
+    color: var(--primary);
+    border-top: 3px solid var(--primary);
+  }
+
+  .nav-item span:not(.nav-item-icon) {
+    font-size: 0.65rem;
+    font-weight: 700;
   }
 
   /* Grid Layouts to Single Column */
   .grid-cards {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .member-grid-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .member-grid-main, .member-grid-sidebar {
+    width: 100%;
   }
   
   /* Team Card Responsive */
@@ -127,7 +209,7 @@
   }
   
   /* Tables horizontally scrollable */
-  .data-table-container {
+  .data-table-container, .premium-table-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     width: 100%;
@@ -137,7 +219,7 @@
   }
   
   table, .table, .premium-table {
-    min-width: 720px; /* Enable horizontal scroll without breaking layout */
+    min-width: 800px;
   }
   
   /* Timer Component Adjustments */
@@ -155,6 +237,12 @@
   
   .timer-section {
     align-items: center;
+  }
+
+  .admin-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem !important;
   }
 }
 
