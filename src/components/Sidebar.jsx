@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -8,11 +8,14 @@ import {
   UserCog, 
   MonitorPlay, 
   Timer,
-  UserPlus
+  UserPlus,
+  ChevronRight,
+  ChevronLeft
 } from 'lucide-react';
 
 const Sidebar = ({ role }) => {
   const { t } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
 
   const adminLinks = [
     { to: '/admin', icon: <LayoutDashboard size={20} />, label: t('events') },
@@ -31,7 +34,23 @@ const Sidebar = ({ role }) => {
   const links = role === 'admin' ? adminLinks : leaderLinks;
 
   return (
-    <aside className="sidebar">
+    <>
+      <button 
+        className="sidebar-mobile-toggle" 
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle Sidebar"
+      >
+        {isOpen ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
+      </button>
+
+      {isOpen && (
+        <div 
+          className="sidebar-overlay" 
+          onClick={() => setIsOpen(false)} 
+        />
+      )}
+
+      <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
       <div className="sidebar-header">
         <h2 className="sidebar-title">
           {role === 'admin' ? t('admin') : t('leader')}
@@ -50,11 +69,12 @@ const Sidebar = ({ role }) => {
             <span className="nav-item-icon">
               {link.icon}
             </span>
-            <span>{link.label}</span>
+            <span className="nav-item-label">{link.label}</span>
           </NavLink>
         ))}
       </nav>
     </aside>
+    </>
   );
 };
 

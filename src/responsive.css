@@ -18,43 +18,72 @@
   grid-column: span 4 / span 4;
 }
 
-/* --- TABLETS & SMALL LAPTOPS (Max 1024px) --- */
+/* --- SIDEBAR TOGGLE & OFF-CANVAS MODE (Max 1024px) --- */
+.sidebar-mobile-toggle, .sidebar-overlay {
+  display: none;
+}
+
 @media screen and (max-width: 1024px) {
-  /* Convert Sidebar into a top horizontal navigation */
-  .layout-admin .main-content, 
-  .layout-leader .main-content {
-    flex-direction: column;
-  }
-  
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: sticky;
-    top: 5rem; /* Below Navbar */
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 1rem 1.5rem;
-    border-right: none;
-    border-bottom: 1px solid var(--slate-100);
-    z-index: 100;
+  .sidebar-mobile-toggle {
+    display: flex;
+    position: fixed;
+    top: 5.5rem; /* Below Navbar */
+    left: 0;
+    z-index: 1060;
+    background: var(--white);
+    padding: 0.65rem;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 4px 4px 15px rgba(0,0,0,0.08);
+    border: 1px solid var(--slate-200);
+    border-left: none;
+    color: var(--slate-700);
     align-items: center;
-  }
-  
-  .sidebar-header {
-    margin-bottom: 0;
-    padding-right: 1.5rem;
-  }
-  
-  .sidebar-nav {
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-  
-  .nav-item {
-    white-space: nowrap;
-    padding: 0.5rem 1rem;
+    justify-content: center;
   }
 
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: -18rem;
+    width: 16rem !important;
+    height: 100vh !important;
+    padding: 6.5rem 1.5rem 2.5rem 1.5rem !important;
+    z-index: 1050;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.1) !important;
+    border-right: none !important;
+    background: var(--white);
+  }
+
+  .sidebar.sidebar-open {
+    left: 0;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(3px);
+    z-index: 1040;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .sidebar .brand-name, 
+  .sidebar .sidebar-title, 
+  .sidebar span, 
+  .sidebar .nav-item-label {
+    display: flex !important;
+  }
+
+  .layout-admin .main-content, 
+  .layout-leader .main-content {
+    padding-left: 0;
+  }
+}
+
+/* --- TABLETS & SMALL LAPTOPS (Max 1024px) --- */
+@media screen and (max-width: 1024px) {
   /* Typography Scaling */
   h1 { font-size: 2.25rem; }
   h2 { font-size: 1.75rem; }
