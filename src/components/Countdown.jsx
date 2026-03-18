@@ -3,33 +3,47 @@ import { useTranslation } from 'react-i18next';
 
 const Countdown = ({ startDate }) => {
   const { t } = useTranslation();
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  });
-  const [isStarted, setIsStarted] = useState(false);
+  const calculateTimeLeft = (target) => {
+    if (!target) return { difference: 0, time: { days: 0, hours: 0, minutes: 0, seconds: 0 } };
+    
+    // Strip trailing 'Z' to force local timezone parsing if the backend appends UTC blindly
+    const cleanTarget = target.endsWith('Z') ? target.slice(0, -1) : target;
+    const targetDate = new Date(cleanTarget).getTime();
+    
+    if (isNaN(targetDate)) return { difference: 0, time: { days: 0, hours: 0, minutes: 0, seconds: 0 } };
+    
+    const difference = targetDate - new Date().getTime();
+    if (difference <= 0) return { difference, time: { days: 0, hours: 0, minutes: 0, seconds: 0 } };
+    
+    return {
+      difference,
+      time: {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((difference % (1000 * 60)) / 1000)
+      }
+    };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(startDate).time);
+  const [isStarted, setIsStarted] = useState(() => calculateTimeLeft(startDate).difference <= 0);
 
   useEffect(() => {
-    if (!startDate) return;
+    const initialCalc = calculateTimeLeft(startDate);
+    setTimeLeft(initialCalc.time);
+    setIsStarted(initialCalc.difference <= 0);
 
-    const targetDate = new Date(startDate).getTime();
+    if (initialCalc.difference <= 0) return;
 
     const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (difference <= 0) {
+      const calc = calculateTimeLeft(startDate);
+      if (calc.difference <= 0) {
         setIsStarted(true);
+        setTimeLeft(calc.time);
         clearInterval(interval);
       } else {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-        setTimeLeft({ days, hours, minutes, seconds });
+        setTimeLeft(calc.time);
       }
     }, 1000);
 

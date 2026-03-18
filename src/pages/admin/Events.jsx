@@ -52,8 +52,8 @@ const Events = () => {
     setEditFormData({
       name: event.name,
       description: event.description || '',
-      start_date: event.start_date ? new Date(event.start_date).toISOString().slice(0,16) : '',
-      end_date: event.end_date ? new Date(event.end_date).toISOString().slice(0,16) : '',
+      start_date: event.start_date ? event.start_date.replace('Z', '').slice(0, 16) : '',
+      end_date: event.end_date ? event.end_date.replace('Z', '').slice(0, 16) : '',
       location: event.location || ''
     });
   };
