@@ -152,7 +152,7 @@ const Members = () => {
               <tbody>
                 {members.map(member => (
                   <tr key={member.id}>
-                    <td>
+                    <td data-label={t('user')}>
                       <div className="flex items-center gap-4">
                         <div className={`btn-action-premium ${
                           member.role === 'admin' 
@@ -181,7 +181,7 @@ const Members = () => {
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td data-label={t('role')}>
                       <select 
                         value={member.role}
                         onChange={(e) => handleRoleChange(member.id, e.target.value)}
@@ -201,7 +201,7 @@ const Members = () => {
                         {member.role === 'admin' && <option value="admin">{t('admin')}</option>}
                       </select>
                     </td>
-                    <td style={{textAlign: 'right'}}>
+                    <td data-label={t('actions')} style={{textAlign: 'right'}}>
                       <div className="action-group" style={{ justifyContent: 'flex-end' }}>
                         <button 
                           onClick={() => handleDeleteUser(member.id)}

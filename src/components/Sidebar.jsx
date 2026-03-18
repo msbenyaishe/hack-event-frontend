@@ -36,7 +36,7 @@ const Sidebar = ({ role }) => {
   return (
     <>
       <button 
-        className="sidebar-mobile-toggle" 
+        className={`sidebar-mobile-toggle ${isOpen ? 'sidebar-mobile-toggle-open' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle Sidebar"
       >

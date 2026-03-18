@@ -161,7 +161,10 @@ const MyTeam = () => {
   );
 
   return (
-    <div className="leader-page-wrapper full-width">
+    <div
+      className="leader-page-wrapper full-width"
+      style={{ '--team-brand': team?.color || 'var(--primary)' }}
+    >
       {successMessage && (
         <div className="success-alert animate-in">
           <div className="success-alert-dot" />

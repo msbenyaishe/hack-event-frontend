@@ -101,12 +101,12 @@ const Teams = () => {
   return (
     <div className="admin-page-container">
       <div className="admin-toolbar" style={{display: 'flex', flexWrap: 'wrap', gap: '1rem'}}>
-        <div style={{ flex: '1 1 300px' }}>
+        <div style={{ flex: '1 1 auto', minWidth: '250px' }}>
           <h1 className="page-title">{t('teams_management')}</h1>
           <p className="page-subtitle">{t('monitor_teams')}</p>
         </div>
         
-        <div className="flex gap-4 items-center" style={{ flex: '1 1 auto' }}>
+        <div className="flex gap-4 items-center" style={{ flex: '1 1 auto', minWidth: '250px', width: '100%' }}>
           <div className="search-input-wrapper" style={{ width: '100%' }}>
              <div className="search-icon-pos"><Users size={18} /></div>
              <select 
@@ -145,7 +145,7 @@ const Teams = () => {
               <tbody>
                 {teams.map(team => (
                   <tr key={team.id}>
-                    <td>
+                    <td data-label={t('team_info')}>
                       <div className="flex items-center gap-4">
                       <div className="logo-frame-container mini">
                         {team.logo ? (
@@ -178,7 +178,7 @@ const Teams = () => {
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td data-label={t('members')}>
                       <div style={{display: 'flex', justifyContent: 'center'}}>
                         <div className="badge-premium badge-info">
                           <Users size={14} />
@@ -186,7 +186,7 @@ const Teams = () => {
                         </div>
                       </div>
                     </td>
-                    <td style={{textAlign: 'center'}}>
+                    <td data-label={t('practical')} style={{textAlign: 'center'}}>
                       {editingScore === team.id ? (
                         <input 
                           type="number" 
@@ -202,7 +202,7 @@ const Teams = () => {
                         </div>
                       )}
                     </td>
-                    <td style={{textAlign: 'center'}}>
+                    <td data-label={t('theory')} style={{textAlign: 'center'}}>
                       {editingScore === team.id ? (
                         <input 
                           type="number" 
@@ -218,12 +218,12 @@ const Teams = () => {
                         </div>
                       )}
                     </td>
-                    <td style={{textAlign: 'right'}}>
+                    <td data-label={t('total_score')} style={{textAlign: 'right'}}>
                         <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
                           {editingScore === team.id ? (newScores.practical + newScores.theoretical) : (team.total_score || team.score || 0)}
                         </div>
                     </td>
-                    <td>
+                    <td data-label={t('actions')}>
                       <div className="action-group" style={{ justifyContent: 'flex-end' }}>
                         <button 
                           onClick={() => handleUpdateScore(team.id, team)}

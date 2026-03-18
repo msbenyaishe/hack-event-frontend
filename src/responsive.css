@@ -18,34 +18,68 @@
   grid-column: span 4 / span 4;
 }
 
-/* --- SIDEBAR TOGGLE & OFF-CANVAS MODE (Max 1024px) --- */
+/* --- RESPONSIVE FORMS --- */
+.responsive-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--slate-100);
+}
+
+
+/* --- SIDEBAR TOGGLE & OFF-CANVAS MODE (Mobile) --- */
 .sidebar-mobile-toggle, .sidebar-overlay {
   display: none;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 768px) {
   .sidebar-mobile-toggle {
     display: flex;
     position: fixed;
-    top: 5.5rem; /* Below Navbar */
-    left: 0;
-    z-index: 1060;
+    /* Top-left, comfortably below navbar & header */
+    top: calc(5rem + 1.5rem);
+    left: 1rem;
+    right: auto;
+    bottom: auto;
+    transform: none;
+    /* Keep above sidebar overlay (1040) but below navbar mobile menu (1100) */
+    z-index: 1070;
     background: var(--white);
     padding: 0.65rem;
-    border-radius: 0 12px 12px 0;
+    border-radius: 12px;
     box-shadow: 4px 4px 15px rgba(0,0,0,0.08);
     border: 1px solid var(--slate-200);
-    border-left: none;
     color: var(--slate-700);
     align-items: center;
     justify-content: center;
   }
 
+  /* When drawer is open, move the toggle outside the sidebar
+     so it doesn't cover sidebar content. */
+  .sidebar-mobile-toggle.sidebar-mobile-toggle-open {
+    left: calc(min(18rem, 86vw) + 0.75rem);
+  }
+
+  /* Increase top padding so page content starts lower */
+  .layout-admin .container-inner,
+  .layout-leader .container-inner,
+  .layout-member .container-inner {
+    padding-top: 4rem;
+  }
+
   .sidebar {
     position: fixed !important;
     top: 0 !important;
-    left: -18rem;
-    width: 16rem !important;
+    left: -100%;
+    width: min(18rem, 86vw) !important; /* Drawer width */
     height: 100vh !important;
     padding: 6.5rem 1.5rem 2.5rem 1.5rem !important;
     z-index: 1050;
@@ -53,6 +87,7 @@
     box-shadow: 4px 0 24px rgba(0,0,0,0.1) !important;
     border-right: none !important;
     background: var(--white);
+    box-sizing: border-box !important;
   }
 
   .sidebar.sidebar-open {
@@ -69,11 +104,11 @@
     animation: fadeIn 0.3s ease;
   }
 
-  .sidebar .brand-name, 
-  .sidebar .sidebar-title, 
-  .sidebar span, 
+  /* Ensure labels are visible in the drawer (index.css collapses them on <=1024px) */
+  .sidebar .brand-name,
+  .sidebar .sidebar-title,
   .sidebar .nav-item-label {
-    display: flex !important;
+    display: block !important;
   }
 
   .layout-admin .main-content, 
@@ -128,61 +163,33 @@
     justify-content: center;
   }
 
-  /* Fixed Bottom Sidebar Navigation */
-  .layout-admin .main-content, 
-  .layout-leader .main-content {
-    padding-bottom: 5.5rem; /* Ensure content isn't hidden behind fixed nav */
-  }
-  
+  /* Keep sidebar in off-canvas mode on mobile.
+     (Prevents the "fixed bottom nav" override that made it always visible.) */
   .sidebar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: auto;
+    width: min(18rem, 86vw) !important;
+    padding: 5.5rem 1.5rem 2.5rem 1.5rem !important;
+  }
+
+  /* Restore icons + labels inside mobile sidebar */
+  .sidebar .nav-item {
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
     width: 100%;
-    height: 5rem;
-    flex-direction: row;
-    justify-content: space-around;
-    padding: 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    border-top: 1px solid var(--slate-200);
-    border-bottom: none;
-    z-index: 1000;
-    gap: 0;
+    justify-content: flex-start;
   }
 
-  .sidebar-header {
-    display: none;
-  }
-
-  .sidebar-nav {
-    width: 100%;
-    justify-content: space-around;
-    align-items: stretch;
-    gap: 0;
-  }
-
-  .nav-item {
-    flex-direction: column;
+  .sidebar .nav-item-icon {
+    display: inline-flex !important;
+    opacity: 0.9;
+    width: 2.5rem;
+    flex-shrink: 0;
     justify-content: center;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.5rem;
-    width: 100%;
-    border-radius: 0;
-    background: transparent !important;
-  }
-  
-  .nav-item.nav-item-active {
-    color: var(--primary);
-    border-top: 3px solid var(--primary);
   }
 
-  .nav-item span:not(.nav-item-icon) {
-    font-size: 0.65rem;
-    font-weight: 700;
+  .sidebar .nav-item-label {
+    display: inline-flex !important;
+    font-size: 0.9rem;
   }
 
   /* Grid Layouts to Single Column */
@@ -251,6 +258,21 @@
     min-width: 800px;
   }
   
+  /* Dynamic form layouts */
+  .responsive-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .form-actions-row button {
+    width: 100%;
+    justify-content: center;
+  }
+  
   /* Timer Component Adjustments */
   .timer-box {
     flex-direction: column;
@@ -271,7 +293,127 @@
   .admin-toolbar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Admin layout tightening */
+  .admin-page-container {
+    padding: 0.75rem 0 0;
+  }
+
+  .admin-card,
+  .form-card-premium {
+    border-radius: 20px;
+    padding: 1.5rem !important;
+  }
+
+  .form-section.mb-12 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .form-section.pt-8 {
+    padding-top: 1.5rem !important;
+  }
+
+  /* Modals: fit on small screens */
+  .modal-overlay {
+    padding: 1rem;
+  }
+
+  .modal-content,
+  .modal-content-premium {
+    width: 100%;
+    max-width: 100% !important;
+    border-radius: 20px;
+  }
+
+  /* Tables: keep actions usable */
+  .action-group {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Prevent flex children from forcing horizontal scroll */
+  .main-content,
+  .page-wrapper {
+    min-width: 0;
+  }
+
+  /* Tighten spacing between header, filters and content on admin pages */
+  .admin-toolbar {
+    margin-bottom: 0.75rem;
+  }
+
+  .admin-page-container .admin-card {
+    margin-top: 0.75rem;
+  }
+
+  /* Reduce heading spacing on admin pages to avoid large gaps */
+  .admin-page-container .page-title {
+    padding-top: 1.9rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .admin-page-container .page-subtitle {
+    margin-bottom: 0.75rem;
+  }
+
+  /* Leader / member pages */
+  .leader-page-wrapper,
+  .invite-page-wrapper {
+    padding: 2.5rem 1rem;
+  }
+
+  .leader-header-card {
+    border-radius: 24px;
+    padding: 2rem 1.25rem;
+  }
+
+  .myteam-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .myteam-header-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .myteam-actions {
+    width: 100%;
+  }
+
+  .myteam-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .select-member-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .select-member-add-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .select-member-info {
+    width: 100%;
+  }
+
+  .invite-form-card {
+    padding: 2rem 1.5rem;
+    border-radius: 24px;
+  }
+
+  .myteam-modal-content {
+    max-width: 100%;
+    border-radius: 24px;
   }
 }
 
@@ -313,6 +455,11 @@
     font-size: 0.875rem;
     padding: 0.5rem;
   }
+
+  .admin-card,
+  .form-card-premium {
+    border-radius: 18px;
+  }
 }
 
 /* Fix z-index for mobile menu to stay above sidebar */
@@ -321,4 +468,70 @@
 }
 .mobile-menu {
   z-index: 1100;
+}
+
+/* --- MOBILE TABLES: stacked / vertical cards (<= 640px) --- */
+@media screen and (max-width: 640px) {
+  .premium-table-wrapper {
+    overflow-x: visible;
+    background: transparent;
+  }
+
+  table.premium-table {
+    min-width: 0 !important;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: transparent;
+  }
+
+  .premium-table thead {
+    display: none;
+  }
+
+  .premium-table tbody,
+  .premium-table tr,
+  .premium-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .premium-table tr {
+    background: white;
+    border: 1px solid var(--slate-100);
+    border-radius: 18px;
+    /* Avoid "double table" look when inside a card container */
+    box-shadow: none;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .premium-table tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .premium-table td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--slate-50);
+    background: transparent !important;
+  }
+
+  .premium-table td:last-child {
+    border-bottom: none;
+  }
+
+  .premium-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate-400);
+  }
+
+  .action-group {
+    justify-content: flex-start !important;
+  }
 }

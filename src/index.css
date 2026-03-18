@@ -66,6 +66,155 @@ body {
   min-height: 100vh;
 }
 
+/* Media defaults to prevent overflow on small screens */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.main-content,
+.page-wrapper {
+  min-width: 0;
+}
+
+/* -------------------------------------------------------------------------
+   MOBILE TYPOGRAPHY OPTIMIZATION
+   Fine‑tuned font sizes for better readability on small screens
+   ------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  body {
+    font-size: 0.9375rem; /* ~15px */
+  }
+
+  h1,
+  .page-title {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+  }
+
+  .page-subtitle,
+  .card-description {
+    font-size: 0.9rem;
+  }
+
+  /* Navigation & sidebar items */
+  .nav-link-desktop,
+  .mobile-nav-item,
+  .select-member-name {
+    font-size: 0.95rem;
+  }
+
+  /* Buttons */
+  .btn,
+  .btn-admin,
+  .btn-indigo,
+  .btn-secondary,
+  .btn-ghost,
+  .invite-submit-btn,
+  .select-member-add-btn,
+  .myteam-action-btn {
+    font-size: 0.9rem;
+  }
+
+  /* Forms */
+  .form-label,
+  .label-premium,
+  .invite-input-label {
+    font-size: 0.8rem;
+  }
+
+  .form-input,
+  .input-premium,
+  .search-input,
+  .invite-input-field,
+  .select-members-search-input {
+    font-size: 0.9rem;
+  }
+
+  /* Tables */
+  .premium-table th,
+  .premium-table td,
+  .data-table th,
+  .data-table td {
+    font-size: 0.85rem;
+  }
+
+  /* Badges & pills */
+  .badge,
+  .badge-premium,
+  .badge-info,
+  .members-badge,
+  .status-indicator-pill,
+  .myteam-member-role {
+    font-size: 0.75rem;
+  }
+
+  /* Auth & small helper text */
+  .auth-footer-text,
+  .invite-footer-text,
+  .team-stats,
+  .user-email,
+  .select-member-email,
+  .myteam-member-email {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 0.9rem; /* ~14.5px */
+  }
+
+  h1,
+  .page-title {
+    font-size: 1.45rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.05rem;
+  }
+
+  .page-subtitle,
+  .card-description {
+    font-size: 0.85rem;
+  }
+
+  .nav-item,
+  .nav-link-desktop,
+  .mobile-nav-item {
+    font-size: 0.9rem;
+  }
+
+  .btn,
+  .btn-admin,
+  .btn-indigo,
+  .btn-secondary,
+  .btn-ghost,
+  .invite-submit-btn,
+  .select-member-add-btn,
+  .myteam-action-btn {
+    font-size: 0.875rem;
+  }
+
+  .premium-table th,
+  .premium-table td,
+  .data-table th,
+  .data-table td {
+    font-size: 0.8rem;
+  }
+}
+
 /* Typography Hierarchy */
 h1, h2, h3, h4, h5 {
   font-weight: 700;
@@ -3303,6 +3452,21 @@ button {
   align-items: stretch;
 }
 
+/* Member/leader page polish: consistent rhythm + elegant surface */
+.leader-page-wrapper.full-width .card-premium,
+.leader-page-wrapper.full-width .admin-card,
+.leader-page-wrapper.full-width .form-card-premium {
+  border-radius: 28px;
+}
+
+.leader-page-wrapper.full-width .page-title {
+  margin-bottom: 0.25rem;
+}
+
+.leader-page-wrapper.full-width .page-subtitle {
+  margin-top: 0.5rem;
+}
+
 .leader-header-card {
   background: white;
   border-radius: 2.5rem;
@@ -3392,7 +3556,7 @@ button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--slate-900);
+  background: var(--team-brand, var(--slate-900));
   color: white;
   padding: 0.75rem 1.25rem;
   border-radius: 1rem;

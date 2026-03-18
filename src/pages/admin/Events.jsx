@@ -111,18 +111,18 @@ const Events = () => {
               <tbody>
                 {events.map(event => (
                   <tr key={event.id}>
-                    <td>
+                    <td data-label={t('event_name')}>
                       <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{event.name}</div>
                       <div style={{ fontSize: '0.8rem', color: 'var(--slate-400)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {event.description}
                       </div>
                     </td>
-                    <td>
+                    <td data-label={t('location')}>
                       <div className="badge-premium badge-info">{event.location || 'Online'}</div>
                     </td>
-                    <td>{new Date(event.start_date).toLocaleDateString()}</td>
-                    <td>{new Date(event.end_date).toLocaleDateString()}</td>
-                    <td>
+                    <td data-label={t('start_date')}>{new Date(event.start_date).toLocaleDateString()}</td>
+                    <td data-label={t('end_date')}>{new Date(event.end_date).toLocaleDateString()}</td>
+                    <td data-label={t('actions')}>
                       <div className="action-group" style={{ justifyContent: 'flex-end' }}>
                         <button 
                           onClick={() => handleEditClick(event)}

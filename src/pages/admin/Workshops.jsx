@@ -213,20 +213,20 @@ const AdminWorkshops = () => {
               <tbody>
                 {workshops.map(workshop => (
                   <tr key={workshop.id}>
-                    <td>
+                    <td data-label={t('workshop_details') || 'Workshop Details'}>
                       <div style={{fontWeight: 700, color: 'var(--slate-900)'}}>{workshop.title}</div>
                       <div style={{fontSize: '0.8rem', color: 'var(--slate-400)', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
                         {workshop.description}
                       </div>
                     </td>
-                    <td>
+                    <td data-label={t('technology')}>
                       <div className="badge-premium badge-info">{workshop.technology || 'General'}</div>
                     </td>
-                    <td>
+                    <td data-label={t('schedule') || 'Schedule'}>
                       <div style={{fontWeight: 600}}>{new Date(workshop.start_time || workshop.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
                       <div style={{fontSize: '0.75rem', color: 'var(--slate-400)'}}>{workshop.location || 'Meeting Room'}</div>
                     </td>
-                    <td>
+                    <td data-label={t('actions') || 'Actions'}>
                       <div className="action-group" style={{justifyContent: 'flex-end'}}>
                         <button 
                           onClick={() => openEditForm(workshop)}

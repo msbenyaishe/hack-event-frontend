@@ -78,7 +78,7 @@ const CreateEvent = () => {
               <CalendarIcon size={24} className="text-primary" />
               {t('schedule_location')}
             </h3>
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem'}}>
+            <div className="responsive-form-grid">
               <div className="form-group">
                 <label className="label-premium">{t('start_date')}</label>
                 <input 
@@ -115,7 +115,7 @@ const CreateEvent = () => {
               <Users size={24} className="text-primary" />
               {t('capacity_settings') || 'Team Capacity'}
             </h3>
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem'}}>
+            <div className="responsive-form-grid">
               <div className="form-group">
                 <label className="label-premium">{t('max_leaders') || 'Max Teams (Leaders)'}</label>
                 <input 
@@ -139,12 +139,11 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          <div style={{display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid var(--slate-100)'}}>
+          <div className="form-actions-row">
             <button 
               type="button"
               onClick={() => navigate('/admin')}
               className="btn-ghost"
-              style={{ padding: '1rem 2rem' }}
             >
               {t('cancel')}
             </button>
@@ -152,7 +151,6 @@ const CreateEvent = () => {
               type="submit" 
               disabled={loading}
               className="btn-admin"
-              style={{minWidth: '200px'}}
             >
               {loading ? '...' : t('confirm_launch')}
             </button>
