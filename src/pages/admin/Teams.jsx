@@ -65,8 +65,8 @@ const Teams = () => {
     if (editingScore === id) {
       try {
         await teamsApi.updateScores(id, { 
-          practical_score: newScores.practical,
-          theoretical_score: newScores.theoretical 
+          practical_score: Number(newScores.practical) || 0,
+          theoretical_score: Number(newScores.theoretical) || 0 
         });
         
         setEditingScore(null);
