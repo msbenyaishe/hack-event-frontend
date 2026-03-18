@@ -190,7 +190,7 @@ const MyTeam = () => {
               {team.name}
             </span>
             <div className="myteam-points-badge">
-              <span className="myteam-points-score">{team.score || 0}</span>
+              <span className="myteam-points-score">{(team.practical_score || 0) + (team.theoretical_score || 0)}</span>
               <span className="myteam-points-label">{t('points') || 'Points'}</span>
             </div>
           </div>
