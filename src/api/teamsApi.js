@@ -1,8 +1,8 @@
 import api from './axios';
 
 export const teamsApi = {
-  getScoreboard: (eventId) => api.get(`/teams/scoreboard/${eventId}`),
-  getAll: () => api.get('/teams'),
+  getScoreboard: (eventId) => api.get(`/teams/scoreboard/${eventId}?t=${new Date().getTime()}`),
+  getAll: () => api.get(`/teams?t=${new Date().getTime()}`),
   getById: (id) => api.get(`/teams/${id}`),
   getTeamMembers: (id) => api.get(`/teams/${id}/members`),
   create: (data) => api.post('/teams', data),

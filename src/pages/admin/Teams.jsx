@@ -68,10 +68,14 @@ const Teams = () => {
           practical_score: newScores.practical,
           theoretical_score: newScores.theoretical 
         });
+        
         setEditingScore(null);
         fetchTeams(selectedEventId);
+        alert(t('scores_updated_successfully') || "Scores updated successfully!");
       } catch (err) {
+        const msg = err.response?.data?.error || err.message || "Failed";
         console.error("Failed to update score", err);
+        alert(t('error_update_score') || "Failed to update score: " + msg);
       }
     } else {
       setEditingScore(id);
