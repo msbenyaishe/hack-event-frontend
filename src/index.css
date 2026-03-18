@@ -2540,9 +2540,9 @@ button {
 }
 
 @media (max-width: 768px) {
-  .hero-timer-display { font-size: 3.5rem; }
+  .hero-timer-display { font-size: clamp(2rem, 12vw, 3.5rem) !important; }
   .main-timer-card { padding: 1.5rem; }
-  .timer-glass-hero { padding: 2rem 1rem; }
+  .timer-glass-hero { padding: 1.5rem 0.5rem; }
 }
 
 .timer-config-premium {
