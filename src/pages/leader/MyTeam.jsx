@@ -173,7 +173,7 @@ const MyTeam = () => {
       )}
 
       <div className="myteam-header animate-in">
-        <div>
+        <div className="myteam-brand-section">
           <h1 className="page-title">{t('my_team') || 'My team'}</h1>
           <div className="myteam-header-info">
             <div 
@@ -299,7 +299,7 @@ const MyTeam = () => {
                     <div className={`myteam-member-avatar ${isLeader ? 'leader' : ''}`}>
                       {name.charAt(0)}
                     </div>
-                    <div>
+                    <div className="myteam-member-details">
                       <h4 className="myteam-member-name">
                         {name}
                         {isLeader && <span className="myteam-member-role">{t('leader') || 'Leader'}</span>}
