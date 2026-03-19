@@ -57,7 +57,6 @@ const CreateEvent = () => {
                 <input 
                   type="text" required
                   className="input-premium"
-                  placeholder="e.g. Winter Hackathon 2026"
                   value={formData.name}
                   onChange={e => setFormData({...formData, name: e.target.value})} 
                 />
@@ -68,7 +67,6 @@ const CreateEvent = () => {
                 <input 
                   type="text" 
                   className="input-premium"
-                  placeholder="e.g. Main Hall or Remote"
                   value={formData.location}
                   onChange={e => setFormData({...formData, location: e.target.value})} 
                 />
@@ -81,7 +79,6 @@ const CreateEvent = () => {
                 rows="3"
                 className="input-premium"
                 style={{resize: 'none', height: 'auto'}}
-                placeholder="Tell us about the event..."
                 value={formData.description}
                 onChange={e => setFormData({...formData, description: e.target.value})} 
               ></textarea>
