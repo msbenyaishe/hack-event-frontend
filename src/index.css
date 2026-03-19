@@ -1634,7 +1634,7 @@ button {
 }
 
 .unit-val {
-  font-size: 5rem;
+  font-size: inherit;
   font-weight: 800;
   line-height: 1;
   font-family: 'Space Grotesk', sans-serif;
@@ -2540,7 +2540,7 @@ button {
 }
 
 @media (max-width: 768px) {
-  .hero-timer-display { font-size: clamp(2rem, 12vw, 3.5rem) !important; }
+  .hero-timer-display { font-size: clamp(1.8rem, 10vw, 3.5rem) !important; }
   .main-timer-card { padding: 1.5rem; }
   .timer-glass-hero { padding: 1.5rem 0.5rem; }
 }
