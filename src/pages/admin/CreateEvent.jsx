@@ -42,62 +42,28 @@ const CreateEvent = () => {
         </div>
       </div>
 
-      <div className="form-card-premium animate-in" style={{maxWidth: '800px', margin: '0 auto'}}>
+      <div className="form-card-premium animate-in" style={{maxWidth: '1000px', margin: '0 auto'}}>
         <form onSubmit={handleSubmit}>
           
-          <div className="form-section mb-12">
-            <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.25rem', fontWeight: 800}}>
-              <Target size={24} className="text-primary" />
+          <div className="form-section mb-10">
+            <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.35rem', fontWeight: 800}}>
+              <Target size={26} className="text-primary" />
               {t('event_details')}
             </h3>
-            <div className="form-group mb-6">
-              <label className="label-premium">{t('event_name')}</label>
-              <input 
-                type="text" required
-                className="input-premium"
-                placeholder="e.g. Winter Hackathon 2026"
-                value={formData.name}
-                onChange={e => setFormData({...formData, name: e.target.value})} 
-              />
-            </div>
-            <div className="form-group">
-              <label className="label-premium">{t('description')}</label>
-              <textarea 
-                rows="4"
-                className="input-premium"
-                style={{resize: 'none'}}
-                placeholder="Tell us about the event..."
-                value={formData.description}
-                onChange={e => setFormData({...formData, description: e.target.value})} 
-              ></textarea>
-            </div>
-          </div>
-
-          <div className="form-section mb-12 pt-8" style={{borderTop: '1px solid var(--slate-100)'}}>
-            <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.25rem', fontWeight: 800}}>
-              <CalendarIcon size={24} className="text-primary" />
-              {t('schedule_location')}
-            </h3>
-            <div className="responsive-form-grid">
-              <div className="form-group">
-                <label className="label-premium">{t('start_date')}</label>
+            
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '2rem'}}>
+              <div className="form-group mb-0">
+                <label className="label-premium">{t('event_name')}</label>
                 <input 
-                  type="datetime-local" required
+                  type="text" required
                   className="input-premium"
-                  value={formData.start_date}
-                  onChange={e => setFormData({...formData, start_date: e.target.value})} 
+                  placeholder="e.g. Winter Hackathon 2026"
+                  value={formData.name}
+                  onChange={e => setFormData({...formData, name: e.target.value})} 
                 />
               </div>
-              <div className="form-group">
-                <label className="label-premium">{t('end_date')}</label>
-                <input 
-                  type="datetime-local" required
-                  className="input-premium"
-                  value={formData.end_date}
-                  onChange={e => setFormData({...formData, end_date: e.target.value})} 
-                />
-              </div>
-              <div className="form-group">
+              
+              <div className="form-group mb-0">
                 <label className="label-premium">{t('location')}</label>
                 <input 
                   type="text" 
@@ -108,15 +74,57 @@ const CreateEvent = () => {
                 />
               </div>
             </div>
+
+            <div className="form-group mb-0">
+              <label className="label-premium">{t('description')}</label>
+              <textarea 
+                rows="3"
+                className="input-premium"
+                style={{resize: 'none', height: 'auto'}}
+                placeholder="Tell us about the event..."
+                value={formData.description}
+                onChange={e => setFormData({...formData, description: e.target.value})} 
+              ></textarea>
+            </div>
           </div>
 
-          <div className="form-section pt-8" style={{borderTop: '1px solid var(--slate-100)'}}>
-            <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.25rem', fontWeight: 800}}>
-              <Users size={24} className="text-primary" />
+          <div className="form-section mb-10 pt-10" style={{borderTop: '1px solid var(--slate-100)'}}>
+            <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.35rem', fontWeight: 800}}>
+              <CalendarIcon size={26} className="text-primary" />
+              {t('schedule')}
+            </h3>
+            
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem'}}>
+              <div className="form-group mb-0">
+                <label className="label-premium">{t('start_date')}</label>
+                <input 
+                  type="datetime-local" required
+                  className="input-premium"
+                  value={formData.start_date}
+                  onChange={e => setFormData({...formData, start_date: e.target.value})} 
+                />
+              </div>
+              
+              <div className="form-group mb-0">
+                <label className="label-premium">{t('end_date')}</label>
+                <input 
+                  type="datetime-local" required
+                  className="input-premium"
+                  value={formData.end_date}
+                  onChange={e => setFormData({...formData, end_date: e.target.value})} 
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="form-section pt-10" style={{borderTop: '1px solid var(--slate-100)'}}>
+            <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.35rem', fontWeight: 800}}>
+              <Users size={26} className="text-primary" />
               {t('capacity_settings') || 'Team Capacity'}
             </h3>
-            <div className="responsive-form-grid">
-              <div className="form-group">
+            
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem'}}>
+              <div className="form-group mb-0">
                 <label className="label-premium">{t('max_leaders') || 'Max Teams (Leaders)'}</label>
                 <input 
                   type="number" 
@@ -126,7 +134,8 @@ const CreateEvent = () => {
                   onChange={e => setFormData({...formData, max_leaders: Number(e.target.value)})} 
                 />
               </div>
-              <div className="form-group">
+              
+              <div className="form-group mb-0">
                 <label className="label-premium">{t('max_team_members') || 'Members per Team'}</label>
                 <input 
                   type="number" 

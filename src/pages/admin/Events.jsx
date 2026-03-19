@@ -149,7 +149,7 @@ const Events = () => {
       {/* Edit Modal (Glass) */}
       {editingEvent && (
         <div className="modal-overlay modal-overlay-premium">
-          <div className="modal-content-premium modal-content animate-in" style={{ maxWidth: '600px' }}>
+          <div className="modal-content-premium modal-content animate-in" style={{ maxWidth: '800px' }}>
             <div className="modal-header">
               <div className="modal-header-info">
                 <h3>{t('edit_event')}</h3>
@@ -163,37 +163,41 @@ const Events = () => {
               </button>
             </div>
             <form onSubmit={submitEdit} className="modal-body p-8">
-              <div className="form-group mb-6">
-                <label className="label-premium">{t('event_name')}</label>
-                <input required type="text" className="input-premium"
-                  value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} />
-              </div>
-              <div className="form-group mb-6">
-                <label className="label-premium">{t('event_description')}</label>
-                <textarea rows="3" className="input-premium" style={{ resize: 'none' }}
-                  value={editFormData.description} onChange={e => setEditFormData({...editFormData, description: e.target.value})} />
-              </div>
-              <div style={{display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem'}}>
-                <div className="form-group flex-1" style={{minWidth: '200px'}}>
+              <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '2rem'}}>
+                <div className="form-group mb-0">
+                  <label className="label-premium">{t('event_name')}</label>
+                  <input required type="text" className="input-premium"
+                    value={editFormData.name} onChange={e => setEditFormData({...editFormData, name: e.target.value})} />
+                </div>
+                
+                <div className="form-group mb-0">
+                  <label className="label-premium">{t('location')}</label>
+                  <input type="text" className="input-premium"
+                    value={editFormData.location} onChange={e => setEditFormData({...editFormData, location: e.target.value})} />
+                </div>
+                
+                <div className="form-group mb-0">
                   <label className="label-premium">{t('start_time')}</label>
                   <input required type="datetime-local" className="input-premium"
                     value={editFormData.start_date} onChange={e => setEditFormData({...editFormData, start_date: e.target.value})} />
                 </div>
-                <div className="form-group flex-1" style={{minWidth: '200px'}}>
+                
+                <div className="form-group mb-0">
                   <label className="label-premium">{t('end_time')}</label>
                   <input required type="datetime-local" className="input-premium"
                     value={editFormData.end_date} onChange={e => setEditFormData({...editFormData, end_date: e.target.value})} />
                 </div>
               </div>
+
               <div className="form-group mb-8">
-                <label className="label-premium">{t('location')}</label>
-                <input type="text" className="input-premium"
-                  value={editFormData.location} onChange={e => setEditFormData({...editFormData, location: e.target.value})} />
+                <label className="label-premium">{t('event_description')}</label>
+                <textarea rows="3" className="input-premium" style={{ resize: 'none', height: 'auto' }}
+                  value={editFormData.description} onChange={e => setEditFormData({...editFormData, description: e.target.value})} />
               </div>
               
-              <div className="modal-footer pt-4" style={{ borderTop: '1px solid var(--slate-100)' }}>
+              <div className="modal-footer pt-6" style={{ borderTop: '1px solid var(--slate-100)' }}>
                 <button type="button" onClick={() => setEditingEvent(null)} className="btn-ghost">{t('cancel')}</button>
-                <button type="submit" className="btn-admin">
+                <button type="submit" className="btn-admin" style={{minWidth: '150px'}}>
                   {t('save_changes')}
                 </button>
               </div>

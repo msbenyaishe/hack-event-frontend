@@ -90,8 +90,15 @@ const TimerControl = () => {
                 <input 
                   type="number" 
                   className="duration-input" 
-                  placeholder={t('duration')}
-                  onChange={(e) => setDuration(parseInt(e.target.value) || 0)}
+                  placeholder={t('hours') || 'Hours'}
+                  value={duration ? Number((duration / 3600).toFixed(2)) : ''}
+                  onChange={(e) => {
+                    const hours = parseFloat(e.target.value);
+                    setDuration(isNaN(hours) ? 0 : Math.round(hours * 3600));
+                  }}
+                  step="0.5"
+                  min="0"
+                  style={{ minWidth: '80px' }}
                 />
              </div>
           </div>

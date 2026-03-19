@@ -6,9 +6,10 @@ const Countdown = ({ startDate }) => {
   const calculateTimeLeft = (target) => {
     if (!target) return { difference: 0, time: { days: 0, hours: 0, minutes: 0, seconds: 0 } };
     
-    // Strip trailing 'Z' to force local timezone parsing if the backend appends UTC blindly
-    const cleanTarget = target.endsWith('Z') ? target.slice(0, -1) : target;
-    const targetDate = new Date(cleanTarget).getTime();
+    // Convert to a universally safe string format (YYYY/MM/DD HH:mm:ss) to prevent Safari returning NaN
+    // This preserves local timezone evaluation universally while stripping stray Z and milliseconds if any exist.
+    const safeString = target.replace('T', ' ').replace(/-/g, '/').split('.')[0].replace('Z', '');
+    const targetDate = new Date(safeString).getTime();
     
     if (isNaN(targetDate)) return { difference: 0, time: { days: 0, hours: 0, minutes: 0, seconds: 0 } };
     

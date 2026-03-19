@@ -144,39 +144,45 @@ const AdminWorkshops = () => {
             {isEditing ? t('edit_workshop') || 'Edit Workshop' : t('add_workshop')}
           </h3>
           <form onSubmit={handleSubmit}>
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem'}}>
-              <div style={{gridColumn: '1 / -1'}}>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '2rem'}}>
+              <div className="form-group mb-0">
                 <label className="label-premium">{t('title')}</label>
                 <input type="text" required className="input-premium"
                   value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} />
               </div>
-              <div style={{gridColumn: '1 / -1'}}>
-                <label className="label-premium">{t('description')}</label>
-                <textarea className="input-premium" rows="3" style={{resize: 'none'}}
-                  value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
-              </div>
-              <div>
+              
+              <div className="form-group mb-0">
                 <label className="label-premium">{t('technology')}</label>
                 <input type="text" placeholder="e.g. React, Python" className="input-premium"
                   value={formData.technology} onChange={e => setFormData({...formData, technology: e.target.value})} />
               </div>
-              <div>
-                <label className="label-premium">{t('duration')}</label>
-                <input type="text" placeholder="e.g. 45 min" className="input-premium"
-                  value={formData.duration} onChange={e => setFormData({...formData, duration: e.target.value})} />
-              </div>
-              <div>
+              
+              <div className="form-group mb-0">
                 <label className="label-premium">{t('start_time')}</label>
                 <input type="datetime-local" required className="input-premium"
                   value={formData.start_time} onChange={e => setFormData({...formData, start_time: e.target.value})} />
               </div>
-              <div>
+              
+              <div className="form-group mb-0">
+                <label className="label-premium">{t('duration')}</label>
+                <input type="text" placeholder="e.g. 45 min" className="input-premium"
+                  value={formData.duration} onChange={e => setFormData({...formData, duration: e.target.value})} />
+              </div>
+              
+              <div className="form-group mb-0">
                 <label className="label-premium">{t('location')}</label>
                 <input type="text" className="input-premium"
                   value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
               </div>
             </div>
-            <div className="flex justify-end gap-4 mt-12 pt-8" style={{borderTop: '1px solid var(--slate-100)'}}>
+
+            <div className="form-group mb-0">
+              <label className="label-premium">{t('description')}</label>
+              <textarea className="input-premium" rows="3" style={{resize: 'none', height: 'auto'}}
+                value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})} />
+            </div>
+
+            <div style={{display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid var(--slate-100)'}}>
               <button type="button" onClick={() => setShowForm(false)} className="btn-ghost">{t('cancel')}</button>
               <button type="submit" className="btn-admin" style={{minWidth: '150px'}}>
                 {isEditing ? t('save') : t('create')}

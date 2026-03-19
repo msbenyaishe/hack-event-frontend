@@ -173,10 +173,16 @@ const Members = () => {
                             )}
                           </div>
                           <div style={{ fontSize: '0.8125rem', color: 'var(--slate-400)' }}>{member.email}</div>
-                          {member.team_id && (
-                             <div style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600, marginTop: '2px' }}>
-                               {t('team_id_label')}: {member.team_id}
-                             </div>
+                          {member.portfolio && (
+                             <a 
+                               href={member.portfolio} 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               className="badge-premium badge-info" 
+                               style={{ display: 'inline-flex', fontSize: '0.8rem', padding: '2px 8px', marginTop: '4px', textDecoration: 'none', lineHeight: '1.2' }}
+                             >
+                               {t('view_portfolio') || 'View Portfolio'}
+                             </a>
                           )}
                         </div>
                       </div>
