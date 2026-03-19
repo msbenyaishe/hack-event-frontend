@@ -85,7 +85,7 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          <div className="form-section mb-10 pt-10" style={{borderTop: '1px solid var(--slate-100)'}}>
+          <div className="form-section mb-10 pt-6">
             <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.35rem', fontWeight: 800}}>
               <CalendarIcon size={26} className="text-primary" />
               {t('schedule')}
@@ -114,7 +114,7 @@ const CreateEvent = () => {
             </div>
           </div>
 
-          <div className="form-section pt-10" style={{borderTop: '1px solid var(--slate-100)'}}>
+          <div className="form-section pt-6">
             <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.35rem', fontWeight: 800}}>
               <Users size={26} className="text-primary" />
               {t('capacity_settings') || 'Team Capacity'}

@@ -28,10 +28,10 @@
 .form-actions-row {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--slate-100);
+  gap: 1.25rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: none;
 }
 
 
@@ -407,10 +407,11 @@
   }
 
   .leader-title {
-    font-size: 1.85rem !important;
-    margin: 0.75rem 0 !important;
+    font-size: 1.75rem !important;
+    margin: 0.5rem 0 !important;
     display: block;
     width: 100%;
+    font-weight: 800;
   }
 
   .myteam-points-badge {
@@ -471,18 +472,20 @@
   }
 
   .myteam-member-name {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+    font-weight: 700;
   }
 
   .myteam-member-email {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--slate-400);
   }
   
   .myteam-member-item > button {
