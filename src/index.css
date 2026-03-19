@@ -246,7 +246,7 @@ h3 { font-size: clamp(1.125rem, 1.6vw, 1.5rem); }
 }
 
 .container-inner {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 2.5vw, 2rem);
   width: 100%;
@@ -2322,10 +2322,12 @@ button {
 /* Form Styling - Premium */
 .form-card-premium {
   background: white;
-  padding: 3rem;
+  padding: 3.5rem;
   border-radius: 32px;
   border: 1px solid var(--slate-100);
   box-shadow: var(--shadow-premium);
+  max-width: 100%;
+  width: 100%;
 }
 
 .label-premium {

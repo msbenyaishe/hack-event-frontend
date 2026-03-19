@@ -42,7 +42,7 @@ const CreateEvent = () => {
         </div>
       </div>
 
-      <div className="form-card-premium animate-in" style={{maxWidth: '1000px', margin: '0 auto'}}>
+      <div className="form-card-premium animate-in" style={{margin: '0 auto'}}>
         <form onSubmit={handleSubmit}>
           
           <div className="form-section mb-10">
