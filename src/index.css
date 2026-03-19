@@ -2322,7 +2322,7 @@ button {
 /* Form Styling - Premium */
 .form-card-premium {
   background: white;
-  padding: 3.5rem;
+  padding: 2.5rem;
   border-radius: 32px;
   border: 1px solid var(--slate-100);
   box-shadow: var(--shadow-premium);
@@ -2331,26 +2331,32 @@ button {
 }
 
 .label-premium {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--slate-900);
-  margin-bottom: 0.75rem;
+  color: var(--slate-600);
+  margin-bottom: 0.5rem;
   display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
 .input-premium {
   width: 100%;
-  padding: 1.25rem 1.5rem;
-  border-radius: 16px;
+  padding: 0.875rem 1.25rem;
+  border-radius: 14px;
   border: 2px solid var(--slate-100);
   background: var(--slate-50);
-  font-size: 1rem;
+  font-size: 0.9375rem;
   font-weight: 500;
+  color: var(--slate-900);
   transition: var(--transition);
 }
 
 .input-premium:focus {
-  box-shadow: 0 8px 24px var(--primary-50);
+  border-color: var(--primary-200);
+  background: white;
+  box-shadow: 0 0 0 4px var(--primary-50);
+  outline: none;
 }
 
 /* Simple Footer Styles */

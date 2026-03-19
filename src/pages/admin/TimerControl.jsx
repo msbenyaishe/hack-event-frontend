@@ -98,7 +98,7 @@ const TimerControl = () => {
                   }}
                   step="0.5"
                   min="0"
-                  style={{ minWidth: '80px' }}
+                  style={{ minWidth: '80px', height: '42px', padding: '0 1rem', borderRadius: '10px' }}
                 />
              </div>
           </div>

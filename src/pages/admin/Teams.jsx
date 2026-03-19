@@ -198,7 +198,7 @@ const Teams = () => {
                           value={newScores.practical}
                           onChange={(e) => setNewScores(prev => ({ ...prev, practical: Number(e.target.value) }))}
                           className="input-premium"
-                          style={{ width: '70px', padding: '0.5rem', textAlign: 'center' }}
+                          style={{ width: '80px', padding: '0.625rem', textAlign: 'center', borderRadius: '10px' }}
                         />
                       ) : (
                         <div className="badge-premium" style={{ background: 'var(--slate-50)', color: 'var(--slate-600)' }}>
@@ -214,7 +214,7 @@ const Teams = () => {
                           value={newScores.theoretical}
                           onChange={(e) => setNewScores(prev => ({ ...prev, theoretical: Number(e.target.value) }))}
                           className="input-premium"
-                          style={{ width: '70px', padding: '0.5rem', textAlign: 'center' }}
+                          style={{ width: '80px', padding: '0.625rem', textAlign: 'center', borderRadius: '10px' }}
                         />
                       ) : (
                         <div className="badge-premium" style={{ background: 'var(--slate-50)', color: 'var(--slate-600)' }}>

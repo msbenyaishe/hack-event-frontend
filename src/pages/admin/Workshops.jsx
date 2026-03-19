@@ -144,7 +144,7 @@ const AdminWorkshops = () => {
             {isEditing ? t('edit_workshop') || 'Edit Workshop' : t('add_workshop')}
           </h3>
           <form onSubmit={handleSubmit}>
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '2rem'}}>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem'}}>
               <div className="form-group mb-0">
                 <label className="label-premium">{t('title')}</label>
                 <input type="text" required className="input-premium"

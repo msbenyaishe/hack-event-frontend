@@ -51,7 +51,7 @@ const CreateEvent = () => {
               {t('event_details')}
             </h3>
             
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '2rem'}}>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '2rem'}}>
               <div className="form-group mb-0">
                 <label className="label-premium">{t('event_name')}</label>
                 <input 
@@ -91,7 +91,7 @@ const CreateEvent = () => {
               {t('schedule')}
             </h3>
             
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem'}}>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem'}}>
               <div className="form-group mb-0">
                 <label className="label-premium">{t('start_date')}</label>
                 <input 
@@ -120,7 +120,7 @@ const CreateEvent = () => {
               {t('capacity_settings') || 'Team Capacity'}
             </h3>
             
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem'}}>
+            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem'}}>
               <div className="form-group mb-0">
                 <label className="label-premium">{t('max_leaders') || 'Max Teams (Leaders)'}</label>
                 <input 
