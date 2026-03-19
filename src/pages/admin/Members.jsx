@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { adminApi } from '../../api/adminApi';
-import { invitesApi } from '../../api/invitesApi';
-import { Shield, User, Trash2, Send, Mail } from 'lucide-react';
+import { User, Trash2, Shield } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const Members = () => {
@@ -9,11 +8,7 @@ const Members = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Invite Leader State
-  const [inviteEmail, setInviteEmail] = useState('');
-  const [inviteLoading, setInviteLoading] = useState(false);
-  const [inviteMessage, setInviteMessage] = useState(null);
-  const [inviteError, setInviteError] = useState(null);
+  // Platform Members State
 
   useEffect(() => {
     fetchMembers();
@@ -52,22 +47,6 @@ const Members = () => {
     }
   };
 
-  const handleInviteLeader = async (e) => {
-    e.preventDefault();
-    try {
-      setInviteLoading(true);
-      setInviteError(null);
-      setInviteMessage(null);
-      await invitesApi.createLeaderInvite({ email: inviteEmail });
-      setInviteMessage(`${t('invitation_sent_to') || 'Leader invitation sent to'} ${inviteEmail}`);
-      setInviteEmail('');
-    } catch (err) {
-      console.error(err);
-      setInviteError(err.response?.data?.message || t('failed_to_send_invite') || 'Failed to send invite');
-    } finally {
-      setInviteLoading(false);
-    }
-  };
 
   return (
     <div className="admin-page-container">
@@ -78,53 +57,6 @@ const Members = () => {
         </div>
       </div>
 
-      <div className="form-card-premium animate-in mb-12" style={{ maxWidth: '800px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-          <div className="btn-action-premium active" style={{ width: '3rem', height: '3rem', borderRadius: '16px' }}>
-            <Shield size={24} />
-          </div>
-          <div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--slate-900)' }}>{t('invite_platform_leader')}</h3>
-            <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>{t('grant_admin_access')}</p>
-          </div>
-        </div>
-        
-        {inviteMessage && (
-          <div className="badge-premium badge-success mb-6" style={{ width: '100%', justifyContent: 'center', padding: '1rem' }}>
-            {inviteMessage}
-          </div>
-        )}
-        {inviteError && (
-          <div className="badge-premium badge-error mb-6" style={{ width: '100%', justifyContent: 'center', padding: '1rem' }}>
-            {inviteError}
-          </div>
-        )}
-
-        <form onSubmit={handleInviteLeader} style={{display: 'flex', flexWrap: 'wrap', gap: '1rem'}}>
-          <div className="search-input-wrapper" style={{ flex: '1 1 300px', maxWidth: 'none' }}>
-            <div className="search-icon-pos">
-              <Mail size={18} />
-            </div>
-            <input 
-              type="email" 
-              required
-              placeholder="leader@example.com"
-              className="search-input"
-              value={inviteEmail}
-              onChange={(e) => setInviteEmail(e.target.value)}
-            />
-          </div>
-          <button 
-            type="submit" 
-            disabled={inviteLoading}
-            className="btn-admin"
-            style={{ padding: '0 2rem', flex: '1 1 auto', minWidth: '150px' }}
-          >
-            <Send size={18} />
-            {inviteLoading ? t('sending') : t('send_invite')}
-          </button>
-        </form>
-      </div>
 
       <div className="admin-card animate-in">
         {loading ? (
