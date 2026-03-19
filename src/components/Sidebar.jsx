@@ -65,6 +65,7 @@ const Sidebar = ({ role }) => {
             className={({ isActive }) =>
               `nav-item ${isActive ? 'nav-item-active' : ''}`
             }
+            onClick={() => setIsOpen(false)}
           >
             <span className="nav-item-icon">
               {link.icon}
