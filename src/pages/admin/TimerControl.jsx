@@ -75,7 +75,7 @@ const TimerControl = () => {
             </div>
           </div>
 
-          <div className="timer-config-premium">
+          <div className="timer-config-premium" style={{borderRadius: '20px'}}>
              <div className="config-label">{t('set_duration')}</div>
              <div className="config-pills">
                 {[7200, 14400, 28800, 43200, 86400].map(sec => (
@@ -98,7 +98,7 @@ const TimerControl = () => {
                   }}
                   step="0.5"
                   min="0"
-                  style={{ minWidth: '80px', height: '42px', padding: '0 1rem', borderRadius: '10px' }}
+                  style={{ minWidth: '80px', height: '42px', padding: '0 1rem', borderRadius: '20px' }}
                 />
              </div>
           </div>
