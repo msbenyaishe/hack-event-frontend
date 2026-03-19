@@ -54,8 +54,8 @@ const TimerControl = () => {
   };
 
   return (
-    <div className="container-inner" style={{maxWidth: '64rem'}}>
-      <div className="page-header" style={{marginBottom: '3rem', flexWrap: 'wrap', gap: '1.5rem'}}>
+    <div className="admin-page-container">
+      <div className="admin-toolbar">
         <div style={{minWidth: '280px'}}>
           <h1 className="page-title">{t('timer_control')}</h1>
           <p className="page-subtitle">{t('manage_timer')}</p>
