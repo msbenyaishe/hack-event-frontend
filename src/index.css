@@ -380,8 +380,8 @@ h3 { font-size: clamp(1.125rem, 1.6vw, 1.5rem); }
 
 .btn-admin:hover {
   background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.25);
 }
 
 .btn-admin:active {
@@ -828,8 +828,8 @@ a {
 }
 
 .card-premium:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-premium);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
   border-color: var(--primary-200);
 }
 
@@ -846,8 +846,8 @@ a {
 }
 
 .public-workshop-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.04);
   border-color: var(--warning);
 }
 
@@ -1015,7 +1015,7 @@ button {
 .nav-item:hover {
   background-color: var(--slate-50);
   color: var(--primary);
-  transform: translateX(4px);
+  transform: translateX(2px);
 }
 
 .nav-item-active {
@@ -1319,8 +1319,8 @@ button {
 
 .btn-indigo:hover {
   background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.2);
 }
 
 .btn-indigo:active {
@@ -1565,7 +1565,7 @@ button {
 .action-btn:hover {
   background: var(--primary-100);
   color: var(--primary);
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .action-btn-danger:hover {
@@ -2069,8 +2069,8 @@ button {
 .social-icon:hover {
   background: var(--primary);
   color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.15);
 }
 
 .footer-heading {
@@ -2169,7 +2169,7 @@ button {
 
 .admin-card:hover {
   box-shadow: var(--shadow-premium);
-  transform: translateY(-4px);
+  transform: translateY(-1px);
 }
 
 .premium-table-wrapper {
@@ -2254,7 +2254,7 @@ button {
 .btn-action-premium:hover {
   background: var(--primary);
   color: white;
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .btn-action-premium.danger:hover {
@@ -2387,8 +2387,8 @@ button {
 /* Redundant auth-page styles removed */
 
 .auth-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 35px 60px -15px rgba(15, 23, 42, 0.1), 0 0 0 1px var(--slate-100);
+  transform: translateY(-1px);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.1), 0 0 0 1px var(--slate-100);
 }
 
 .auth-header {
@@ -2412,7 +2412,7 @@ button {
 .auth-card:hover .auth-icon-box {
   background: var(--primary);
   color: white;
-  transform: scale(1.05) rotate(5deg);
+  transform: scale(1.02);
 }
 
 .auth-title {
@@ -3310,7 +3310,7 @@ button {
 .nav-item:hover {
   background: var(--slate-50);
   border-color: var(--slate-100);
-  transform: translateX(3px);
+  transform: translateX(1px);
 }
 
 .nav-item:hover::before { opacity: 1; }
@@ -3892,8 +3892,8 @@ button {
 
 .select-member-add-btn:hover:not(:disabled) {
   background: var(--primary-700);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 }
 
 .select-member-add-btn:disabled {

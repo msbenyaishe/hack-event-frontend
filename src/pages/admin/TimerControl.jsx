@@ -62,7 +62,7 @@ const TimerControl = () => {
         </div>
         <div className={`status-indicator-pill ${timerStatus?.status === 'running' ? 'active' : ''}`} style={{marginLeft: 'auto'}}>
            <div className="pulse-dot" />
-           <span>{timerStatus ? t(timerStatus.status) || timerStatus.status.toUpperCase() : t('loading')}</span>
+           <span>{timerStatus ? t(timerStatus.status) || timerStatus.status.replace(/_/g, ' ').toUpperCase() : t('loading')}</span>
         </div>
       </div>
 

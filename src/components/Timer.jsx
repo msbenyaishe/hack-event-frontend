@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { timersApi } from '../api/timersApi';
+import { useTranslation } from 'react-i18next';
 
 const Timer = () => {
+  const { t } = useTranslation();
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [status, setStatus] = useState('waiting');
   const [offset, setOffset] = useState(0);
@@ -83,7 +85,7 @@ const Timer = () => {
             boxShadow: status === 'running' ? '0 0 12px var(--success)' : 'none'
           }} />
           <span className={`status-text status-${status}`}>
-            {status}
+            {t(status) || status.replace(/_/g, ' ').toUpperCase()}
           </span>
         </div>
       </div>
