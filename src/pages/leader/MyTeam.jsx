@@ -101,48 +101,62 @@ const MyTeam = () => {
         {user?.role === 'leader' ? (
           <>
             <h2 className="leader-title">{t('Create your team') || 'Create your team'}</h2>
-            <p className="leader-subtitle">{t('Leader create hint') || 'As a leader, you can create your team now.'}</p>
+            <p className="leader-subtitle" style={{ marginBottom: '2.5rem' }}>{t('Leader create hint') || 'As a leader, you can create your team now.'}</p>
             
-            <form onSubmit={async (e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target);
-              try {
-                setLoading(true);
-                await teamsApi.create(formData);
-                setSuccessMessage('Team successfully created! Welcome leader.');
-                setTimeout(() => setSuccessMessage(''), 5000);
-                setRefresh(prev => prev + 1);
-              } catch (err) {
-                console.error(err);
-                alert(err.response?.data?.error || 'Failed to create team');
-              } finally {
-                setLoading(false);
-              }
-            }} className="create-team-form" style={{ maxWidth: '32rem', margin: '0 auto', textAlign: 'left' }}>
-              <div className="create-team-grid">
-                <div className="create-team-field">
-                  <label className="form-label">{t('team_name') || 'Team name'}</label>
-                  <input
-                    name="name"
-                    type="text"
-                    className="form-input"
-                    required
-                    placeholder={t('enter_team_name') || 'Enter a team name'}
+            <form 
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                try {
+                  setLoading(true);
+                  await teamsApi.create(formData);
+                  setSuccessMessage('Team successfully created! Welcome leader.');
+                  setTimeout(() => setSuccessMessage(''), 5000);
+                  setRefresh(prev => prev + 1);
+                } catch (err) {
+                  console.error(err);
+                  alert(err.response?.data?.error || 'Failed to create team');
+                } finally {
+                  setLoading(false);
+                }
+              }}
+              style={{ maxWidth: '32rem', margin: '0 auto', textAlign: 'left' }}
+            >
+              <div className="form-group">
+                <label className="label-premium">{t('team_name') || 'Team name'}</label>
+                <input
+                  name="name"
+                  type="text"
+                  className="input-premium"
+                  required
+                  placeholder={t('enter_team_name') || 'Enter a team name'}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                <div className="form-group mb-0">
+                  <label className="label-premium">{t('color') || 'Brand color'}</label>
+                  <input 
+                    name="color" 
+                    type="color" 
+                    className="input-premium"
+                    style={{ height: '3.5rem', padding: '0.25rem', cursor: 'pointer' }}
+                    defaultValue="#4f46e5" 
                   />
                 </div>
-                <div className="create-team-row">
-                  <div className="create-team-field">
-                    <label className="form-label">{t('color') || 'Brand color'}</label>
-                    <input name="color" type="color" style={{ width: '100%', height: '3rem', borderRadius: '0.75rem', cursor: 'pointer', border: 'none', padding: 0 }} defaultValue="#4f46e5" />
-                  </div>
-                  <div className="create-team-field">
-                    <label className="form-label">{t('logo') || 'Logo'}</label>
-                    <input name="logo" type="file" className="form-input create-team-file" accept="image/*" style={{ fontSize: '0.875rem' }} />
-                  </div>
+                <div className="form-group mb-0">
+                  <label className="label-premium">{t('logo') || 'Team Logo'}</label>
+                  <input 
+                    name="logo" 
+                    type="file" 
+                    className="input-premium" 
+                    accept="image/*" 
+                    style={{ fontSize: '0.875rem', paddingTop: '0.75rem' }} 
+                  />
                 </div>
               </div>
 
-              <button type="submit" className="btn-indigo create-team-submit" style={{ width: '100%', marginTop: '1.5rem', padding: '1rem' }}>
+              <button type="submit" className="btn-admin" style={{ width: '100%', marginTop: '1rem' }}>
                 {t('create_team') || 'Create team'}
               </button>
             </form>

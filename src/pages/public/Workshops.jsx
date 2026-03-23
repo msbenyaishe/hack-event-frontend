@@ -64,7 +64,10 @@ const Workshops = () => {
                 <div className="workshop-meta">
                   <div className="meta-item">
                     <Clock size={18} className="meta-icon" />
-                    <span>{new Date(workshop.startTime).toLocaleString()}</span>
+                    <span>
+                      {new Date(workshop.startTime || workshop.start_time).toLocaleString()}
+                      {workshop.duration && ` • ${workshop.duration} h`}
+                    </span>
                   </div>
                   <div className="meta-item">
                     <MapPin size={18} className="meta-icon" />

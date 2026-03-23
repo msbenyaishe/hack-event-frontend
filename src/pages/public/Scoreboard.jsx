@@ -139,7 +139,7 @@ const Scoreboard = () => {
                          {workshop.technology || 'General'}
                       </div>
                       <div className="workshop-duration-badge">
-                         {workshop.duration}m
+                         {workshop.duration} h
                       </div>
                       <h3>{workshop.title}</h3>
                       <p className="font-medium">

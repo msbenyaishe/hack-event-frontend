@@ -14,7 +14,7 @@ const WorkshopCard = ({ workshop, isAdmin = false, onEdit, onDelete }) => {
           </span>
           {workshop.duration && (
             <span className="tag tag-slate">
-              {workshop.duration}
+              {workshop.duration} h
             </span>
           )}
         </div>

@@ -164,8 +164,8 @@ const AdminWorkshops = () => {
               </div>
               
               <div className="form-group mb-0">
-                <label className="label-premium">{t('duration')}</label>
-                <input type="text" placeholder="e.g. 45 min" className="input-premium"
+                <label className="label-premium">{t('duration_hours') || 'Duration (hours)'}</label>
+                <input type="number" required placeholder="e.g. 1.5" step="0.1" min="0" className="input-premium"
                   value={formData.duration} onChange={e => setFormData({...formData, duration: e.target.value})} />
               </div>
               
@@ -230,7 +230,10 @@ const AdminWorkshops = () => {
                     </td>
                     <td data-label={t('schedule') || 'Schedule'}>
                       <div style={{fontWeight: 600}}>{new Date(workshop.start_time || workshop.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                      <div style={{fontSize: '0.75rem', color: 'var(--slate-400)'}}>{workshop.location || 'Meeting Room'}</div>
+                      <div style={{fontSize: '0.75rem', color: 'var(--slate-400)'}}>
+                        {workshop.location || 'Meeting Room'} 
+                        {workshop.duration && ` • ${workshop.duration} h`}
+                      </div>
                     </td>
                     <td data-label={t('actions') || 'Actions'}>
                       <div className="action-group" style={{justifyContent: 'flex-end'}}>
