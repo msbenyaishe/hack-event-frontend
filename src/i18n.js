@@ -197,6 +197,45 @@ const resources = {
       "view_portfolio": "View Portfolio",
       "adding_member": "Adding...",
       "member_added_successfully": "Member added successfully!",
+      // Leader / Team (missing keys)
+      "Create your team": "Create your team",
+      "Leader create hint": "As a leader, you can create your team now.",
+      "create_team": "Create Team",
+      "enter_team_name": "Enter a team name",
+      "logo": "Logo",
+      "add_to_team": "Add to team",
+      "delete_team": "Delete Team",
+      "update_team_identifiers": "Update team identifiers",
+
+      // Nav / generic UI
+      "Home": "Home",
+      "home": "Home",
+      "loading": "Loading",
+
+      // Countdown units (missing keys)
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+
+      // Public / Workshop empty states (missing keys)
+      "no_workshops_yet": "No sessions yet",
+      "no_workshops_found": "No workshops found",
+      "fetching_workshops": "Loading workshops...",
+
+      // Admin / Workshops / Errors (missing keys)
+      "technology": "Technology",
+      "duration": "Duration",
+
+      "no_members_found": "No members found",
+      "failed_to_add_member": "Failed to add member",
+      "failed_to_send_invite": "Failed to send invite",
+      "invite_limit_hint": "Invite teammates by email to join your team.",
+
+      // Admin / Scores
+      "edit_scores": "Edit Scores",
+      "save": "Save",
+      "scores_updated_successfully": "Scores updated successfully!",
       "team_required_error": "You must have a team to select members.",
     }
   },
@@ -389,6 +428,45 @@ const resources = {
       "view_portfolio": "Voir le Portfolio",
       "adding_member": "Ajout...",
       "member_added_successfully": "Membre ajouté avec succès !",
+      // Leader / Team (missing keys)
+      "Create your team": "Créez votre équipe",
+      "Leader create hint": "En tant que leader, vous pouvez créer votre équipe maintenant.",
+      "create_team": "Créer l'équipe",
+      "enter_team_name": "Entrez un nom d'équipe",
+      "logo": "Logo",
+      "add_to_team": "Ajouter à l'équipe",
+      "delete_team": "Supprimer l'équipe",
+      "update_team_identifiers": "Mettre à jour les identifiants de l'équipe",
+
+      // Nav / generic UI
+      "Home": "Accueil",
+      "home": "Accueil",
+      "loading": "Chargement",
+
+      // Countdown units (missing keys)
+      "days": "Jours",
+      "hours": "Heures",
+      "minutes": "Minutes",
+      "seconds": "Secondes",
+
+      // Public / Workshop empty states (missing keys)
+      "no_workshops_yet": "Aucune session pour le moment",
+      "no_workshops_found": "Aucun atelier trouvé",
+      "fetching_workshops": "Chargement des ateliers...",
+
+      // Admin / Workshops / Errors (missing keys)
+      "technology": "Technologie",
+      "duration": "Durée",
+
+      "no_members_found": "Aucun membre trouvé",
+      "failed_to_add_member": "Impossible d'ajouter le membre",
+      "failed_to_send_invite": "Impossible d'envoyer l'invitation",
+      "invite_limit_hint": "Invitez des coéquipiers par email pour rejoindre votre équipe.",
+
+      // Admin / Scores
+      "edit_scores": "Modifier les scores",
+      "save": "Enregistrer",
+      "scores_updated_successfully": "Scores mis à jour avec succès !",
       "team_required_error": "Vous devez avoir une équipe pour sélectionner des membres.",
     }
   },
@@ -574,6 +652,45 @@ const resources = {
       "view_portfolio": "عرض ملف الأعمال",
       "adding_member": "جاري الإضافة...",
       "member_added_successfully": "تم إضافة العضو بنجاح!",
+      // Leader / Team (missing keys)
+      "Create your team": "أنشئ فريقك",
+      "Leader create hint": "بصفتك قائدًا، يمكنك إنشاء فريقك الآن.",
+      "create_team": "إنشاء الفريق",
+      "enter_team_name": "أدخل اسم الفريق",
+      "logo": "الشعار",
+      "add_to_team": "إضافة إلى الفريق",
+      "delete_team": "حذف الفريق",
+      "update_team_identifiers": "تحديث معرّفات الفريق",
+
+      // Nav / generic UI
+      "Home": "الرئيسية",
+      "home": "الرئيسية",
+      "loading": "جارٍ التحميل",
+
+      // Countdown units (missing keys)
+      "days": "الأيام",
+      "hours": "الساعات",
+      "minutes": "الدقائق",
+      "seconds": "الثواني",
+
+      // Public / Workshop empty states (missing keys)
+      "no_workshops_yet": "لا توجد جلسات حتى الآن",
+      "no_workshops_found": "لم يتم العثور على ورش عمل",
+      "fetching_workshops": "جارٍ تحميل ورش العمل...",
+
+      // Admin / Workshops / Errors (missing keys)
+      "technology": "التكنولوجيا",
+      "duration": "المدة",
+
+      "no_members_found": "لم يتم العثور على أعضاء",
+      "failed_to_add_member": "تعذر إضافة العضو",
+      "failed_to_send_invite": "تعذر إرسال الدعوة",
+      "invite_limit_hint": "ادعُ زملاءك عبر البريد الإلكتروني للانضمام إلى فريقك.",
+
+      // Admin / Scores
+      "edit_scores": "تعديل الدرجات",
+      "save": "حفظ",
+      "scores_updated_successfully": "تم تحديث الدرجات بنجاح!",
       "team_required_error": "يجب أن يكون لديك فريق لاختيار الأعضاء.",
     }
   }

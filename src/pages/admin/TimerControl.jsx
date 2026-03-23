@@ -14,15 +14,20 @@ const TimerControl = () => {
       const res = await timersApi.getGlobalTimer();
       setTimerStatus(res.data);
       
-      const { status, endTime, remainingSeconds, serverTime } = res.data;
-      if (status === 'running' && endTime) {
+      const { status, remainingSeconds, endTime, serverTime } = res.data || {};
+      // Prefer backend-provided remainingSeconds to avoid timezone parsing drift.
+      if (typeof remainingSeconds === 'number') {
+        setTimeRemaining(Math.max(0, remainingSeconds * 1000));
+        return;
+      }
+
+      // Fallback: compute using endTime - serverTime (only if remainingSeconds is missing).
+      if (status === 'running' && endTime && serverTime) {
         const endMs = new Date(endTime).getTime();
         const serverMs = new Date(serverTime).getTime();
-        const clientMs = Date.now();
-        const offset = serverMs - clientMs;
-        setTimeRemaining(Math.max(0, endMs - (clientMs + offset)));
+        setTimeRemaining(Math.max(0, endMs - serverMs));
       } else {
-        setTimeRemaining((remainingSeconds || 0) * 1000);
+        setTimeRemaining(0);
       }
     } catch (err) {
       console.error(err);

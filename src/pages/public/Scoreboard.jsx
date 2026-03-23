@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import TeamCard from '../../components/TeamCard';
-import Timer from '../../components/Timer';
+import EventTimer from '../../components/EventTimer';
 import { eventsApi } from '../../api/eventsApi';
 import { teamsApi } from '../../api/teamsApi';
 import { workshopsApi } from '../../api/workshopsApi';
 import { useTranslation } from 'react-i18next';
-import Countdown from '../../components/Countdown';
 
 const Scoreboard = () => {
   const { t } = useTranslation();
@@ -87,13 +86,13 @@ const Scoreboard = () => {
             </p>
           </div>
 
-          {/* Right Column: Unified Timers Stack */}
+          {/* Right Column: Unified Timer */}
           <div className="unified-timer-container">
-            <Timer />
-            {currentEvent?.start_date && (
-              <div className="transition-all hover:scale-[1.01] duration-300">
-                <Countdown startDate={currentEvent.start_date} />
-              </div>
+            {currentEvent && (
+              <EventTimer 
+                startDate={currentEvent.start_date} 
+                endDate={currentEvent.end_date} 
+              />
             )}
           </div>
         </div>
