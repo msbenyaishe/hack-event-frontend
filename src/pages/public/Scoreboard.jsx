@@ -177,7 +177,7 @@ const Scoreboard = () => {
                             : `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/pdfs/${workshop.link}`} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          download
+                          download={workshop.link.startsWith('http') ? undefined : true}
                           className="btn-secondary"
                           style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem', padding: '0.5rem 1rem', fontSize: '0.875rem' }}
                         >
