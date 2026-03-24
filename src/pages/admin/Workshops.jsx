@@ -199,12 +199,6 @@ const AdminWorkshops = () => {
                   ))}
                 </select>
               </div>
-
-              <div className="form-group mb-0">
-                <label className="label-premium">{t('external_link') || 'Or External Link URL'}</label>
-                <input type="url" placeholder="https://..." className="input-premium"
-                  value={formData.link || ''} onChange={e => setFormData({...formData, link: e.target.value})} />
-              </div>
             </div>
 
             <div className="form-group mb-0">
