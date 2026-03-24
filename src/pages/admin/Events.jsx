@@ -21,6 +21,7 @@ const Events = () => {
   });
   const [editLogoFile, setEditLogoFile] = useState(null);
   const [editLogoPreview, setEditLogoPreview] = useState(null);
+  const [editLogoError, setEditLogoError] = useState('');
 
   useEffect(() => {
     fetchEvents();
@@ -60,11 +61,23 @@ const Events = () => {
     });
     setEditLogoFile(null);
     setEditLogoPreview(event.logo || null);
+    setEditLogoError('');
   };
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
+    setEditLogoError('');
+
     if (file) {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        setEditLogoError(t('invalid_image_format') || 'Only PNG, JPG and JPEG formats are allowed.');
+        setEditLogoFile(null);
+        setEditLogoPreview(null);
+        e.target.value = ''; // Clear input
+        return;
+      }
+
       setEditLogoFile(file);
       setEditLogoPreview(URL.createObjectURL(file));
     }
@@ -228,11 +241,16 @@ const Events = () => {
                     <div style={{ flex: 1 }}>
                       <input 
                         type="file" 
-                        accept="image/*"
+                        accept=".png,.jpg,.jpeg"
                         onChange={handleLogoChange}
                         className="input-premium"
                         style={{ padding: '8px' }}
                       />
+                      {editLogoError && (
+                        <p style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.5rem', fontWeight: 600 }}>
+                          {editLogoError}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

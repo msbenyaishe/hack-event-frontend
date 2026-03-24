@@ -18,12 +18,24 @@ const CreateEvent = () => {
   });
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState(null);
+  const [logoError, setLogoError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogoChange = (e) => {
     const file = e.target.files[0];
+    setLogoError('');
+    
     if (file) {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        setLogoError(t('invalid_image_format') || 'Only PNG, JPG and JPEG formats are allowed.');
+        setLogoFile(null);
+        setLogoPreview(null);
+        e.target.value = ''; // Clear input
+        return;
+      }
+      
       setLogoFile(file);
       setLogoPreview(URL.createObjectURL(file));
     }
@@ -102,11 +114,16 @@ const CreateEvent = () => {
                   <div className="custom-file-upload" style={{ flex: 1 }}>
                     <input 
                       type="file" 
-                      accept="image/*"
+                      accept=".png,.jpg,.jpeg"
                       onChange={handleLogoChange}
                       className="input-premium"
                       style={{ padding: '8px' }}
                     />
+                    {logoError && (
+                      <p style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.5rem', fontWeight: 600 }}>
+                        {logoError}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

@@ -16,6 +16,34 @@ const MyTeam = () => {
   const [refresh, setRefresh] = useState(0);
 
   const [successMessage, setSuccessMessage] = useState('');
+  const [logoError, setLogoError] = useState('');
+  const [editLogoError, setEditLogoError] = useState('');
+
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    setLogoError('');
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        setLogoError(t('invalid_image_format') || 'Only PNG, JPG and JPEG formats are allowed.');
+        e.target.value = '';
+        return;
+      }
+    }
+  };
+
+  const handleEditLogoChange = (e) => {
+    const file = e.target.files[0];
+    setEditLogoError('');
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!allowedTypes.includes(file.type)) {
+        setEditLogoError(t('invalid_image_format') || 'Only PNG, JPG and JPEG formats are allowed.');
+        e.target.value = '';
+        return;
+      }
+    }
+  };
 
   const handleUpdateTeam = async (e) => {
     e.preventDefault();
@@ -150,9 +178,15 @@ const MyTeam = () => {
                     name="logo" 
                     type="file" 
                     className="input-premium" 
-                    accept="image/*" 
+                    accept=".png,.jpg,.jpeg" 
+                    onChange={handleLogoChange}
                     style={{ fontSize: '0.875rem', paddingTop: '0.75rem' }} 
                   />
+                  {logoError && (
+                    <p style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.5rem', fontWeight: 600 }}>
+                      {logoError}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -263,10 +297,16 @@ const MyTeam = () => {
                 <input 
                   type="file" 
                   name="logo"
-                  accept="image/*"
+                  accept=".png,.jpg,.jpeg"
+                  onChange={handleEditLogoChange}
                   className="form-input" 
                   style={{ fontSize: '0.875rem' }}
                 />
+                {editLogoError && (
+                  <p style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: '0.5rem', fontWeight: 600 }}>
+                    {editLogoError}
+                  </p>
+                )}
               </div>
               <div className="myteam-modal-actions">
                 <button type="button" onClick={() => setIsEditModalOpen(false)} className="btn-secondary">
