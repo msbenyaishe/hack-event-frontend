@@ -5,5 +5,6 @@ export const workshopsApi = {
   getById: (id) => api.get(`/workshops/${id}`),
   create: (data) => api.post('/workshops', data),
   update: (id, data) => api.put(`/workshops/${id}`, data),
-  delete: (id) => api.delete(`/workshops/${id}`)
+  delete: (id) => api.delete(`/workshops/${id}`),
+  getPdfList: () => api.get('/workshops/pdfs/list')
 };

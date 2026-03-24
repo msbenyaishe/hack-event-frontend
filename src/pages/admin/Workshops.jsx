@@ -18,6 +18,7 @@ const AdminWorkshops = () => {
   
   const initialFormState = { title: '', description: '', event_id: '', start_time: '', location: '', technology: '', duration: '', link: '' };
   const [formData, setFormData] = useState(initialFormState);
+  const [pdfFiles, setPdfFiles] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -31,8 +32,12 @@ const AdminWorkshops = () => {
       
       if (eventsRes.data.length > 0) {
         const firstEventId = eventsRes.data[0].id;
-        const wsRes = await workshopsApi.getByEvent(firstEventId);
+        const [wsRes, pdfsRes] = await Promise.all([
+          workshopsApi.getByEvent(firstEventId),
+          workshopsApi.getPdfList()
+        ]);
         setWorkshops(wsRes.data);
+        setPdfFiles(pdfsRes.data || []);
         setFormData(prev => ({ ...prev, event_id: firstEventId }));
       }
     } catch (err) {
@@ -69,20 +74,15 @@ const AdminWorkshops = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const fd = new FormData();
-      Object.keys(formData).forEach(key => {
-        fd.append(key, formData[key] || '');
-      });
+      // Use logic to determine if we should use link from input or selected PDF
+      // But we can just use formData.link which is updated by the select OR input
       
-      const fileInput = e.target.querySelector('input[type="file"]');
-      if (fileInput && fileInput.files[0]) {
-        fd.append('pdf', fileInput.files[0]);
-      }
+      const payload = { ...formData };
 
       if (isEditing) {
-        await workshopsApi.update(editingId, fd);
+        await workshopsApi.update(editingId, payload);
       } else {
-        await workshopsApi.create(fd);
+        await workshopsApi.create(payload);
       }
       setShowForm(false);
       setIsEditing(false);
@@ -187,8 +187,17 @@ const AdminWorkshops = () => {
               </div>
               
               <div className="form-group mb-0">
-                <label className="label-premium">{t('pdf_file') || 'Upload PDF'}</label>
-                <input type="file" accept=".pdf,application/pdf" className="input-premium" style={{ paddingTop: '0.75rem', fontSize: '0.875rem' }} />
+                <label className="label-premium">{t('select_pdf') || 'Select PDF (from /pdfs folder)'}</label>
+                <select 
+                  className="input-premium" 
+                  value={formData.link || ''} 
+                  onChange={e => setFormData({...formData, link: e.target.value})}
+                >
+                  <option value="">{t('no_pdf_selected') || '-- None Selected --'}</option>
+                  {pdfFiles.map(file => (
+                    <option key={file} value={file}>{file}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group mb-0">

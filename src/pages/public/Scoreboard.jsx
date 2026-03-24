@@ -6,7 +6,7 @@ import { eventsApi } from '../../api/eventsApi';
 import { teamsApi } from '../../api/teamsApi';
 import { workshopsApi } from '../../api/workshopsApi';
 import { useTranslation } from 'react-i18next';
-import { getImageUrl } from '../../utils/imageUrl';
+import { getImageUrl, getPdfUrl } from '../../utils/imageUrl';
 
 const Scoreboard = () => {
   const { t } = useTranslation();
@@ -172,9 +172,7 @@ const Scoreboard = () => {
                       
                       {workshop.link && (
                         <a 
-                          href={workshop.link.startsWith('http') 
-                            ? workshop.link 
-                            : `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/pdfs/${workshop.link}`} 
+                          href={getPdfUrl(workshop.link)} 
                           target="_blank" 
                           rel="noopener noreferrer" 
                           className="btn-secondary"
