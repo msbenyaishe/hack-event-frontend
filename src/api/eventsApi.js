@@ -4,7 +4,21 @@ export const eventsApi = {
   getAll: () => api.get('/events'),
   getCurrent: () => api.get('/events/current'),
   getById: (id) => api.get(`/events/${id}`),
-  create: (data) => api.post('/events', data),
-  update: (id, data) => api.put(`/events/${id}`, data),
+  create: (data) => {
+    if (data instanceof FormData) {
+      return api.post('/events', data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+    }
+    return api.post('/events', data);
+  },
+  update: (id, data) => {
+    if (data instanceof FormData) {
+      return api.put(`/events/${id}`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+    }
+    return api.put(`/events/${id}`, data);
+  },
   delete: (id) => api.delete(`/events/${id}`)
 };

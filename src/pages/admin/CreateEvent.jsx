@@ -16,14 +16,33 @@ const CreateEvent = () => {
     max_team_members: 5,
     status: 'upcoming'
   });
+  const [logoFile, setLogoFile] = useState(null);
+  const [logoPreview, setLogoPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setLogoFile(file);
+      setLogoPreview(URL.createObjectURL(file));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      await eventsApi.create(formData);
+      
+      const data = new FormData();
+      Object.keys(formData).forEach(key => {
+        data.append(key, formData[key]);
+      });
+      if (logoFile) {
+        data.append('logo', logoFile);
+      }
+
+      await eventsApi.create(data);
       navigate('/admin');
     } catch (err) {
       console.error(err);
@@ -70,6 +89,26 @@ const CreateEvent = () => {
                   value={formData.location}
                   onChange={e => setFormData({...formData, location: e.target.value})} 
                 />
+              </div>
+
+              <div className="form-group mb-0">
+                <label className="label-premium">{t('event_logo') || 'Event Logo'}</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                  {logoPreview && (
+                    <div style={{ width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', border: '2px solid var(--slate-200)', flexShrink: 0 }}>
+                      <img src={logoPreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  )}
+                  <div className="custom-file-upload" style={{ flex: 1 }}>
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={handleLogoChange}
+                      className="input-premium"
+                      style={{ padding: '8px' }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 

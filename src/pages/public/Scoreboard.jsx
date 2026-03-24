@@ -6,6 +6,7 @@ import { eventsApi } from '../../api/eventsApi';
 import { teamsApi } from '../../api/teamsApi';
 import { workshopsApi } from '../../api/workshopsApi';
 import { useTranslation } from 'react-i18next';
+import { getImageUrl } from '../../utils/imageUrl';
 
 const Scoreboard = () => {
   const { t } = useTranslation();
@@ -78,9 +79,25 @@ const Scoreboard = () => {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-full text-xs font-black uppercase tracking-widest mb-6 border border-indigo-100 shadow-sm">
                {t('live_event_hub') || 'Live Event Hub'}
             </div>
-            <h1 className="hero-title mb-4 leading-tight">
-              {currentEvent ? currentEvent.name : t('live_scoreboard') || 'Live Scoreboard'}
-            </h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+              {currentEvent?.logo && (
+                <div className="event-logo-container animate-in" style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  borderRadius: '20px', 
+                  overflow: 'hidden', 
+                  boxShadow: '0 10px 25px -5px rgba(79, 70, 229, 0.2)',
+                  border: '4px solid white',
+                  backgroundColor: 'white',
+                  flexShrink: 0
+                }}>
+                  <img src={getImageUrl(currentEvent.logo)} alt="Event Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+              )}
+              <h1 className="hero-title leading-tight" style={{ margin: 0 }}>
+                {currentEvent ? currentEvent.name : t('live_scoreboard') || 'Live Scoreboard'}
+              </h1>
+            </div>
             <p className="text-slate-500 text-lg font-medium max-w-xl">
                {currentEvent?.description || 'Track real-time rankings, upcoming workshops, and event progress right here.'}
             </p>

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { eventsApi } from '../../api/eventsApi';
 import { Link } from 'react-router-dom';
 import { Plus, Trash2, Edit } from 'lucide-react';
-import EventCard from '../../components/EventCard';
 import { useTranslation } from 'react-i18next';
+import { getImageUrl } from '../../utils/imageUrl';
 
 const Events = () => {
   const { t } = useTranslation();
@@ -19,6 +19,8 @@ const Events = () => {
     end_date: '',
     location: ''
   });
+  const [editLogoFile, setEditLogoFile] = useState(null);
+  const [editLogoPreview, setEditLogoPreview] = useState(null);
 
   useEffect(() => {
     fetchEvents();
@@ -56,12 +58,30 @@ const Events = () => {
       end_date: event.end_date ? event.end_date.replace('Z', '').slice(0, 16) : '',
       location: event.location || ''
     });
+    setEditLogoFile(null);
+    setEditLogoPreview(event.logo || null);
+  };
+
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setEditLogoFile(file);
+      setEditLogoPreview(URL.createObjectURL(file));
+    }
   };
 
   const submitEdit = async (e) => {
     e.preventDefault();
     try {
-      await eventsApi.update(editingEvent, editFormData);
+      const data = new FormData();
+      Object.keys(editFormData).forEach(key => {
+        data.append(key, editFormData[key]);
+      });
+      if (editLogoFile) {
+        data.append('logo', editLogoFile);
+      }
+
+      await eventsApi.update(editingEvent, data);
       setEditingEvent(null);
       fetchEvents();
     } catch (err) {
@@ -112,9 +132,18 @@ const Events = () => {
                 {events.map(event => (
                   <tr key={event.id}>
                     <td data-label={t('event_name')}>
-                      <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{event.name}</div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--slate-400)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {event.description}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        {event.logo && (
+                          <div style={{ width: '40px', height: '40px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--slate-100)', flexShrink: 0 }}>
+                            <img src={getImageUrl(event.logo)} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          </div>
+                        )}
+                        <div>
+                          <div style={{ fontWeight: 700, color: 'var(--slate-900)' }}>{event.name}</div>
+                          <div style={{ fontSize: '0.8rem', color: 'var(--slate-400)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {event.description}
+                          </div>
+                        </div>
                       </div>
                     </td>
                     <td data-label={t('location')}>
@@ -186,6 +215,26 @@ const Events = () => {
                   <label className="label-premium">{t('end_time')}</label>
                   <input required type="datetime-local" className="input-premium"
                     value={editFormData.end_date} onChange={e => setEditFormData({...editFormData, end_date: e.target.value})} />
+                </div>
+
+                <div className="form-group mb-0">
+                  <label className="label-premium">{t('event_logo') || 'Event Logo'}</label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                    {editLogoPreview && (
+                      <div style={{ width: '60px', height: '60px', borderRadius: '10px', overflow: 'hidden', border: '2px solid var(--slate-200)', flexShrink: 0 }}>
+                        <img src={getImageUrl(editLogoPreview)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      </div>
+                    )}
+                    <div style={{ flex: 1 }}>
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={handleLogoChange}
+                        className="input-premium"
+                        style={{ padding: '8px' }}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 

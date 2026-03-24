@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'https://hack-event-backend-ruby.vercel.app';
+// const API_URL = 'http://localhost:5000'; // Uncomment for local development
 
 const api = axios.create({
   baseURL: API_URL,
