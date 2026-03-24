@@ -134,8 +134,9 @@
   /* Scoreboard hero section */
   .scoreboard-section {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
     margin-bottom: 2rem;
   }
 
@@ -160,10 +161,40 @@
     display: none !important;
   }
   
+  /* Navbar Header - Keep brand left/hamburger right as per feedback */
+  .navbar-actions-desktop {
+    display: none !important;
+  }
+  
   .hamburger {
     display: flex !important;
     align-items: center;
     justify-content: center;
+  }
+
+  .scoreboard-hero-content {
+    align-items: center !important;
+    text-align: center !important;
+    width: 100%;
+  }
+
+  .event-title-container {
+    justify-content: center !important;
+    width: 100%;
+  }
+
+  .hero-description-wrapper {
+    flex-direction: row !important; /* Keep horizontal */
+    align-items: flex-start !important;
+    justify-content: center !important; /* Center the block */
+    max-width: 100% !important;
+    margin: 1.5rem auto 0 !important;
+  }
+
+  .hero-quote-icon {
+    margin-top: 5px !important; /* Align with text top */
+    margin-bottom: 0 !important;
+    flex-shrink: 0;
   }
 
   /* Keep sidebar in off-canvas mode on mobile.
