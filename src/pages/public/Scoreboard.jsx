@@ -173,7 +173,7 @@ const Scoreboard = () => {
                       {workshop.link && (
                         <a 
                           href={workshop.link.startsWith('http') 
-                            ? (workshop.link.includes('cloudinary') ? workshop.link.replace('/upload/', '/upload/fl_attachment/') : workshop.link) 
+                            ? workshop.link 
                             : `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/pdfs/${workshop.link}`} 
                           target="_blank" 
                           rel="noopener noreferrer" 
