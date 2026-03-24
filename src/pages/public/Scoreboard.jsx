@@ -85,22 +85,29 @@ const Scoreboard = () => {
                   width: '80px', 
                   height: '80px', 
                   borderRadius: '20px', 
-                  overflow: 'hidden', 
-                  boxShadow: '0 10px 25px -5px rgba(79, 70, 229, 0.2)',
-                  border: '4px solid white',
                   backgroundColor: 'white',
-                  flexShrink: 0
+                  boxShadow: '0 10px 25px -5px rgba(79, 70, 229, 0.15)',
+                  flexShrink: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '8px'
                 }}>
-                  <img src={getImageUrl(currentEvent.logo)} alt="Event Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={getImageUrl(currentEvent.logo)} alt="Event Logo" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
                 </div>
               )}
               <h1 className="hero-title leading-tight" style={{ margin: 0 }}>
                 {currentEvent ? currentEvent.name : t('live_scoreboard') || 'Live Scoreboard'}
               </h1>
             </div>
-            <p className="text-slate-500 text-lg font-medium max-w-xl">
-               {currentEvent?.description || 'Track real-time rankings, upcoming workshops, and event progress right here.'}
-            </p>
+            <div className="flex items-start gap-4 mt-6 max-w-2xl animate-in">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--primary)" style={{ opacity: 0.8, flexShrink: 0, marginTop: '5px' }}>
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <p className="text-xl md:text-2xl text-slate-700 font-medium italic leading-relaxed" style={{ letterSpacing: '-0.01em' }}>
+                {currentEvent?.description || 'Track real-time rankings, upcoming workshops, and event progress right here.'}
+              </p>
+            </div>
           </div>
 
           {/* Right Column: Unified Timer */}
@@ -162,6 +169,21 @@ const Scoreboard = () => {
                       <p className="font-medium">
                         {workshop.description}
                       </p>
+                      
+                      {workshop.link && (
+                        <a 
+                          href={workshop.link.startsWith('http') ? workshop.link : `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/pdfs/${workshop.link}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="btn-secondary"
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem', padding: '0.5rem 1rem', fontSize: '0.875rem' }}
+                        >
+                          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          {t('view_resource') || 'View PDF'}
+                        </a>
+                      )}
                     </div>
                   )) : (
                     <div className="p-12 text-center bg-slate-50 rounded-[40px] border-2 border-dashed border-slate-200">

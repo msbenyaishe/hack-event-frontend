@@ -16,7 +16,7 @@ const AdminWorkshops = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingId, setEditingId] = useState(null);
   
-  const initialFormState = { title: '', description: '', event_id: '', start_time: '', location: '', technology: '', duration: '' };
+  const initialFormState = { title: '', description: '', event_id: '', start_time: '', location: '', technology: '', duration: '', link: '' };
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
@@ -69,10 +69,20 @@ const AdminWorkshops = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const fd = new FormData();
+      Object.keys(formData).forEach(key => {
+        fd.append(key, formData[key] || '');
+      });
+      
+      const fileInput = e.target.querySelector('input[type="file"]');
+      if (fileInput && fileInput.files[0]) {
+        fd.append('pdf', fileInput.files[0]);
+      }
+
       if (isEditing) {
-        await workshopsApi.update(editingId, formData);
+        await workshopsApi.update(editingId, fd);
       } else {
-        await workshopsApi.create(formData);
+        await workshopsApi.create(fd);
       }
       setShowForm(false);
       setIsEditing(false);
@@ -101,6 +111,7 @@ const AdminWorkshops = () => {
       location: workshop.location || '',
       technology: workshop.technology || '',
       duration: workshop.duration || '',
+      link: workshop.link || '',
       event_id: workshop.event_id || workshop.eventId || workshop.event?.id || formData.event_id
     });
     setShowForm(true);
@@ -173,6 +184,17 @@ const AdminWorkshops = () => {
                 <label className="label-premium">{t('location')}</label>
                 <input type="text" className="input-premium"
                   value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
+              </div>
+              
+              <div className="form-group mb-0">
+                <label className="label-premium">{t('pdf_file') || 'Upload PDF'}</label>
+                <input type="file" accept=".pdf,application/pdf" className="input-premium" style={{ paddingTop: '0.75rem', fontSize: '0.875rem' }} />
+              </div>
+
+              <div className="form-group mb-0">
+                <label className="label-premium">{t('external_link') || 'Or External Link URL'}</label>
+                <input type="url" placeholder="https://..." className="input-premium"
+                  value={formData.link || ''} onChange={e => setFormData({...formData, link: e.target.value})} />
               </div>
             </div>
 
