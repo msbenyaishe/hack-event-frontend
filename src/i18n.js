@@ -111,6 +111,8 @@ const resources = {
       "actions": "Actions",
       "no_teams": "No teams registered yet.",
       "points": "Points",
+      "delete_team": "Delete team",
+      "confirm_delete_team": "Are you sure you want to delete your team? This action cannot be undone.",
 
       // Members
       "platform_members": "Platform Members",
@@ -180,6 +182,7 @@ const resources = {
       "by_label": "By",
       "general_tech": "General",
       "join_to_learn": "Join this session to learn and grow with other participants.",
+      "view_resource": "View Resource",
       "loading_team": "Syncing team data...",
       "create_one_hint": "Join a hackathon event first to form your dream team",
       "explore_events": "Explore Events",
@@ -372,6 +375,8 @@ const resources = {
 
       "invite_to_team": "Inviter dans l'Équipe",
       "send_invitations": "Envoyez des invitations directes par email à vos futurs coéquipiers.",
+      "delete_team": "Supprimer l'équipe",
+      "confirm_delete_team": "Êtes-vous sûr de vouloir supprimer votre équipe ? Cette action est irréversible.",
       "email_address": "Adresse Email",
       "send_invitation": "Envoyer l'Invitation",
       "team_members": "Membres de l'Équipe",
@@ -413,6 +418,7 @@ const resources = {
       "by_label": "Par",
       "general_tech": "Général",
       "join_to_learn": "Rejoignez cette session pour apprendre et progresser avec d'autres participants.",
+      "view_resource": "Voir la Ressource",
       "loading_team": "Synchronisation des données de l'équipe...",
       "create_one_hint": "Rejoignez d'abord un hackathon pour former votre équipe de rêve",
       "explore_events": "Explorer les Événements",
@@ -605,6 +611,8 @@ const resources = {
 
       "invite_to_team": "دعوة للفريق",
       "send_invitations": "إرسال دعوات عبر البريد الإلكتروني المباشر لزملائك المستقبليين.",
+      "delete_team": "حذف الفريق",
+      "confirm_delete_team": "هل أنت متأكد من أنك تريد حذف فريقك؟ لا يمكن التراجع عن هذا الإجراء.",
       "email_address": "عنوان البريد الإلكتروني",
       "send_invitation": "إرسال الدعوة",
       "team_members": "أعضاء الفريق",
@@ -639,6 +647,7 @@ const resources = {
       "by_label": "بواسطة",
       "general_tech": "عام",
       "join_to_learn": "انضم إلى هذه الجلسة للتعلم والنمو مع مشاركين آخرين.",
+      "view_resource": "عرض المورد",
       "loading_team": "مزامنة بيانات الفريق...",
       "create_one_hint": "انضم إلى فعالية هاكاثون أولاً لتكوين فريق أحلامك",
       "explore_events": "استكشاف الفعاليات",

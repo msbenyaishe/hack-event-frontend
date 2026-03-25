@@ -68,6 +68,26 @@ const MyTeam = () => {
     }
   };
 
+  const handleDeleteTeam = async () => {
+    if (window.confirm(t('confirm_delete_team') || 'Are you sure you want to delete your team? This action cannot be undone.')) {
+      try {
+        setLoading(true);
+        await teamsApi.delete(team.id);
+        setSuccessMessage('Team deleted successfully.');
+        setTimeout(() => {
+          setSuccessMessage('');
+          setTeam(null);
+          setRefresh(prev => prev + 1);
+        }, 2000);
+      } catch (err) {
+        console.error(err);
+        alert(err.response?.data?.error || 'Failed to delete team');
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchMyTeam = async () => {
       try {
@@ -260,6 +280,18 @@ const MyTeam = () => {
             <Search size={18} />
             {t('find_members') || 'Find teammates'}
           </Link>
+          {user?.role === 'leader' && (
+            <button 
+              onClick={handleDeleteTeam}
+              className="myteam-action-btn"
+              style={{ backgroundColor: 'transparent', borderColor: 'var(--error)', color: 'var(--error)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--error)'; e.currentTarget.style.color = 'white'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--error)'; }}
+            >
+              <Trash2 size={18} />
+              {t('delete_team') || 'Delete team'}
+            </button>
+          )}
         </div>
       </div>
 
@@ -365,10 +397,7 @@ const MyTeam = () => {
                   {!isLeader && (
                     <button 
                       onClick={() => handleRemoveMember(member.id)}
-                      className="btn-admin" // Reuse btn-admin style or action-btn style
-                      style={{ padding: '0.5rem 1rem', borderColor: 'var(--error)', color: 'var(--error)' }}
-                      onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'var(--error)'; e.currentTarget.style.color = 'white'; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = 'var(--error)'; }}
+                      className="btn-member-remove"
                       title={t('remove_member') || 'Remove member'}
                     >
                       <Trash2 size={18} />

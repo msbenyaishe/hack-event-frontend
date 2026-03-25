@@ -11,7 +11,10 @@ const TeamCard = ({ team, rank }) => {
       </div>
       
       {/* Logo Section */}
-      <div className="logo-frame-container">
+      <div 
+        className="logo-frame-container"
+        style={{ backgroundColor: !team.logo ? (team.color || 'var(--primary-600)') : 'var(--slate-100)' }}
+      >
         {team.logo ? (
           <img 
             src={team.logo.startsWith('http') || team.logo.startsWith('/') ? team.logo : `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}/uploads/events/${team.logo}`} 
@@ -19,8 +22,10 @@ const TeamCard = ({ team, rank }) => {
             className="w-full h-full object-cover" 
           />
         ) : (
-          <div className="logo-frame-dashed">
-            <span className="font-black text-lg">{team.name?.charAt(0)}</span>
+          <div className="flex items-center justify-center w-full h-full">
+            <span className="font-black text-xl text-white drop-shadow-sm">
+              {team.name?.charAt(0).toUpperCase()}
+            </span>
           </div>
         )}
       </div>
