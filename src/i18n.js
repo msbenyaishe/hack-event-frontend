@@ -97,6 +97,7 @@ const resources = {
       "confirm_launch": "Confirm & Launch",
       "refine_hackathon_details": "Refine hackathon details",
       "edit_event": "Edit Event",
+      "event_logo": "Event Logo",
 
       // Teams
       "teams_management": "Teams Management",
@@ -132,6 +133,7 @@ const resources = {
       "start_time": "Start Time",
       "attach_event": "Attach to Event",
       "filter_event": "Filter by Event:",
+      "select_pdf": "Select PDF",
 
       // Leader
       "invite_to_team": "Invite to Team",
@@ -333,6 +335,7 @@ const resources = {
       "confirm_launch": "Confirmer et Lancer",
       "refine_hackathon_details": "Affiner les détails du hackathon",
       "edit_event": "Modifier l'Événement",
+      "event_logo": "Logo de l'Événement",
 
       "teams_management": "Gestion des Équipes",
       "monitor_teams": "Surveillez les équipes, ajustez les scores et gérez la participation.",
@@ -365,6 +368,7 @@ const resources = {
       "start_time": "Heure de Début",
       "attach_event": "Associer à un Événement",
       "filter_event": "Filtrer par Événement :",
+      "select_pdf": "Sélectionner un PDF",
 
       "invite_to_team": "Inviter dans l'Équipe",
       "send_invitations": "Envoyez des invitations directes par email à vos futurs coéquipiers.",
@@ -564,6 +568,7 @@ const resources = {
       "confirm_launch": "تأكيد وإطلاق",
       "refine_hackathon_details": "تحسين تفاصيل الهاكاثون",
       "edit_event": "تعديل الفعالية",
+      "event_logo": "شعار الفعالية",
 
       "teams_management": "إدارة الفرق",
       "monitor_teams": "مراقبة الفرق وتعديل النتائج وإدارة المشاركة.",
@@ -596,6 +601,7 @@ const resources = {
       "start_time": "وقت البدء",
       "attach_event": "اربط بالفعالية",
       "filter_event": "تصفية حسب الفعالية:",
+      "select_pdf": "اختر PDF",
 
       "invite_to_team": "دعوة للفريق",
       "send_invitations": "إرسال دعوات عبر البريد الإلكتروني المباشر لزملائك المستقبليين.",

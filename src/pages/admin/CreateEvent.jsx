@@ -3,6 +3,7 @@ import { eventsApi } from '../../api/eventsApi';
 import { useNavigate } from 'react-router-dom';
 import { Calendar as CalendarIcon, MapPin, Users, Target } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getImageUrl } from '../../utils/imageUrl';
 
 const CreateEvent = () => {
   const { t } = useTranslation();
@@ -108,7 +109,7 @@ const CreateEvent = () => {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                   {logoPreview && (
                     <div style={{ width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', border: '2px solid var(--slate-200)', flexShrink: 0 }}>
-                      <img src={logoPreview} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={getImageUrl(logoPreview)} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                   )}
                   <div className="custom-file-upload" style={{ flex: 1 }}>
