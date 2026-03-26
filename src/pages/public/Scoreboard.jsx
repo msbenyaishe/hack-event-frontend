@@ -233,7 +233,7 @@ const Scoreboard = () => {
                 &times;
               </button>
             </div>
-            <div className="modal-body" style={{ padding: '2rem' }}>
+            <div className="modal-body member-modal-body">
               {loadingMembers ? (
                 <div style={{ padding: '3rem', textAlign: 'center' }}>
                   <div style={{ width: '2.5rem', height: '2.5rem', border: '4px solid var(--primary-100)', borderTopColor: 'var(--primary-600)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 1rem' }} />
@@ -246,57 +246,61 @@ const Scoreboard = () => {
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   {teamMembers.map(member => (
-                    <div key={member.id} style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', padding: '1.25rem', borderRadius: '20px', background: '#fff', border: '1px solid var(--slate-100)', boxShadow: 'var(--shadow-sm)', transition: 'all 0.3s' }}
+                    <div key={member.id} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1.25rem', padding: '1.25rem', borderRadius: '20px', background: '#fff', border: '1px solid var(--slate-100)', boxShadow: 'var(--shadow-sm)', transition: 'all 0.3s' }}
                       onMouseEnter={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.borderColor = 'var(--primary-200)'; }}
                       onMouseLeave={(e) => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.borderColor = 'var(--slate-100)'; }}
                     >
-                      {/* Avatar */}
-                      <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: '50%', background: 'linear-gradient(135deg, var(--primary-50), #fff)', color: 'var(--primary-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.25rem', fontWeight: 900, flexShrink: 0, position: 'relative', border: '1px solid var(--primary-100)' }}>
-                        {member.first_name?.charAt(0).toUpperCase()}{member.last_name?.charAt(0).toUpperCase()}
-                        {member.role === 'leader' && (
-                          <div style={{ position: 'absolute', top: '-4px', right: '-4px', width: '22px', height: '22px', background: 'linear-gradient(135deg, var(--warning), #f97316)', borderRadius: '50%', border: '2px solid white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'white', boxShadow: 'var(--shadow-sm)' }} title="Team Leader">
-                            ★
-                          </div>
-                        )}
-                      </div>
-                      
-                      {/* Info */}
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                          <h4 style={{ fontWeight: 800, color: 'var(--slate-900)', fontSize: '1.05rem', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {member.first_name} {member.last_name}
-                          </h4>
-                          {member.role === 'leader' ? (
-                            <span style={{ background: '#fffbeb', color: '#d97706', fontSize: '0.65rem', padding: '0.2rem 0.6rem', border: '1px solid #fef3c7', borderRadius: '999px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                              Leader
-                            </span>
-                          ) : (
-                            <span style={{ background: 'var(--slate-50)', color: 'var(--slate-500)', fontSize: '0.65rem', padding: '0.2rem 0.6rem', border: '1px solid var(--slate-100)', borderRadius: '999px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                              Member
-                            </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: '1 1 200px', minWidth: 0 }}>
+                        {/* Avatar */}
+                        <div style={{ width: '3.5rem', height: '3.5rem', borderRadius: '50%', background: 'linear-gradient(135deg, var(--primary-50), #fff)', color: 'var(--primary-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.25rem', fontWeight: 900, flexShrink: 0, position: 'relative', border: '1px solid var(--primary-100)' }}>
+                          {member.first_name?.charAt(0).toUpperCase()}{member.last_name?.charAt(0).toUpperCase()}
+                          {member.role === 'leader' && (
+                            <div style={{ position: 'absolute', top: '-4px', right: '-4px', width: '22px', height: '22px', background: 'linear-gradient(135deg, var(--warning), #f97316)', borderRadius: '50%', border: '2px solid white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'white', boxShadow: 'var(--shadow-sm)' }} title="Team Leader">
+                              ★
+                            </div>
                           )}
                         </div>
-                        <div style={{ fontSize: '0.875rem', color: 'var(--slate-500)', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                          {member.email}
+                        
+                        {/* Info */}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                            <h4 style={{ fontWeight: 800, color: 'var(--slate-900)', fontSize: '1.05rem', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
+                              {member.first_name} {member.last_name}
+                            </h4>
+                            {member.role === 'leader' ? (
+                              <span style={{ background: '#fffbeb', color: '#d97706', fontSize: '0.65rem', padding: '0.2rem 0.6rem', border: '1px solid #fef3c7', borderRadius: '999px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>
+                                Leader
+                              </span>
+                            ) : (
+                              <span style={{ background: 'var(--slate-50)', color: 'var(--slate-500)', fontSize: '0.65rem', padding: '0.2rem 0.6rem', border: '1px solid var(--slate-100)', borderRadius: '999px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>
+                                Member
+                              </span>
+                            )}
+                          </div>
+                          <div style={{ fontSize: '0.875rem', color: 'var(--slate-500)', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
+                            {member.email}
+                          </div>
                         </div>
                       </div>
                       
                       {/* Actions / Portfolio Link */}
                       {member.portfolio && (
-                        <a 
-                          href={member.portfolio.startsWith('http') ? member.portfolio : `https://${member.portfolio}`} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1rem', background: 'var(--slate-50)', color: 'var(--slate-500)', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 800, border: '1px solid var(--slate-100)', transition: 'all 0.2s', textDecoration: 'none', flexShrink: 0 }}
-                          title="View Portfolio"
-                          onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--primary-600)'; e.currentTarget.style.borderColor = 'var(--primary-200)'; e.currentTarget.style.background = 'var(--primary-50)'; }}
-                          onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--slate-500)'; e.currentTarget.style.borderColor = 'var(--slate-100)'; e.currentTarget.style.background = 'var(--slate-50)'; }}
-                        >
-                          Portfolio
-                          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                            <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </a>
+                        <div style={{ flex: '1 1 auto', display: 'flex', justifyContent: 'flex-end', minWidth: 'fit-content' }}>
+                          <a 
+                            href={member.portfolio.startsWith('http') ? member.portfolio : `https://${member.portfolio}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            style={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1rem', background: 'var(--slate-50)', color: 'var(--slate-500)', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 800, border: '1px solid var(--slate-100)', transition: 'all 0.2s', textDecoration: 'none' }}
+                            title="View Portfolio"
+                            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--primary-600)'; e.currentTarget.style.borderColor = 'var(--primary-200)'; e.currentTarget.style.background = 'var(--primary-50)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--slate-500)'; e.currentTarget.style.borderColor = 'var(--slate-100)'; e.currentTarget.style.background = 'var(--slate-50)'; }}
+                          >
+                            Portfolio
+                            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                              <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                          </a>
+                        </div>
                       )}
                     </div>
                   ))}
