@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { Users } from 'lucide-react';
 
-const TeamCard = ({ team, rank }) => {
+const TeamCard = ({ team, rank, onViewMembers }) => {
   const { t } = useTranslation();
 
   return (
@@ -33,9 +34,14 @@ const TeamCard = ({ team, rank }) => {
       {/* Team Info Section */}
       <div className="flex-1">
          <h3 className="text-xl font-black text-slate-900 leading-tight">{team.name}</h3>
-         <div className="flex items-center gap-2 text-slate-400 font-bold text-[10px] uppercase tracking-widest mt-1">
-            <span>{team.membersCount || 0} {t('members_label')}</span>
-         </div>
+         <button 
+           onClick={() => onViewMembers && onViewMembers(team)}
+           className="flex items-center gap-2 text-slate-400 hover:text-primary font-bold text-[10px] uppercase tracking-widest mt-1 transition-colors cursor-pointer"
+           title="View Members"
+         >
+            <Users size={12} />
+            <span>{team.membersCount || 0} Members</span>
+         </button>
       </div>
 
       {/* Points Section */}
