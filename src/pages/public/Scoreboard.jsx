@@ -98,21 +98,15 @@ const Scoreboard = () => {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-full text-xs font-black uppercase tracking-widest mb-6 border border-indigo-100 shadow-sm">
                {t('live_event_hub') || 'Live Event Hub'}
             </div>
-            <div className="event-title-container" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+            <div className="event-title-container" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
               {currentEvent?.logo && (
                 <div className="event-logo-container animate-in" style={{ 
-                  width: '80px', 
-                  height: '80px', 
-                  borderRadius: '20px', 
-                  backgroundColor: 'white',
-                  boxShadow: '0 10px 25px -5px rgba(79, 70, 229, 0.15)',
+                  width: 'clamp(6rem, 15vw, 10rem)',
                   flexShrink: 0,
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '8px'
+                  alignItems: 'center'
                 }}>
-                  <img src={getImageUrl(currentEvent.logo)} alt="Event Logo" style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                  <img src={getImageUrl(currentEvent.logo)} alt="Event Logo" style={{ width: '100%', height: 'auto', maxHeight: '10rem', objectFit: 'contain', borderRadius: '10px',}} />
                 </div>
               )}
               <h1 className="hero-title leading-tight" style={{ margin: 0 }}>
