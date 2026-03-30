@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { submissionsApi } from '../../api/submissionsApi';
 import { useTranslation } from 'react-i18next';
-import { Filter, Search, Github, Globe, FileText, ExternalLink } from 'lucide-react';
+import { Filter, Search, Github, Globe, FileText, ExternalLink, BookOpen } from 'lucide-react';
 
 const TeamSubmissions = () => {
   const { t } = useTranslation();
