@@ -100,13 +100,15 @@ const Scoreboard = () => {
             </div>
             <div className="event-title-container" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
               {currentEvent?.logo && (
-                <div className="event-logo-container animate-in" style={{ 
-                  width: 'clamp(6rem, 15vw, 10rem)',
+                <div className="animate-in" style={{ 
+                  width: 'clamp(12rem, 30vw, 18rem)',
                   flexShrink: 0,
                   display: 'flex',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  padding: '1rem',
+                  borderRadius: '24px'
                 }}>
-                  <img src={getImageUrl(currentEvent.logo)} alt="Event Logo" style={{ width: '100%', height: 'auto', maxHeight: '10rem', objectFit: 'contain', borderRadius: '10px',}} />
+                  <img src={getImageUrl(currentEvent.logo)} alt="Event Logo" style={{ width: '100%', height: 'auto', maxHeight: '16rem', objectFit: 'contain', borderRadius: '16px',}} />
                 </div>
               )}
               <h1 className="hero-title leading-tight" style={{ margin: 0 }}>
@@ -117,7 +119,7 @@ const Scoreboard = () => {
               <svg className="hero-quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="var(--primary)" style={{ opacity: 0.8, flexShrink: 0, marginTop: '5px' }}>
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
               </svg>
-              <p className="description-text text-xl md:text-2xl text-slate-700 font-medium italic leading-relaxed" style={{ letterSpacing: '-0.01em' }}>
+              <p className="description-text text-2xl md:text-4xl text-slate-700 font-bold italic leading-tight" style={{ letterSpacing: '-0.015em' }}>
                 {currentEvent?.description || 'Track real-time rankings, upcoming workshops, and event progress right here.'}
               </p>
             </div>
