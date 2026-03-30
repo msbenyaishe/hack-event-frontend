@@ -22,10 +22,12 @@ import Teams from './pages/admin/Teams';
 import Members from './pages/admin/Members';
 import AdminWorkshops from './pages/admin/Workshops';
 import TimerControl from './pages/admin/TimerControl';
+import TeamSubmissions from './pages/admin/TeamSubmissions';
 
 // Leader Pages
 import MyTeam from './pages/leader/MyTeam';
 import SelectMembers from './pages/leader/SelectMembers';
+import Submissions from './pages/leader/Submissions';
 
 // Components
 import Navbar from './components/Navbar';
@@ -91,6 +93,7 @@ function App() {
             <Route path="members" element={<Members />} />
             <Route path="workshops" element={<AdminWorkshops />} />
             <Route path="timer" element={<TimerControl />} />
+            <Route path="submissions" element={<TeamSubmissions />} />
           </Route>
 
           {/* Leader Routes */}
@@ -101,6 +104,7 @@ function App() {
           }>
             <Route path="team" element={<MyTeam />} />
             <Route path="select-members" element={<SelectMembers />} />
+            <Route path="submissions" element={<Submissions />} />
           </Route>
 
           {/* Fallback */}

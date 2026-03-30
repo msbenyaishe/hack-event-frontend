@@ -10,7 +10,8 @@ import {
   Timer,
   UserPlus,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  BookOpen
 } from 'lucide-react';
 
 const Sidebar = ({ role }) => {
@@ -23,12 +24,14 @@ const Sidebar = ({ role }) => {
     { to: '/admin/teams', icon: <Users size={20} />, label: t('teams') },
     { to: '/admin/members', icon: <UserCog size={20} />, label: t('members') },
     { to: '/admin/workshops', icon: <MonitorPlay size={20} />, label: t('workshops') },
+    { to: '/admin/submissions', icon: <BookOpen size={20} />, label: t('submissions') || 'Submissions' },
     { to: '/admin/timer', icon: <Timer size={20} />, label: t('timer_control') },
   ];
 
   const leaderLinks = [
     { to: '/leader/team', icon: <Users size={20} />, label: t('my_team') },
     { to: '/leader/select-members', icon: <UserPlus size={20} />, label: t('find_members') || 'Find Members' },
+    { to: '/leader/submissions', icon: <BookOpen size={20} />, label: t('submissions') || 'Submissions' },
   ];
 
   const links = role === 'admin' ? adminLinks : leaderLinks;
