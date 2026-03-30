@@ -20,5 +20,6 @@ export const eventsApi = {
     }
     return api.put(`/events/${id}`, data);
   },
+  setCurrent: (id) => api.put(`/events/${id}/current`),
   delete: (id) => api.delete(`/events/${id}`)
 };

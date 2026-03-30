@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { eventsApi } from '../../api/eventsApi';
 import { Link } from 'react-router-dom';
-import { Plus, Trash2, Edit } from 'lucide-react';
+import { Plus, Trash2, Edit, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getImageUrl } from '../../utils/imageUrl';
 
@@ -46,6 +46,17 @@ const Events = () => {
         fetchEvents();
       } catch (err) {
         console.error("Failed to delete event", err);
+      }
+    }
+  };
+
+  const handleSetCurrent = async (id) => {
+    if (window.confirm(t('set_current_confirm') || 'Are you sure you want to set this event as the current active event?')) {
+      try {
+        await eventsApi.setCurrent(id);
+        fetchEvents();
+      } catch (err) {
+        console.error("Failed to set event as current", err);
       }
     }
   };
@@ -138,6 +149,7 @@ const Events = () => {
                   <th>{t('location')}</th>
                   <th>{t('start_date')}</th>
                   <th>{t('end_date')}</th>
+                  <th>{t('status') || 'Status'}</th>
                   <th style={{ textAlign: 'right' }}>{t('actions')}</th>
                 </tr>
               </thead>
@@ -164,8 +176,26 @@ const Events = () => {
                     </td>
                     <td data-label={t('start_date')}>{new Date(event.start_date).toLocaleDateString()}</td>
                     <td data-label={t('end_date')}>{new Date(event.end_date).toLocaleDateString()}</td>
+                    <td data-label={t('status') || 'Status'}>
+                      {event.status === 'current' ? (
+                        <div className="badge-premium" style={{backgroundColor: 'var(--success)', color: 'white'}}>{t('current') || 'Current'}</div>
+                      ) : event.status === 'finished' ? (
+                        <div className="badge-premium" style={{backgroundColor: 'var(--slate-200)', color: 'var(--slate-700)'}}>{t('finished') || 'Finished'}</div>
+                      ) : (
+                        <div className="badge-premium" style={{backgroundColor: 'var(--slate-200)', color: 'var(--slate-700)'}}>{t('waiting') || 'Waiting'}</div>
+                      )}
+                    </td>
                     <td data-label={t('actions')}>
                       <div className="action-group" style={{ justifyContent: 'flex-end' }}>
+                        {event.status !== 'current' && (
+                          <button 
+                            onClick={() => handleSetCurrent(event.id)}
+                            className="btn-action-premium"
+                            title={t('set_current') || 'Set as Current Event'}
+                          >
+                            <Star size={16} />
+                          </button>
+                        )}
                         <button 
                           onClick={() => handleEditClick(event)}
                           className="btn-action-premium"
