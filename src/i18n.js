@@ -238,10 +238,34 @@ const resources = {
       "invite_limit_hint": "Invite teammates by email to join your team.",
 
       // Admin / Scores
-      "edit_scores": "Edit Scores",
       "save": "Save",
       "scores_updated_successfully": "Scores updated successfully!",
       "team_required_error": "You must have a team to select members.",
+
+      // Submissions
+      "workshop_submissions": "Workshop Submissions",
+      "submit_workshop_files_desc": "Submit your code, apps, and documents for the completed workshops.",
+      "new_submission": "New Submission",
+      "select_workshop": "Select Workshop",
+      "choose_a_workshop": "-- Choose a workshop --",
+      "repo_link_label": "Repo link",
+      "web_app_link_label": "Web app link",
+      "pdf_link_label": "PDF link",
+      "link_only_hint": "* Provide a public link to your document.",
+      "submission_successful": "Submission saved successfully!",
+      "submitting": "Submitting...",
+      "save_submission": "Save Submission",
+      "your_submissions": "Your Submissions",
+      "no_submissions_yet": "No submissions yet.",
+      "team_submissions": "Team Submissions",
+      "review_workshop_work": "Review repository, web app, and presentation links submitted by teams.",
+      "search_teams_workshops": "Search teams or workshops...",
+      "no_submissions_found": "No submissions found.",
+      "submitted_links": "Submitted Links",
+      "date": "Date",
+      "workshop": "Workshop",
+      "team": "Team",
+      "submissions": "Submissions",
     }
   },
   fr: {
@@ -474,10 +498,34 @@ const resources = {
       "invite_limit_hint": "Invitez des coéquipiers par email pour rejoindre votre équipe.",
 
       // Admin / Scores
-      "edit_scores": "Modifier les scores",
       "save": "Enregistrer",
       "scores_updated_successfully": "Scores mis à jour avec succès !",
       "team_required_error": "Vous devez avoir une équipe pour sélectionner des membres.",
+
+      // Submissions
+      "workshop_submissions": "Soumissions d'Atelier",
+      "submit_workshop_files_desc": "Soumettez votre code, vos applications et vos documents pour les ateliers terminés.",
+      "new_submission": "Nouvelle Soumission",
+      "select_workshop": "Sélectionner l'Atelier",
+      "choose_a_workshop": "-- Choisir un atelier --",
+      "repo_link_label": "Lien du dépôt",
+      "web_app_link_label": "Lien de l'application",
+      "pdf_link_label": "Lien PDF",
+      "link_only_hint": "* Fournissez un lien public vers votre document.",
+      "submission_successful": "Soumission enregistrée avec succès !",
+      "submitting": "Envoi en cours...",
+      "save_submission": "Enregistrer la Soumission",
+      "your_submissions": "Vos Soumissions",
+      "no_submissions_yet": "Aucune soumission pour le moment.",
+      "team_submissions": "Soumissions d'Équipe",
+      "review_workshop_work": "Examinez les liens de dépôt, d'application web et de présentation soumis par les équipes.",
+      "search_teams_workshops": "Rechercher des équipes ou des ateliers...",
+      "no_submissions_found": "Aucune soumission trouvée.",
+      "submitted_links": "Liens Soumis",
+      "date": "Date",
+      "workshop": "Atelier",
+      "team": "Équipe",
+      "submissions": "Soumissions",
     }
   },
   ar: {
@@ -703,10 +751,34 @@ const resources = {
       "invite_limit_hint": "ادعُ زملاءك عبر البريد الإلكتروني للانضمام إلى فريقك.",
 
       // Admin / Scores
-      "edit_scores": "تعديل الدرجات",
       "save": "حفظ",
       "scores_updated_successfully": "تم تحديث الدرجات بنجاح!",
       "team_required_error": "يجب أن يكون لديك فريق لاختيار الأعضاء.",
+
+      // Submissions
+      "workshop_submissions": "تسليمات الورشة",
+      "submit_workshop_files_desc": "قم بتسليم الكود والتطبيقات والمستندات الخاصة بك للورش المكتملة.",
+      "new_submission": "تسليم جديد",
+      "select_workshop": "اختر الورشة",
+      "choose_a_workshop": "-- اختر ورشة عمل --",
+      "repo_link_label": "رابط المستودع",
+      "web_app_link_label": "رابط التطبيق",
+      "pdf_link_label": "رابط PDF",
+      "link_only_hint": "* قدم رابطًا عامًا لمستندك.",
+      "submission_successful": "تم حفظ التسليم بنجاح!",
+      "submitting": "جاري التسليم...",
+      "save_submission": "حفظ التسليم",
+      "your_submissions": "تسليماتك",
+      "no_submissions_yet": "لا توجد تسليمات بعد.",
+      "team_submissions": "تسليمات الفريق",
+      "review_workshop_work": "راجع روابط المستودع وتطبيق الويب والعروض التقديمية التي قدمتها الفرق.",
+      "search_teams_workshops": "ابحث عن الفرق أو الورش...",
+      "no_submissions_found": "لم يتم العثور على تسليمات.",
+      "submitted_links": "الروابط المقدمة",
+      "date": "التاريخ",
+      "workshop": "ورشة عمل",
+      "team": "الفريق",
+      "submissions": "التسليمات",
     }
   }
 };

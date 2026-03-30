@@ -85,13 +85,15 @@ const SelectMembers = () => {
 
   return (
     <div className="leader-page-wrapper full-width">
-      <div className="select-members-header animate-in" style={{ marginBottom: '2rem' }}>
-        <Link to="/leader/team" className="select-members-back">
-          <ArrowLeft size={20} />
-        </Link>
-        <div>
-          <h1 className="select-members-title">{t('find_members')}</h1>
-          <p className="select-members-subtitle">{t('available_participants')}</p>
+      <div className="admin-toolbar" style={{ marginBottom: '2.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <Link to="/leader/team" className="btn-action-premium" style={{ width: 'auto' }}>
+            <ArrowLeft size={20} />
+          </Link>
+          <div>
+            <h1 className="page-title">{t('find_members')}</h1>
+            <p className="page-subtitle">{t('available_participants')}</p>
+          </div>
         </div>
       </div>
 

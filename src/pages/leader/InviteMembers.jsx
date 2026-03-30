@@ -30,12 +30,11 @@ const InviteMembers = () => {
 
   return (
     <div className="invite-page-wrapper animate-in">
-      <div className="invite-header">
-        <div className="invite-icon-container">
-          <Send />
+      <div className="admin-toolbar" style={{ marginBottom: '2.5rem' }}>
+        <div>
+          <h1 className="page-title">{t('invite_to_team')}</h1>
+          <p className="page-subtitle">{t('send_invitations')}</p>
         </div>
-        <h1 className="leader-title" style={{ fontSize: '2rem' }}>{t('invite_to_team')}</h1>
-        <p className="leader-subtitle" style={{ marginBottom: 0 }}>{t('send_invitations')}</p>
       </div>
 
       <div className="invite-form-card">

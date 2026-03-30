@@ -3,7 +3,7 @@ import api from '../../api/axios';
 import { workshopsApi } from '../../api/workshopsApi';
 import { submissionsApi } from '../../api/submissionsApi';
 import { useTranslation } from 'react-i18next';
-import { BookOpen, CheckCircle, Github, Globe, FileText, Send } from 'lucide-react';
+import { BookOpen, CheckCircle, Github, Globe, FileText, Send, Sparkles, ClipboardCheck } from 'lucide-react';
 
 const Submissions = () => {
   const { t } = useTranslation();
@@ -75,7 +75,7 @@ const Submissions = () => {
         ...formData
       });
       
-      setSubmitMessage(t('submission_successful') || 'Submission saved successfully!');
+      setSubmitMessage(t('submission_successful'));
       
       // Refresh submissions
       const subRes = await submissionsApi.getMine();
@@ -98,93 +98,106 @@ const Submissions = () => {
   if (loading) return (
     <div className="leader-page-wrapper">
       <div className="premium-spinner" />
-      <p style={{ color: 'var(--slate-400)', fontWeight: 'bold' }}>{t('loading_data') || 'Loading data...'}</p>
+      <p style={{ color: 'var(--slate-400)', fontWeight: 'bold' }}>{t('loading')}...</p>
     </div>
   );
 
   return (
-    <div className="leader-page-wrapper">
-      <div className="admin-toolbar">
+    <div className="leader-page-wrapper animate-in" style={{ paddingBottom: '5rem' }}>
+      {/* Normalized Header Section */}
+      <div className="admin-toolbar" style={{ marginBottom: '2.5rem' }}>
         <div>
-          <h1 className="page-title">{t('workshop_submissions') || 'Workshop Submissions'}</h1>
-          <p className="page-subtitle">{t('submit_workshop_files_desc') || 'Submit your code, apps, and documents for the completed workshops.'}</p>
+          <h1 className="page-title">{t('workshop_submissions')}</h1>
+          <p className="page-subtitle">{t('submit_workshop_files_desc')}</p>
         </div>
       </div>
 
-      <div className="admin-card animate-in">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-          
-          {/* Submission Form */}
-          <div className="card-premium">
-            <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Send size={20} className="color-primary" /> 
-              {t('new_submission') || 'New Submission'}
-            </h3>
+      <div className="member-grid-layout" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '3rem', alignItems: 'start' }}>
+        
+        {/* Main: Submission Form */}
+        <div className="member-grid-main">
+          <div className="card-premium" style={{ padding: '3.5rem', borderRadius: '32px', boxShadow: 'var(--shadow-premium)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '3rem' }}>
+              <div style={{ padding: '1rem', background: 'linear-gradient(135deg, var(--primary-50), var(--primary-100))', borderRadius: '20px', color: 'var(--primary-600)', boxShadow: 'var(--shadow-sm)' }}>
+                <Send size={32} strokeWidth={2.5} />
+              </div>
+              <div>
+                <h2 style={{ fontSize: '2rem', fontWeight: 900, margin: 0, color: 'var(--slate-900)' }}>{t('new_submission')}</h2>
+                <p style={{ margin: 0, color: 'var(--slate-400)', fontWeight: 600 }}>{t('select_workshop_to_begin') || 'Select a workshop to start submitting your work'}</p>
+              </div>
+            </div>
             
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
               <div className="form-group">
-                <label className="label-premium">{t('select_workshop') || 'Select Workshop'}</label>
+                <label className="label-premium" style={{ fontSize: '1rem', marginBottom: '1rem' }}>{t('select_workshop')}</label>
                 <select 
-                  className="input-premium" 
+                  className="input-premium shadow-sm" 
                   value={selectedWorkshop} 
                   onChange={handleWorkshopChange}
                   required
+                  style={{ height: '4rem', fontSize: '1.1rem', padding: '0 1.5rem', borderRadius: '16px' }}
                 >
-                  <option value="">{t('choose_a_workshop') || '-- Choose a workshop --'}</option>
+                  <option value="">{t('choose_a_workshop')}</option>
                   {workshops.map(ws => (
                     <option key={ws.id} value={ws.id}>
-                      {ws.title} {getSubmissionStatus(ws.id) ? '✓ (Submitted)' : ''}
+                      {ws.title} {getSubmissionStatus(ws.id) ? `✓ (${t('finished')})` : ''}
                     </option>
                   ))}
                 </select>
               </div>
 
-              {selectedWorkshop && (
-                <div className="animate-in">
-                  <div className="form-group">
-                    <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <Github size={16} /> {t('repository_link') || 'Repository Link'}
-                    </label>
-                    <input 
-                      type="url" 
-                      className="input-premium" 
-                      placeholder="https://github.com/your-username/repo"
-                      value={formData.repo_link}
-                      onChange={e => setFormData({...formData, repo_link: e.target.value})}
-                    />
+              {selectedWorkshop ? (
+                <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+                    <div className="form-group">
+                      <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.95rem' }}>
+                        <div style={{ color: 'var(--primary-500)' }}><Github size={20} /></div> {t('repo_link_label')}
+                      </label>
+                      <input 
+                        type="url" 
+                        className="input-premium" 
+                        placeholder="https://github.com/..."
+                        value={formData.repo_link}
+                        onChange={e => setFormData({...formData, repo_link: e.target.value})}
+                        style={{ height: '3.75rem', borderRadius: '14px' }}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.95rem' }}>
+                        <div style={{ color: 'var(--primary-500)' }}><Globe size={20} /></div> {t('web_app_link_label')}
+                      </label>
+                      <input 
+                        type="url" 
+                        className="input-premium" 
+                        placeholder="https://..."
+                        value={formData.web_app_link}
+                        onChange={e => setFormData({...formData, web_app_link: e.target.value})}
+                        style={{ height: '3.75rem', borderRadius: '14px' }}
+                      />
+                    </div>
                   </div>
 
                   <div className="form-group">
-                    <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <Globe size={16} /> {t('web_app_link') || 'Web App Link'}
+                    <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.95rem' }}>
+                      <div style={{ color: 'var(--primary-500)' }}><FileText size={20} /></div> {t('pdf_link_label')}
                     </label>
                     <input 
                       type="url" 
                       className="input-premium" 
-                      placeholder="https://your-app.vercel.app"
-                      value={formData.web_app_link}
-                      onChange={e => setFormData({...formData, web_app_link: e.target.value})}
-                    />
-                  </div>
-
-                  <div className="form-group mb-8">
-                    <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <FileText size={16} /> {t('pdf_presentation_link') || 'PDF Presentation Link'}
-                    </label>
-                    <input 
-                      type="url" 
-                      className="input-premium" 
-                      placeholder="https://drive.google.com/... or similar"
+                      placeholder="https://..."
                       value={formData.pdf_link}
                       onChange={e => setFormData({...formData, pdf_link: e.target.value})}
+                      style={{ height: '3.75rem', borderRadius: '14px' }}
                     />
-                    <small style={{ color: 'var(--slate-400)', marginTop: '0.25rem', display: 'block' }}>
-                      {t('link_only_hint') || '* Provide a public link to your document.'}
-                    </small>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.75rem', padding: '0.75rem 1rem', background: 'var(--slate-50)', borderRadius: '10px', color: 'var(--slate-500)', fontSize: '0.85rem', border: '1px solid var(--slate-100)' }}>
+                      <CheckCircle size={14} className="text-success" />
+                      {t('link_only_hint')}
+                    </div>
                   </div>
 
                   {submitMessage && (
-                    <div className="success-alert" style={{ position: 'relative', marginBottom: '1.5rem', top: 0, left: 0, transform: 'none' }}>
+                    <div className="success-alert" style={{ position: 'relative', top: 0, left: 0, transform: 'none', width: '100%', padding: '1.25rem' }}>
                       <div className="success-alert-dot" />
                       {submitMessage}
                     </div>
@@ -193,68 +206,95 @@ const Submissions = () => {
                   <button 
                     type="submit" 
                     className="btn-admin" 
-                    style={{ width: '100%' }}
+                    style={{ height: '4.5rem', fontSize: '1.2rem', borderRadius: '18px', marginTop: '1rem', background: 'linear-gradient(135deg, var(--primary-600), var(--primary-700))' }}
                     disabled={submitting}
                   >
-                    {submitting ? (t('submitting') || 'Submitting...') : (t('save_submission') || 'Save Submission')}
+                    {submitting ? (
+                      <>
+                        <div className="premium-spinner" style={{ width: '1.5rem', height: '1.5rem', border: '3px solid rgba(255,255,255,0.3)', borderTopColor: 'white', marginRight: '0.75rem' }} />
+                        {t('submitting')}
+                      </>
+                    ) : (
+                        <>
+                          <ClipboardCheck size={22} style={{ marginRight: '0.75rem' }} />
+                          {t('save_submission')}
+                        </>
+                    )}
                   </button>
+                </div>
+              ) : (
+                <div style={{ padding: '6rem 2rem', textAlign: 'center', background: 'var(--slate-50)', borderRadius: '24px', border: '2px dashed var(--slate-200)' }}>
+                  <BookOpen size={48} style={{ color: 'var(--slate-200)', marginBottom: '1.5rem' }} />
+                  <p style={{ color: 'var(--slate-400)', fontWeight: 700, fontSize: '1.1rem' }}>{t('choose_a_workshop_hint') || 'Ready to show off? Pick a workshop from the list above!'}</p>
                 </div>
               )}
             </form>
           </div>
+        </div>
 
-          {/* Submission History / Status */}
-          <div className="card-premium">
-            <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <BookOpen size={20} className="color-primary" /> 
-              {t('your_submissions') || 'Your Submissions'}
-            </h3>
+        {/* Sidebar: Submission History */}
+        <div className="member-grid-sidebar">
+          <div style={{ position: 'sticky', top: '7rem' }}>
+            <div className="section-header mb-8">
+              <h2 className="text-3xl font-black text-slate-900 tracking-tight">{t('your_submissions')}</h2>
+              <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mt-3">{submissions.length} {t('items_submitted') || 'Items Submitted'}</p>
+            </div>
             
             {submissions.length === 0 ? (
-              <div className="empty-state" style={{ padding: '3rem 1rem' }}>
-                <CheckCircle size={32} style={{ color: 'var(--slate-300)', marginBottom: '1rem' }} />
-                <p className="empty-text" style={{ fontSize: '1rem' }}>
-                  {t('no_submissions_yet') || 'No submissions yet.'}
+              <div className="empty-state" style={{ padding: '6rem 2rem', background: '#fff', borderRadius: '32px', border: '1px solid var(--slate-100)', boxShadow: 'var(--shadow-sm)' }}>
+                <CheckCircle size={48} style={{ color: 'var(--slate-200)', marginBottom: '1.5rem' }} />
+                <p style={{ color: 'var(--slate-400)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem' }}>
+                  {t('no_submissions_yet')}
                 </p>
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {submissions.map(sub => (
-                  <div key={sub.id} style={{ 
-                    padding: '1.25rem', 
-                    borderRadius: '16px', 
-                    border: '1px solid var(--slate-200)',
-                    background: 'var(--slate-50)'
-                  }}>
-                    <h4 style={{ fontWeight: 700, marginBottom: '0.5rem', color: 'var(--slate-900)' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {submissions.map((sub, idx) => (
+                  <div key={sub.id} className="animate-in" style={{ 
+                    padding: '2rem', 
+                    borderRadius: '24px', 
+                    border: '1px solid var(--slate-100)',
+                    background: 'white',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxShadow: 'var(--shadow-sm)',
+                    animationDelay: `${idx * 0.1}s`
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.borderColor = 'var(--primary-100)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.borderColor = 'var(--slate-100)'; }}
+                  >
+                    <div className="badge-premium badge-info mb-4" style={{ borderRadius: '8px', fontSize: '0.7rem', padding: '0.3rem 0.6rem' }}>
                       {sub.workshop_title}
-                    </h4>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.875rem' }}>
-                      {sub.repo_link ? (
-                        <a href={sub.repo_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary-600)' }}>
-                          <Github size={14} /> Repository
+                    </div>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      {sub.repo_link && (
+                        <a href={sub.repo_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', color: 'var(--slate-600)', fontSize: '0.9rem', fontWeight: 600 }}>
+                          <div style={{ color: 'var(--primary-500)' }}><Github size={16} /></div> 
+                          <span style={{ borderBottom: '1px solid var(--slate-200)' }}>{t('repo_link_label')}</span>
                         </a>
-                      ) : <span style={{ color: 'var(--slate-400)' }}><Github size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }}/> No Repo</span>}
+                      )}
                       
-                      {sub.web_app_link ? (
-                        <a href={sub.web_app_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary-600)' }}>
-                          <Globe size={14} /> Web App
+                      {sub.web_app_link && (
+                        <a href={sub.web_app_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', color: 'var(--slate-600)', fontSize: '0.9rem', fontWeight: 600 }}>
+                          <div style={{ color: 'var(--primary-500)' }}><Globe size={16} /></div> 
+                          <span style={{ borderBottom: '1px solid var(--slate-200)' }}>{t('web_app_link_label')}</span>
                         </a>
-                      ) : <span style={{ color: 'var(--slate-400)' }}><Globe size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }}/> No Web App</span>}
+                      )}
                       
-                      {sub.pdf_link ? (
-                        <a href={sub.pdf_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary-600)' }}>
-                          <FileText size={14} /> PDF Link
+                      {sub.pdf_link && (
+                        <a href={sub.pdf_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', color: 'var(--slate-600)', fontSize: '0.9rem', fontWeight: 600 }}>
+                          <div style={{ color: 'var(--primary-500)' }}><FileText size={16} /></div> 
+                          <span style={{ borderBottom: '1px solid var(--slate-200)' }}>{t('pdf_link_label')}</span>
                         </a>
-                      ) : <span style={{ color: 'var(--slate-400)' }}><FileText size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }}/> No PDF</span>}
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
             )}
           </div>
-          
         </div>
+        
       </div>
     </div>
   );

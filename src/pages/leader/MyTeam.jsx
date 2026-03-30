@@ -240,9 +240,9 @@ const MyTeam = () => {
         </div>
       )}
 
-      <div className="myteam-header animate-in">
-        <div className="myteam-brand-section">
-          <h1 className="page-title">{t('my_team') || 'My team'}</h1>
+      <div className="admin-toolbar animate-in" style={{ marginBottom: '3rem', flexWrap: 'wrap', gap: '2rem' }}>
+        <div className="myteam-brand-section" style={{ flex: 1, minWidth: '300px' }}>
+          <h1 className="page-title" style={{ marginBottom: '1.5rem' }}>{t('my_team') || 'My team'}</h1>
           <div className="myteam-header-info">
             <div 
               className="myteam-logo"
@@ -254,16 +254,20 @@ const MyTeam = () => {
                 team.name?.charAt(0)
               )}
             </div>
-            <span className="leader-title" style={{ marginBottom: 0 }}>
-              {team.name}
-            </span>
-            <div className="myteam-points-badge">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span className="page-title" style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--slate-900)' }}>
+                {team.name}
+              </span>
+              <p className="page-subtitle" style={{ margin: 0 }}>{t('manage_your_official_team') || 'Manage your team details and members'}</p>
+            </div>
+            <div className="myteam-points-badge" style={{ marginLeft: 'auto' }}>
               <span className="myteam-points-score">{(team.practical_score || 0) + (team.theoretical_score || 0)}</span>
               <span className="myteam-points-label">{t('points') || 'Points'}</span>
             </div>
           </div>
         </div>
-        <div className="myteam-actions">
+
+        <div className="myteam-actions" style={{ marginTop: 0, display: 'flex', gap: '1rem', alignItems: 'flex-end' }}>
           {user?.role === 'leader' && (
             <button 
               onClick={() => setIsEditModalOpen(true)}
