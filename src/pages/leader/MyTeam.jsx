@@ -258,7 +258,6 @@ const MyTeam = () => {
               <span className="page-title" style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--slate-900)' }}>
                 {team.name}
               </span>
-              <p className="page-subtitle" style={{ margin: 0 }}>{t('manage_your_official_team') || 'Manage your team details and members'}</p>
             </div>
             <div className="myteam-points-badge" style={{ marginLeft: 'auto' }}>
               <span className="myteam-points-score">{(team.practical_score || 0) + (team.theoretical_score || 0)}</span>

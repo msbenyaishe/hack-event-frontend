@@ -266,6 +266,17 @@ const resources = {
       "workshop": "Workshop",
       "team": "Team",
       "submissions": "Submissions",
+      "submit_your_work_for_this_session": "Submit your work for this session",
+      "overall_progress": "Overall Progress",
+      "items_submitted": "Items Submitted",
+      "choose_a_workshop_hint": "Ready to show off? Pick a workshop from the list above!",
+      "update_submission": "Update Links",
+      "add_submission": "Add Submission",
+      "submitted": "Submitted",
+      "pending": "Pending",
+      "back_to_dashboard": "Back to Workshop Dashboard",
+      "submit_workshop_desc": "Upload your project links for this specific workshop",
+      "invitation_sent_successfully": "Invitation sent successfully to {{email}}!",
     }
   },
   fr: {
@@ -526,6 +537,17 @@ const resources = {
       "workshop": "Atelier",
       "team": "Équipe",
       "submissions": "Soumissions",
+      "submit_your_work_for_this_session": "Soumettez votre travail pour cette session",
+      "overall_progress": "Progression Globale",
+      "items_submitted": "Éléments Soumis",
+      "choose_a_workshop_hint": "Prêt à montrer votre travail ? Choisissez un atelier ci-dessus !",
+      "update_submission": "Mettre à Jour les Liens",
+      "add_submission": "Ajouter une Soumission",
+      "submitted": "Soumis",
+      "pending": "En Attente",
+      "back_to_dashboard": "Retour au Tableau de Bord",
+      "submit_workshop_desc": "Téléchargez vos liens de projet pour cet atelier spécifique",
+      "invitation_sent_successfully": "Invitation envoyée avec succès à {{email}} !",
     }
   },
   ar: {
@@ -779,6 +801,17 @@ const resources = {
       "workshop": "ورشة عمل",
       "team": "الفريق",
       "submissions": "التسليمات",
+      "submit_your_work_for_this_session": "قدم عملك لهذه الجلسة",
+      "overall_progress": "التقدم الإجمالي",
+      "items_submitted": "العناصر المقدمة",
+      "choose_a_workshop_hint": "هل أنت جاهز للعرض؟ اختر ورشة عمل من القائمة أعلاه!",
+      "update_submission": "تحديث الروابط",
+      "add_submission": "إضافة تسليم",
+      "submitted": "تم التسليم",
+      "pending": "قيد الانتظار",
+      "back_to_dashboard": "العودة إلى لوحة ورش العمل",
+      "submit_workshop_desc": "قم بتحميل روابط مشروعك لهذه الورشة المحددة",
+      "invitation_sent_successfully": "تم إرسال الدعوة بنجاح إلى {{email}}!",
     }
   }
 };

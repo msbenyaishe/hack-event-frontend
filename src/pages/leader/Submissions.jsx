@@ -10,7 +10,8 @@ const Submissions = () => {
   const [loading, setLoading] = useState(true);
   const [workshops, setWorkshops] = useState([]);
   const [submissions, setSubmissions] = useState([]);
-  const [selectedWorkshop, setSelectedWorkshop] = useState('');
+  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'form'
   
   const [formData, setFormData] = useState({
     repo_link: '',
@@ -46,12 +47,12 @@ const Submissions = () => {
     }
   };
 
-  const handleWorkshopChange = (e) => {
-    const wsId = e.target.value;
-    setSelectedWorkshop(wsId);
+  const handleSelectWorkshop = (ws) => {
+    setSelectedWorkshop(ws);
+    setViewMode('form');
     
     // Auto-fill existing submission if any
-    const existing = submissions.find(s => s.workshop_id.toString() === wsId);
+    const existing = submissions.find(s => s.workshop_id.toString() === ws.id.toString());
     if (existing) {
       setFormData({
         repo_link: existing.repo_link || '',
@@ -71,7 +72,7 @@ const Submissions = () => {
     try {
       setSubmitting(true);
       await submissionsApi.submit({
-        workshop_id: selectedWorkshop,
+        workshop_id: selectedWorkshop.id,
         ...formData
       });
       
@@ -91,8 +92,7 @@ const Submissions = () => {
   };
 
   const getSubmissionStatus = (wsId) => {
-    const existing = submissions.find(s => s.workshop_id.toString() === wsId.toString());
-    return existing ? true : false;
+    return submissions.some(s => s.workshop_id.toString() === wsId.toString());
   };
 
   if (loading) return (
@@ -102,200 +102,210 @@ const Submissions = () => {
     </div>
   );
 
+  const submissionCount = submissions.filter(s => workshops.some(w => w.id === s.workshop_id)).length;
+  const progressPercent = workshops.length > 0 ? (submissionCount / workshops.length) * 100 : 0;
+
   return (
     <div className="leader-page-wrapper animate-in" style={{ paddingBottom: '5rem' }}>
-      {/* Normalized Header Section */}
-      <div className="admin-toolbar" style={{ marginBottom: '2.5rem' }}>
-        <div>
+      {/* Header Section */}
+      <div className="admin-toolbar" style={{ marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1.5rem' }}>
+        <div style={{ flex: 1 }}>
           <h1 className="page-title">{t('workshop_submissions')}</h1>
           <p className="page-subtitle">{t('submit_workshop_files_desc')}</p>
         </div>
+        
+        {/* Progress Card */}
+        <div className="card-premium" style={{ padding: '1.25rem 2rem', minWidth: '300px', display: 'flex', alignItems: 'center', gap: '1.5rem', background: 'white' }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-600)' }}>
+              <span>{t('overall_progress')}</span>
+              <span>{submissionCount}/{workshops.length}</span>
+            </div>
+            <div style={{ height: '8px', background: 'var(--slate-100)', borderRadius: '4px', overflow: 'hidden' }}>
+              <div style={{ 
+                height: '100%', 
+                width: `${progressPercent}%`, 
+                background: 'linear-gradient(90deg, var(--primary-500), var(--primary-400))',
+                transition: 'width 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
+              }} />
+            </div>
+          </div>
+          <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--primary-600)' }}>
+            {Math.round(progressPercent)}%
+          </div>
+        </div>
       </div>
 
-      <div className="member-grid-layout" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '3rem', alignItems: 'start' }}>
-        
-        {/* Main: Submission Form */}
-        <div className="member-grid-main">
-          <div className="card-premium" style={{ padding: '3.5rem', borderRadius: '32px', boxShadow: 'var(--shadow-premium)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '3rem' }}>
-              <div style={{ padding: '1rem', background: 'linear-gradient(135deg, var(--primary-50), var(--primary-100))', borderRadius: '20px', color: 'var(--primary-600)', boxShadow: 'var(--shadow-sm)' }}>
-                <Send size={32} strokeWidth={2.5} />
-              </div>
-              <div>
-                <h2 style={{ fontSize: '2rem', fontWeight: 900, margin: 0, color: 'var(--slate-900)' }}>{t('new_submission')}</h2>
-                <p style={{ margin: 0, color: 'var(--slate-400)', fontWeight: 600 }}>{t('select_workshop_to_begin') || 'Select a workshop to start submitting your work'}</p>
-              </div>
-            </div>
+      {viewMode === 'grid' ? (
+        <div className="workshop-dashboard-grid animate-in" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+          {workshops.map((ws, idx) => {
+            const hasSubmission = getSubmissionStatus(ws.id);
+            const sub = submissions.find(s => s.workshop_id === ws.id);
             
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-              <div className="form-group">
-                <label className="label-premium" style={{ fontSize: '1rem', marginBottom: '1rem' }}>{t('select_workshop')}</label>
-                <select 
-                  className="input-premium shadow-sm" 
-                  value={selectedWorkshop} 
-                  onChange={handleWorkshopChange}
-                  required
-                  style={{ height: '4rem', fontSize: '1.1rem', padding: '0 1.5rem', borderRadius: '16px' }}
-                >
-                  <option value="">{t('choose_a_workshop')}</option>
-                  {workshops.map(ws => (
-                    <option key={ws.id} value={ws.id}>
-                      {ws.title} {getSubmissionStatus(ws.id) ? `✓ (${t('finished')})` : ''}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {selectedWorkshop ? (
-                <div className="animate-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-                    <div className="form-group">
-                      <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.95rem' }}>
-                        <div style={{ color: 'var(--primary-500)' }}><Github size={20} /></div> {t('repo_link_label')}
-                      </label>
-                      <input 
-                        type="url" 
-                        className="input-premium" 
-                        placeholder="https://github.com/..."
-                        value={formData.repo_link}
-                        onChange={e => setFormData({...formData, repo_link: e.target.value})}
-                        style={{ height: '3.75rem', borderRadius: '14px' }}
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.95rem' }}>
-                        <div style={{ color: 'var(--primary-500)' }}><Globe size={20} /></div> {t('web_app_link_label')}
-                      </label>
-                      <input 
-                        type="url" 
-                        className="input-premium" 
-                        placeholder="https://..."
-                        value={formData.web_app_link}
-                        onChange={e => setFormData({...formData, web_app_link: e.target.value})}
-                        style={{ height: '3.75rem', borderRadius: '14px' }}
-                      />
-                    </div>
+            return (
+              <div 
+                key={ws.id} 
+                className="card-premium animate-in"
+                style={{ 
+                  padding: '1.75rem', 
+                  borderRadius: '20px', 
+                  background: 'white',
+                  cursor: 'pointer',
+                  border: hasSubmission ? '1.5px solid var(--success-100)' : '1.5px solid transparent',
+                  transition: 'all 0.3s ease',
+                  animationDelay: `${idx * 0.05}s`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1.25rem'
+                }}
+                onClick={() => handleSelectWorkshop(ws)}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-premium)'; }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div style={{ 
+                    width: '42px', 
+                    height: '42px', 
+                    background: 'var(--slate-50)', 
+                    borderRadius: '12px', 
+                    color: 'var(--primary-600)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <BookOpen size={22} />
                   </div>
-
-                  <div className="form-group">
-                    <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.95rem' }}>
-                      <div style={{ color: 'var(--primary-500)' }}><FileText size={20} /></div> {t('pdf_link_label')}
-                    </label>
-                    <input 
-                      type="url" 
-                      className="input-premium" 
-                      placeholder="https://..."
-                      value={formData.pdf_link}
-                      onChange={e => setFormData({...formData, pdf_link: e.target.value})}
-                      style={{ height: '3.75rem', borderRadius: '14px' }}
-                    />
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.75rem', padding: '0.75rem 1rem', background: 'var(--slate-50)', borderRadius: '10px', color: 'var(--slate-500)', fontSize: '0.85rem', border: '1px solid var(--slate-100)' }}>
-                      <CheckCircle size={14} className="text-success" />
-                      {t('link_only_hint')}
+                  {hasSubmission ? (
+                    <div style={{ padding: '0.4rem 0.8rem', background: 'var(--success-50)', color: 'var(--success-700)', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 800, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <CheckCircle size={14} /> {t('submitted')}
                     </div>
-                  </div>
-
-                  {submitMessage && (
-                    <div className="success-alert" style={{ position: 'relative', top: 0, left: 0, transform: 'none', width: '100%', padding: '1.25rem' }}>
-                      <div className="success-alert-dot" />
-                      {submitMessage}
+                  ) : (
+                    <div style={{ padding: '0.4rem 0.8rem', background: 'var(--slate-50)', color: 'var(--slate-500)', borderRadius: '20px', fontSize: '0.75rem', fontWeight: 800 }}>
+                      {t('pending')}
                     </div>
                   )}
-
-                  <button 
-                    type="submit" 
-                    className="btn-admin" 
-                    style={{ height: '4.5rem', fontSize: '1.2rem', borderRadius: '18px', marginTop: '1rem', background: 'linear-gradient(135deg, var(--primary-600), var(--primary-700))' }}
-                    disabled={submitting}
-                  >
-                    {submitting ? (
-                      <>
-                        <div className="premium-spinner" style={{ width: '1.5rem', height: '1.5rem', border: '3px solid rgba(255,255,255,0.3)', borderTopColor: 'white', marginRight: '0.75rem' }} />
-                        {t('submitting')}
-                      </>
-                    ) : (
-                        <>
-                          <ClipboardCheck size={22} style={{ marginRight: '0.75rem' }} />
-                          {t('save_submission')}
-                        </>
-                    )}
-                  </button>
                 </div>
-              ) : (
-                <div style={{ padding: '6rem 2rem', textAlign: 'center', background: 'var(--slate-50)', borderRadius: '24px', border: '2px dashed var(--slate-200)' }}>
-                  <BookOpen size={48} style={{ color: 'var(--slate-200)', marginBottom: '1.5rem' }} />
-                  <p style={{ color: 'var(--slate-400)', fontWeight: 700, fontSize: '1.1rem' }}>{t('choose_a_workshop_hint') || 'Ready to show off? Pick a workshop from the list above!'}</p>
+                
+                <div>
+                  <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.25rem', fontWeight: 800, color: 'var(--slate-900)' }}>{ws.title}</h3>
+                  <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--slate-400)', fontWeight: 600 }}>{ws.description?.substring(0, 80)}...</p>
+                </div>
+
+                <div style={{ marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--slate-50)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--primary-600)' }}>
+                    {hasSubmission ? t('update_submission') : t('add_submission')}
+                  </span>
+                  <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary-50)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary-600)' }}>
+                    <Send size={16} />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="focused-submission-view animate-in" style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <button 
+            onClick={() => setViewMode('grid')}
+            style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.75rem', border: 'none', background: 'none', color: 'var(--slate-400)', fontWeight: 700, cursor: 'pointer', fontSize: '1rem' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-600)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--slate-400)'}
+          >
+            <Sparkles size={20} /> {t('back_to_dashboard')}
+          </button>
+
+          <div className="card-premium" style={{ padding: '2.5rem', borderRadius: '24px', background: 'white' }}>
+             <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2.5rem' }}>
+              <div style={{ 
+                width: '52px', 
+                height: '52px', 
+                background: 'linear-gradient(135deg, var(--primary-50), var(--primary-100))', 
+                borderRadius: '14px', 
+                color: 'var(--primary-600)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: 'var(--shadow-sm)'
+              }}>
+                <BookOpen size={26} strokeWidth={2.5} />
+              </div>
+              <div>
+                <h2 style={{ fontSize: '1.75rem', fontWeight: 900, margin: 0, color: 'var(--slate-900)' }}>{selectedWorkshop.title}</h2>
+                <p style={{ margin: 0, color: 'var(--slate-400)', fontWeight: 600 }}>{t('submit_your_work_for_this_session')}</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+                <div className="form-group">
+                  <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <Github size={18} className="text-primary" /> {t('repo_link_label')}
+                  </label>
+                  <input 
+                    type="url" 
+                    className="input-premium" 
+                    placeholder="https://github.com/..."
+                    value={formData.repo_link}
+                    onChange={e => setFormData({...formData, repo_link: e.target.value})}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <Globe size={18} className="text-primary" /> {t('web_app_link_label')}
+                  </label>
+                  <input 
+                    type="url" 
+                    className="input-premium" 
+                    placeholder="https://..."
+                    value={formData.web_app_link}
+                    onChange={e => setFormData({...formData, web_app_link: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <FileText size={18} className="text-primary" /> {t('pdf_link_label')}
+                </label>
+                <input 
+                  type="url" 
+                  className="input-premium" 
+                  placeholder="https://..."
+                  value={formData.pdf_link}
+                  onChange={e => setFormData({...formData, pdf_link: e.target.value})}
+                />
+                <p style={{ fontSize: '0.8rem', color: 'var(--slate-400)', marginTop: '0.5rem' }}>{t('link_only_hint')}</p>
+              </div>
+
+              {submitMessage && (
+                <div className="success-alert animate-in" style={{ position: 'relative', top: 0, transform: 'none', width: '100%', left: 0 }}>
+                  <CheckCircle size={18} /> {submitMessage}
                 </div>
               )}
+
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                <button 
+                  type="button" 
+                  onClick={() => setViewMode('grid')}
+                  className="btn-secondary"
+                  style={{ flex: 1, height: '3.5rem', borderRadius: '14px' }}
+                >
+                  {t('cancel')}
+                </button>
+                <button 
+                  type="submit" 
+                  className="btn-admin" 
+                  style={{ flex: 2, height: '3.5rem', borderRadius: '14px' }}
+                  disabled={submitting}
+                >
+                  {submitting ? t('submitting') : t('save_submission')}
+                </button>
+              </div>
             </form>
           </div>
         </div>
-
-        {/* Sidebar: Submission History */}
-        <div className="member-grid-sidebar">
-          <div style={{ position: 'sticky', top: '7rem' }}>
-            <div className="section-header mb-8">
-              <h2 className="text-3xl font-black text-slate-900 tracking-tight">{t('your_submissions')}</h2>
-              <p className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] mt-3">{submissions.length} {t('items_submitted') || 'Items Submitted'}</p>
-            </div>
-            
-            {submissions.length === 0 ? (
-              <div className="empty-state" style={{ padding: '6rem 2rem', background: '#fff', borderRadius: '32px', border: '1px solid var(--slate-100)', boxShadow: 'var(--shadow-sm)' }}>
-                <CheckCircle size={48} style={{ color: 'var(--slate-200)', marginBottom: '1.5rem' }} />
-                <p style={{ color: 'var(--slate-400)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: '0.8rem' }}>
-                  {t('no_submissions_yet')}
-                </p>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                {submissions.map((sub, idx) => (
-                  <div key={sub.id} className="animate-in" style={{ 
-                    padding: '2rem', 
-                    borderRadius: '24px', 
-                    border: '1px solid var(--slate-100)',
-                    background: 'white',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    boxShadow: 'var(--shadow-sm)',
-                    animationDelay: `${idx * 0.1}s`
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-5px)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.borderColor = 'var(--primary-100)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.borderColor = 'var(--slate-100)'; }}
-                  >
-                    <div className="badge-premium badge-info mb-4" style={{ borderRadius: '8px', fontSize: '0.7rem', padding: '0.3rem 0.6rem' }}>
-                      {sub.workshop_title}
-                    </div>
-                    
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                      {sub.repo_link && (
-                        <a href={sub.repo_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', color: 'var(--slate-600)', fontSize: '0.9rem', fontWeight: 600 }}>
-                          <div style={{ color: 'var(--primary-500)' }}><Github size={16} /></div> 
-                          <span style={{ borderBottom: '1px solid var(--slate-200)' }}>{t('repo_link_label')}</span>
-                        </a>
-                      )}
-                      
-                      {sub.web_app_link && (
-                        <a href={sub.web_app_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', color: 'var(--slate-600)', fontSize: '0.9rem', fontWeight: 600 }}>
-                          <div style={{ color: 'var(--primary-500)' }}><Globe size={16} /></div> 
-                          <span style={{ borderBottom: '1px solid var(--slate-200)' }}>{t('web_app_link_label')}</span>
-                        </a>
-                      )}
-                      
-                      {sub.pdf_link && (
-                        <a href={sub.pdf_link} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none', color: 'var(--slate-600)', fontSize: '0.9rem', fontWeight: 600 }}>
-                          <div style={{ color: 'var(--primary-500)' }}><FileText size={16} /></div> 
-                          <span style={{ borderBottom: '1px solid var(--slate-200)' }}>{t('pdf_link_label')}</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-        
-      </div>
+      )}
     </div>
   );
 };
