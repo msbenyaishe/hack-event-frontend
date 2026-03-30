@@ -724,6 +724,54 @@
 
   .portfolio-btn {
     width: 100%;
-    justify-content: center !important;
   }
 }
+
+/* --- SURGICAL LEADER PAGE FIXES --- */
+
+/* Points Badge Default (Desktop) */
+.myteam-points-badge {
+  margin-left: auto;
+}
+
+@media screen and (max-width: 768px) {
+  /* Typography Scaling - Scoped to main page headers only */
+  .page-header h1, .page-header .page-title { 
+    font-size: 1.75rem !important; 
+    line-height: 1.2 !important;
+  }
+  .page-header h2 { font-size: 1.5rem !important; }
+  
+  /* My Team Points Badge Centering */
+  .myteam-points-badge {
+    margin: 1rem auto 0 !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
+  }
+
+  /* Submissions Form Width Fix */
+  .submission-form-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .input-premium {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  /* Aggressive Typography scaling for small phones - Scoped */
+  .page-header h1, .page-header .page-title { font-size: 1.5rem !important; }
+  .page-header h2 { font-size: 1.25rem !important; }
+  
+  /* Ensure the subtitle also scales */
+  .workshop-submissions-subtitle {
+     font-size: 0.9rem !important;
+  }
+}
+

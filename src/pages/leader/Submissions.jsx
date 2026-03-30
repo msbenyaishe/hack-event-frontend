@@ -108,36 +108,13 @@ const Submissions = () => {
   return (
     <div className="leader-page-wrapper animate-in" style={{ paddingBottom: '5rem' }}>
       {/* Header Section */}
-      <div className="admin-toolbar" style={{ marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1.5rem' }}>
-        <div style={{ flex: 1 }}>
-          <h1 className="page-title">{t('workshop_submissions')}</h1>
-          <p className="page-subtitle">{t('submit_workshop_files_desc')}</p>
-        </div>
-        
-        {/* Progress Card */}
-        <div className="card-premium" style={{ padding: '1.25rem 2rem', minWidth: '300px', display: 'flex', alignItems: 'center', gap: '1.5rem', background: 'white' }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-600)' }}>
-              <span>{t('overall_progress')}</span>
-              <span>{submissionCount}/{workshops.length}</span>
-            </div>
-            <div style={{ height: '8px', background: 'var(--slate-100)', borderRadius: '4px', overflow: 'hidden' }}>
-              <div style={{ 
-                height: '100%', 
-                width: `${progressPercent}%`, 
-                background: 'linear-gradient(90deg, var(--primary-500), var(--primary-400))',
-                transition: 'width 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
-              }} />
-            </div>
-          </div>
-          <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--primary-600)' }}>
-            {Math.round(progressPercent)}%
-          </div>
-        </div>
+      <div className="admin-toolbar" style={{ marginBottom: '2.5rem' }}>
+        <h1 className="page-title">{t('workshop_submissions')}</h1>
+        <p className="page-subtitle">{t('submit_workshop_files_desc')}</p>
       </div>
 
       {viewMode === 'grid' ? (
-        <div className="workshop-dashboard-grid animate-in" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+        <div className="workshop-dashboard-grid animate-in" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '1.5rem' }}>
           {workshops.map((ws, idx) => {
             const hasSubmission = getSubmissionStatus(ws.id);
             const sub = submissions.find(s => s.workshop_id === ws.id);
@@ -204,17 +181,10 @@ const Submissions = () => {
           })}
         </div>
       ) : (
-        <div className="focused-submission-view animate-in" style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <button 
-            onClick={() => setViewMode('grid')}
-            style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.75rem', border: 'none', background: 'none', color: 'var(--slate-400)', fontWeight: 700, cursor: 'pointer', fontSize: '1rem' }}
-            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-600)'}
-            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--slate-400)'}
-          >
-            <Sparkles size={20} /> {t('back_to_dashboard')}
-          </button>
+        <div className="focused-submission-view animate-in" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
-          <div className="card-premium" style={{ padding: '2.5rem', borderRadius: '24px', background: 'white' }}>
+
+          <div className="card-premium submission-form-card" style={{ padding: '1.5rem', borderRadius: '24px', background: 'white' }}>
              <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', marginBottom: '2.5rem' }}>
               <div style={{ 
                 width: '52px', 
@@ -236,7 +206,7 @@ const Submissions = () => {
             </div>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
                 <div className="form-group">
                   <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                     <Github size={18} className="text-primary" /> {t('repo_link_label')}
@@ -262,20 +232,19 @@ const Submissions = () => {
                     onChange={e => setFormData({...formData, web_app_link: e.target.value})}
                   />
                 </div>
-              </div>
 
-              <div className="form-group">
-                <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <FileText size={18} className="text-primary" /> {t('pdf_link_label')}
-                </label>
-                <input 
-                  type="url" 
-                  className="input-premium" 
-                  placeholder="https://..."
-                  value={formData.pdf_link}
-                  onChange={e => setFormData({...formData, pdf_link: e.target.value})}
-                />
-                <p style={{ fontSize: '0.8rem', color: 'var(--slate-400)', marginTop: '0.5rem' }}>{t('link_only_hint')}</p>
+                <div className="form-group">
+                  <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <FileText size={18} className="text-primary" /> {t('pdf_link_label')}
+                  </label>
+                  <input 
+                    type="url" 
+                    className="input-premium" 
+                    placeholder="https://..."
+                    value={formData.pdf_link}
+                    onChange={e => setFormData({...formData, pdf_link: e.target.value})}
+                  />
+                </div>
               </div>
 
               {submitMessage && (
@@ -284,19 +253,11 @@ const Submissions = () => {
                 </div>
               )}
 
-              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-                <button 
-                  type="button" 
-                  onClick={() => setViewMode('grid')}
-                  className="btn-secondary"
-                  style={{ flex: 1, height: '3.5rem', borderRadius: '14px' }}
-                >
-                  {t('cancel')}
-                </button>
+               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1rem' }}>
                 <button 
                   type="submit" 
                   className="btn-admin" 
-                  style={{ flex: 2, height: '3.5rem', borderRadius: '14px' }}
+                  style={{ minWidth: '200px', height: '3.5rem', borderRadius: '14px' }}
                   disabled={submitting}
                 >
                   {submitting ? t('submitting') : t('save_submission')}

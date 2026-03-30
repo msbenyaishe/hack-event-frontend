@@ -87,9 +87,6 @@ const SelectMembers = () => {
     <div className="leader-page-wrapper full-width">
       <div className="admin-toolbar" style={{ marginBottom: '2.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <Link to="/leader/team" className="btn-action-premium" style={{ width: 'auto' }}>
-            <ArrowLeft size={20} />
-          </Link>
           <div>
             <h1 className="page-title">{t('find_members')}</h1>
             <p className="page-subtitle">{t('available_participants')}</p>
