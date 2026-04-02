@@ -101,7 +101,16 @@ const MyTeam = () => {
         if (myTeamId) {
            const teamRes = await teamsApi.getById(myTeamId);
            const membersRes = await teamsApi.getTeamMembers(myTeamId);
-           setTeam({ ...teamRes.data, members: membersRes.data });
+           
+           let max_members = 5;
+           try {
+             const eventRes = await api.get(`/events/${teamRes.data.event_id}`);
+             max_members = eventRes.data.max_team_members || 5;
+           } catch (err) {
+             console.error("Could not fetch event max_members", err);
+           }
+           
+           setTeam({ ...teamRes.data, members: membersRes.data, max_members });
            setEditData({ name: teamRes.data.name, color: teamRes.data.color || '#4f46e5' });
         } else {
            setTeam(null);
@@ -363,7 +372,7 @@ const MyTeam = () => {
             <p className="myteam-table-subtitle">{t('core_contributors') || 'Core contributors of'} {team.name}</p>
           </div>
           <div className="badge badge-indigo">
-            {team.members?.length || 0} / 5
+            {team.members?.length || 0} / {team.max_members || 5}
           </div>
         </div>
         
