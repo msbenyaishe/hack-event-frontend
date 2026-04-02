@@ -44,7 +44,7 @@ const Profile = () => {
     setError('');
 
     if (formData.password && formData.password !== formData.confirm_password) {
-      setError(t('passwords_do_not_match') || 'Passwords do not match');
+      setError(t('Passwords do not match'));
       return;
     }
 
@@ -61,7 +61,7 @@ const Profile = () => {
       }
 
       await authApi.updateProfile(updateData);
-      setSuccess(t('profile_updated_successfully') || 'Profile updated successfully!');
+      setSuccess(t('Profile updated successfully!'));
       
       // Clear password fields on success
       setFormData(prev => ({
@@ -70,7 +70,7 @@ const Profile = () => {
         confirm_password: ''
       }));
     } catch (err) {
-      setError(err.response?.data?.error || t('failed_to_update_profile') || 'Failed to update profile');
+      setError(err.response?.data?.error || t('Failed to update profile'));
     } finally {
       setLoading(false);
     }
@@ -82,8 +82,8 @@ const Profile = () => {
     <div className="container" style={{ paddingTop: '100px', paddingBottom: '3rem', maxWidth: '800px', minHeight: '80vh' }}>
       <div className="admin-toolbar animate-in mb-8">
         <div>
-          <h1 className="page-title">{t('my_profile') || 'My Profile'}</h1>
-          <p className="page-subtitle">{t('manage_personal_info') || 'Manage your personal information and login details.'}</p>
+          <h1 className="page-title">{t('My Profile')}</h1>
+          <p className="page-subtitle">{t('Manage your personal information and login details.')}</p>
         </div>
       </div>
 
@@ -103,15 +103,15 @@ const Profile = () => {
         <form onSubmit={handleSubmit}>
           {/* Read Only Stats Area (optional but nice) */}
           <div className="mb-8 p-6 rounded-2xl" style={{ backgroundColor: 'var(--slate-50)', border: '1px solid var(--slate-100)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.25rem', fontWeight: 600 }}>
                 {user.first_name ? user.first_name[0] : (user.email ? user.email[0].toUpperCase() : 'U')}
               </div>
-              <div>
-                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 700, color: 'var(--slate-900)', lineHeight: '1.2' }}>
                   {user.first_name || user.last_name ? `${user.first_name} ${user.last_name}` : 'User'}
                 </h3>
-                <div style={{ fontSize: '0.85rem', color: 'var(--slate-500)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--slate-500)', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '0.25rem' }}>
                   <Mail size={14} /> {user.email}
                 </div>
               </div>
@@ -122,7 +122,7 @@ const Profile = () => {
               </div>
             </div>
             {user.role === 'admin' && (
-              <p style={{ fontSize: '0.85rem', color: 'var(--error)', marginTop: '0.5rem', marginBottom: 0 }}>
+              <p style={{ fontSize: '0.85rem', color: 'var(--error)', marginTop: '1rem', marginBottom: 0 }}>
                 * Admins cannot update profile via this form.
               </p>
             )}
@@ -131,12 +131,12 @@ const Profile = () => {
           <div className="form-section mb-8">
             <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.2rem', fontWeight: 800}}>
               <User size={22} className="text-primary" />
-              {t('personal_details') || 'Personal Details'}
+              {t('Personal Details')}
             </h3>
             
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem'}}>
               <div className="form-group mb-0">
-                <label className="label-premium">{t('first_name') || 'First Name'}</label>
+                <label className="label-premium">{t('First Name')}</label>
                 <input 
                   type="text" 
                   name="first_name"
@@ -148,7 +148,7 @@ const Profile = () => {
               </div>
               
               <div className="form-group mb-0">
-                <label className="label-premium">{t('last_name') || 'Last Name'}</label>
+                <label className="label-premium">{t('Last Name')}</label>
                 <input 
                   type="text" 
                   name="last_name"
@@ -162,7 +162,7 @@ const Profile = () => {
 
             <div className="form-group mt-6 mb-0">
               <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Briefcase size={16} /> {t('portfolio_url') || 'Portfolio / LinkedIn URL'}
+                <Briefcase size={16} /> {t('Portfolio / LinkedIn URL')}
               </label>
               <input 
                 type="url" 
@@ -179,16 +179,16 @@ const Profile = () => {
           <div className="form-section pt-6" style={{ borderTop: '1px solid var(--slate-100)' }}>
             <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.2rem', fontWeight: 800}}>
               <Lock size={22} className="text-primary" />
-              {t('security') || 'Security'}
+              {t('Security')}
             </h3>
             
             <p style={{ fontSize: '0.9rem', color: 'var(--slate-500)', marginBottom: '1.5rem' }}>
-              {t('leave_password_blank') || 'Leave password fields blank if you do not want to change your password.'}
+              {t('Leave password fields blank if you do not want to change your password.')}
             </p>
 
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem'}}>
               <div className="form-group mb-0">
-                <label className="label-premium">{t('new_password') || 'New Password'}</label>
+                <label className="label-premium">{t('New Password')}</label>
                 <input 
                   type="password" 
                   name="password"
@@ -201,7 +201,7 @@ const Profile = () => {
               </div>
               
               <div className="form-group mb-0">
-                <label className="label-premium">{t('confirm_password') || 'Confirm Password'}</label>
+                <label className="label-premium">{t('Confirm Password')}</label>
                 <input 
                   type="password" 
                   name="confirm_password"
@@ -222,7 +222,7 @@ const Profile = () => {
               className="btn-admin"
               style={{ minWidth: '160px' }}
             >
-              {loading ? (t('saving') || 'Saving...') : (t('save_changes') || 'Save Changes')}
+              {loading ? t('Saving...') : t('Save Changes')}
             </button>
           </div>
         </form>

@@ -45,9 +45,9 @@ const Navbar = () => {
                 {t('dashboard')}
               </Link>
             )}
-            {user && (
+            {user && user.role !== 'admin' && (
               <Link to="/profile" className="nav-link-desktop">
-                {t('my_profile') || 'Profile'}
+                {t('My Profile')}
               </Link>
             )}
 
@@ -118,14 +118,14 @@ const Navbar = () => {
             </Link>
           )}
 
-          {user && (
+          {user && user.role !== 'admin' && (
             <Link 
               to="/profile" 
               className="mobile-nav-item" 
               onClick={() => setIsMenuOpen(false)}
             >
               <User size={20} />
-              <span>{t('my_profile') || 'Profile'}</span>
+              <span>{t('My Profile')}</span>
             </Link>
           )}
           
