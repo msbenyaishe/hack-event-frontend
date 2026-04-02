@@ -79,7 +79,7 @@ const Profile = () => {
   if (!user) return <div className="p-8 text-center">Please log in...</div>;
 
   return (
-    <div className="container" style={{ paddingTop: '100px', paddingBottom: '3rem', maxWidth: '800px', minHeight: '80vh' }}>
+    <div className="container" style={{ paddingTop: '50px', paddingBottom: '3rem', maxWidth: '800px', minHeight: '80vh' }}>
       <div className="admin-toolbar animate-in mb-8">
         <div>
           <h1 className="page-title">{t('My Profile')}</h1>
@@ -162,7 +162,7 @@ const Profile = () => {
 
             <div className="form-group mt-6 mb-0">
               <label className="label-premium" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Briefcase size={16} /> {t('Portfolio / LinkedIn URL')}
+                <Briefcase size={16} /> {t('Portfolio or GitHub Link')}
               </label>
               <input 
                 type="url" 
