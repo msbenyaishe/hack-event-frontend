@@ -6,5 +6,6 @@ export const authApi = {
   memberLogin: (credentials) => api.post('/auth/member/login', credentials),
   memberRegister: (data) => api.post('/auth/member/register', data),
   memberLogout: () => api.post('/auth/member/logout'),
-  getMe: () => api.get('/auth/me')
+  getMe: () => api.get('/auth/me'),
+  updateProfile: (data) => api.put('/auth/me', data)
 };

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { LogOut, Globe, Menu, X, Home, LayoutDashboard } from 'lucide-react';
+import { LogOut, Globe, Menu, X, Home, LayoutDashboard, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import laptopLogo from '../assets/laptop.svg';
@@ -43,6 +43,11 @@ const Navbar = () => {
             {user && (user.role === 'admin' || user.role === 'leader') && (
               <Link to={user.role === 'admin' ? "/admin" : "/leader/team"} className="nav-link-desktop">
                 {t('dashboard')}
+              </Link>
+            )}
+            {user && (
+              <Link to="/profile" className="nav-link-desktop">
+                {t('my_profile') || 'Profile'}
               </Link>
             )}
 
@@ -110,6 +115,17 @@ const Navbar = () => {
             >
               <LayoutDashboard size={20} />
               <span>{t('dashboard')}</span>
+            </Link>
+          )}
+
+          {user && (
+            <Link 
+              to="/profile" 
+              className="mobile-nav-item" 
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <User size={20} />
+              <span>{t('my_profile') || 'Profile'}</span>
             </Link>
           )}
           

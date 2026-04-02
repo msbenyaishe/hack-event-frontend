@@ -17,7 +17,9 @@ const Events = () => {
     description: '',
     start_date: '',
     end_date: '',
-    location: ''
+    location: '',
+    max_leaders: 4,
+    max_team_members: 5
   });
   const [editLogoFile, setEditLogoFile] = useState(null);
   const [editLogoPreview, setEditLogoPreview] = useState(null);
@@ -68,7 +70,9 @@ const Events = () => {
       description: event.description || '',
       start_date: event.start_date ? event.start_date.replace('Z', '').slice(0, 16) : '',
       end_date: event.end_date ? event.end_date.replace('Z', '').slice(0, 16) : '',
-      location: event.location || ''
+      location: event.location || '',
+      max_leaders: event.max_leaders || 4,
+      max_team_members: event.max_team_members || 5
     });
     setEditLogoFile(null);
     setEditLogoPreview(event.logo || null);
@@ -283,6 +287,18 @@ const Events = () => {
                       )}
                     </div>
                   </div>
+                </div>
+
+                <div className="form-group mb-0">
+                  <label className="label-premium">{t('max_leaders') || 'Max Teams (Leaders)'}</label>
+                  <input type="number" min="1" className="input-premium"
+                    value={editFormData.max_leaders} onChange={e => setEditFormData({...editFormData, max_leaders: Number(e.target.value)})} />
+                </div>
+                
+                <div className="form-group mb-0">
+                  <label className="label-premium">{t('max_team_members') || 'Members per Team'}</label>
+                  <input type="number" min="1" className="input-premium"
+                    value={editFormData.max_team_members} onChange={e => setEditFormData({...editFormData, max_team_members: Number(e.target.value)})} />
                 </div>
               </div>
 

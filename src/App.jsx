@@ -9,6 +9,7 @@ import LeaderLayout from './layouts/LeaderLayout';
 // Public Pages
 import Scoreboard from './pages/public/Scoreboard';
 import PublicWorkshops from './pages/public/Workshops';
+import Profile from './pages/public/Profile';
 
 // Auth Pages
 import AdminLogin from './pages/auth/AdminLogin';
@@ -80,6 +81,11 @@ function App() {
           <Route path="/" element={<HomeRedirect />} />
           <Route path="/scoreboard" element={<Scoreboard />} />
           <Route path="/workshops" element={<PublicWorkshops />} />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
 
           {/* Admin Routes */}
           <Route path="/admin" element={
