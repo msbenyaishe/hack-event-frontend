@@ -103,7 +103,7 @@ const Profile = () => {
         <form onSubmit={handleSubmit}>
           {/* Read Only Stats Area (optional but nice) */}
           <div className="mb-8 p-6 rounded-2xl" style={{ backgroundColor: 'var(--slate-50)', border: '1px solid var(--slate-100)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div className="profile-stats-row" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <div style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.25rem', fontWeight: 600 }}>
                 {user.first_name ? user.first_name[0] : (user.email ? user.email[0].toUpperCase() : 'U')}
               </div>
@@ -134,7 +134,7 @@ const Profile = () => {
               {t('Personal Details')}
             </h3>
             
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem'}}>
+            <div className="responsive-form-grid">
               <div className="form-group mb-0">
                 <label className="label-premium">{t('First Name')}</label>
                 <input 
@@ -176,7 +176,9 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="form-section pt-6" style={{ borderTop: '1px solid var(--slate-100)' }}>
+          <hr style={{ border: 'none', borderTop: '1px solid var(--slate-200)', margin: '2.5rem 0' }} />
+
+          <div className="form-section">
             <h3 style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem', fontSize: '1.2rem', fontWeight: 800}}>
               <Lock size={22} className="text-primary" />
               {t('Security')}
@@ -186,7 +188,7 @@ const Profile = () => {
               {t('Leave password fields blank if you do not want to change your password.')}
             </p>
 
-            <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem'}}>
+            <div className="responsive-form-grid">
               <div className="form-group mb-0">
                 <label className="label-premium">{t('New Password')}</label>
                 <input 
