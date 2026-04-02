@@ -277,6 +277,23 @@ const resources = {
       "back_to_dashboard": "Back to Workshop Dashboard",
       "submit_workshop_desc": "Upload your project links for this specific workshop",
       "invitation_sent_successfully": "Invitation sent successfully to {{email}}!",
+      
+      // Profile Page
+      "My Profile": "My Profile",
+      "Manage your personal information and login details.": "Manage your personal information and login details.",
+      "Personal Details": "Personal Details",
+      "First Name": "First Name",
+      "Last Name": "Last Name",
+      "Portfolio / LinkedIn URL": "Portfolio / LinkedIn URL",
+      "Security": "Security",
+      "Leave password fields blank if you do not want to change your password.": "Leave password fields blank if you do not want to change your password.",
+      "New Password": "New Password",
+      "Confirm Password": "Confirm Password",
+      "Saving...": "Saving...",
+      "Save Changes": "Save Changes",
+      "Profile updated successfully!": "Profile updated successfully!",
+      "Failed to update profile": "Failed to update profile",
+      "Passwords do not match": "Passwords do not match"
     }
   },
   fr: {
@@ -548,6 +565,23 @@ const resources = {
       "back_to_dashboard": "Retour au Tableau de Bord",
       "submit_workshop_desc": "Téléchargez vos liens de projet pour cet atelier spécifique",
       "invitation_sent_successfully": "Invitation envoyée avec succès à {{email}} !",
+
+      // Profile Page
+      "My Profile": "Mon Profil",
+      "Manage your personal information and login details.": "Gérez vos informations personnelles et vos identifiants.",
+      "Personal Details": "Détails Personnels",
+      "First Name": "Prénom",
+      "Last Name": "Nom de Famille",
+      "Portfolio / LinkedIn URL": "URL Portfolio / LinkedIn",
+      "Security": "Sécurité",
+      "Leave password fields blank if you do not want to change your password.": "Laissez les champs de mot de passe vides si vous ne souhaitez pas le modifier.",
+      "New Password": "Nouveau Mot de Passe",
+      "Confirm Password": "Confirmer le Mot de Passe",
+      "Saving...": "Enregistrement...",
+      "Save Changes": "Enregistrer les modifications",
+      "Profile updated successfully!": "Profil mis à jour avec succès !",
+      "Failed to update profile": "Échec de la mise à jour du profil",
+      "Passwords do not match": "Les mots de passe ne correspondent pas"
     }
   },
   ar: {
@@ -812,6 +846,23 @@ const resources = {
       "back_to_dashboard": "العودة إلى لوحة ورش العمل",
       "submit_workshop_desc": "قم بتحميل روابط مشروعك لهذه الورشة المحددة",
       "invitation_sent_successfully": "تم إرسال الدعوة بنجاح إلى {{email}}!",
+
+      // Profile Page
+      "My Profile": "ملفي الشخصي",
+      "Manage your personal information and login details.": "إدارة معلوماتك الشخصية وتفاصيل تسجيل الدخول.",
+      "Personal Details": "التفاصيل الشخصية",
+      "First Name": "الاسم الأول",
+      "Last Name": "اسم العائلة",
+      "Portfolio / LinkedIn URL": "رابط محفظة الأعمال / لينكد إن",
+      "Security": "الأمان",
+      "Leave password fields blank if you do not want to change your password.": "اترك حقول كلمة المرور فارغة إذا كنت لا ترغب في تغيير كلمة المرور.",
+      "New Password": "كلمة المرور الجديدة",
+      "Confirm Password": "تأكيد كلمة المرور",
+      "Saving...": "جاري الحفظ...",
+      "Save Changes": "حفظ التغييرات",
+      "Profile updated successfully!": "تم تحديث الملف الشخصي بنجاح!",
+      "Failed to update profile": "فشل تحديث الملف الشخصي",
+      "Passwords do not match": "كلمات المرور غير متطابقة"
     }
   }
 };
